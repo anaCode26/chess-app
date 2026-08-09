@@ -1,0 +1,22 @@
+packages:
+  - '.'
+
+allowBuilds:
+  '@prisma/engines': true
+  cpu-features: true
+  esbuild: false
+  msw: true
+  prisma: true
+  protobufjs: true
+  sharp: true
+  ssh2: true
+  unrs-resolver: true
+onlyBuiltDependencies:
+  - '@prisma/engines'
+  - cpu-features
+  - msw
+  - prisma
+  - protobufjs
+  - sharp
+  - ssh2
+  - unrs-resolver

@@ -1,0 +1,11 @@
+process.env.DATABASE_URL ??= "postgresql://user:pass@localhost:5432/test";
+process.env.NEXTAUTH_SECRET = "test-secret-that-is-at-least-32-chars-long!!";
+process.env.NEXTAUTH_URL = "http://localhost:3000";
+process.env.S3_ENDPOINT = "http://localhost:9000";
+process.env.S3_ACCESS_KEY = "test-access-key";
+process.env.S3_SECRET_KEY = "test-secret-key";
+process.env.S3_BUCKET = "test-bucket";
+process.env.SMTP_HOST = "localhost";
+process.env.SMTP_PORT = "1025";
+process.env.SMTP_USER = "test";
+process.env.SMTP_PASS = "test";
