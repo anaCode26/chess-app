@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "title": "Valby Skakklub — chess in Valby since 1935",
+    "description": "Valby Skakklub meets every Thursday from 17.30 at Høffdingsvej 10 in Valby, Copenhagen. Free teaching for juniors, beginners, women and girls. No signup, and visitors pay nothing."
+  },
+  "nav": {
+    "clubNight": "Club night",
+    "tournaments": "Tournaments",
+    "calendar": "Calendar",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "login": "Log in",
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "brandHome": "Valby Skakklub, back to the home page"
+  },
+  "language": {
+    "label": "Change language",
+    "da": "Dansk",
+    "en": "English",
+    "es": "Español"
+  },
+  "home": {
+    "headline": "Every Thursday from 17.30",
+    "lede": "Free teaching. No signup. Everyone is welcome.",
+    "primaryCta": "Drop in on Thursday",
+    "secondaryCta": "Become a member",
+    "address": "Høffdingsvej 10, 2500 Valby"
+  },
+  "schedule": {
+    "heading": "Club night",
+    "tonight": "Tonight",
+    "nextNight": "Next club night",
+    "now": "Now",
+    "later": "Later",
+    "ended": "Finished",
+    "juniorsTitle": "Juniors and beginners",
+    "womenTitle": "Women and girls",
+    "roundsTitle": "Tournament rounds"
+  },
+  "events": {
+    "heading": "Coming up at the club",
+    "all": "See the full calendar",
+    "empty": "Nothing extra is scheduled right now. Club night runs every Thursday as always."
+  },
+  "join": {
+    "heading": "Become a member",
+    "price": "{price} per quarter",
+    "note": "Visitors pay nothing. Come as many Thursdays as you like before you join.",
+    "cta": "Join the club"
+  },
+  "footer": {
+    "founded": "Chess in Valby since 1935",
+    "visitHeading": "Come by",
+    "contactHeading": "Contact",
+    "paymentHeading": "Payment",
+    "payment": "Membership dues and tournament entry fees are paid by bank transfer to the club's Nordea account.",
+    "bank": "Nordea reg. {reg}, account {account}"
+  },
+  "roles": {
+    "chair": "Chair",
+    "tournamentDirector": "Tournament director",
+    "editor": "Club magazine",
+    "treasurer": "Treasurer",
+    "eventCoordinator": "Event coordinator",
+    "juniorCoach": "Junior coach"
+  },
+  "calendarPage": {
+    "title": "Calendar",
+    "description": "Upcoming club nights and events at Valby Skakklub.",
+    "heading": "Calendar",
+    "intro": "Club night is every Thursday from 17.30. Listed below are the events that go beyond the standing evening."
+  },
+  "tournamentsPage": {
+    "title": "Tournaments",
+    "description": "Rated tournaments, blitz and the club championship at Valby Skakklub.",
+    "heading": "Tournaments",
+    "intro": "The club's tournaments are rated under the Danish Chess Union and played on club night.",
+    "emtHeading": "EMT — rated tournament",
+    "emtBody": "Swiss system over seven rounds on consecutive Thursdays, 90 minutes plus 30 seconds per move. Entry 150 kr.",
+    "blitzHeading": "Lynskak — blitz chess",
+    "blitzBody": "Fast games on a single evening, three games of ten minutes each. The junior series is free, with prizes of 150, 100 and 50 kr.",
+    "registerNote": "Tournament registration opens once the tournament pages are ready. Entry fees are paid by bank transfer."
+  },
+  "galleryPage": {
+    "title": "Gallery",
+    "description": "Pictures from Valby Skakklub.",
+    "heading": "Gallery",
+    "empty": "There are no pictures here yet. Come by on a Thursday and there will be something to show."
+  },
+  "contactPage": {
+    "title": "Contact",
+    "description": "Get in touch with the committee at Valby Skakklub.",
+    "heading": "Contact",
+    "intro": "You do not need to write ahead to visit — just turn up on a Thursday. If you have a question, we are here.",
+    "bankHeading": "Bank details"
+  }
+}

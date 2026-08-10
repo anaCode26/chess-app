@@ -2,106 +2,140 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
+  --color-ground: var(--ground);
+  --color-bluehour: var(--bluehour);
+  --color-wet: var(--wet);
+  --color-amber: var(--amber);
+  --color-ultramarine: var(--ultramarine);
+  --color-silver: var(--silver);
+  --color-chalk: var(--chalk);
+  --color-hairline: var(--hairline);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-anton), var(--font-archivo), sans-serif;
+
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
 }
 
 :root {
-  --background: #f7f5f2;
-  --foreground: #2a2a2a;
-  --card: #ffffff;
-  --card-foreground: #111317;
-  --popover: #ffffff;
-  --popover-foreground: #111317;
-  --primary: #194d8f;
-  --primary-foreground: #ffffff;
-  --secondary: #ece9e4;
-  --secondary-foreground: #111317;
-  --muted: #ece9e4;
-  --muted-foreground: #5a5a60;
-  --accent: #ece9e4;
-  --accent-foreground: #111317;
-  --destructive: #cb4938;
-  --border: #d9d5cf;
-  --input: #b8b3ab;
-  --ring: #e4a037;
-  --radius: 4px;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
+  /* Blue Hour: a city passing from blue hour into rain-dark night. */
+  --ground: #080f16;
+  --bluehour: #0a1b3d;
+  --wet: #1a1f26;
+  --amber: #ffb000;
+  --ultramarine: #000098;
+  --silver: #a7b3c7;
+  --chalk: #e8eef6;
+  --hairline: rgba(167, 179, 199, 0.22);
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: var(--ground);
+  --foreground: var(--chalk);
+  --card: var(--bluehour);
+  --card-foreground: var(--chalk);
+  --popover: var(--bluehour);
+  --popover-foreground: var(--chalk);
+  --primary: var(--amber);
+  --primary-foreground: var(--ground);
+  --secondary: var(--wet);
+  --secondary-foreground: var(--chalk);
+  --muted: var(--wet);
+  --muted-foreground: var(--silver);
+  --accent: var(--amber);
+  --accent-foreground: var(--ground);
+  --destructive: #ff3b5c;
+  --border: var(--hairline);
+  --input: var(--hairline);
+  --ring: var(--amber);
+  --radius: 2px;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
+  ::selection {
+    background: var(--amber);
+    color: var(--ground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Condensed caps: nav, labels, times, buttons. */
+  .label-caps {
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    font-stretch: 87.5%;
+  }
+}
+
+/*
+ * Unlayered on purpose. A bare `a { background-color: transparent }` reset —
+ * injected outside Tailwind's layers — otherwise wins over utility `bg-amber`
+ * and the primary CTA paints dark text on the night street.
+ */
+a.action-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  padding: 0.875rem 1.5rem;
+  font-size: 0.8125rem;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+
+a.action-link--primary {
+  background-color: var(--amber);
+  color: var(--ground);
+}
+
+a.action-link--primary:hover {
+  background-color: var(--chalk);
+}
+
+a.action-link--ghost {
+  border: 1px solid var(--amber);
+  background-color: transparent;
+  color: var(--amber);
+}
+
+a.action-link--ghost:hover {
+  background-color: var(--amber);
+  color: var(--ground);
 }

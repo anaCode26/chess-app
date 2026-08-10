@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "title": "Valby Skakklub — skak i Valby siden 1935",
+    "description": "Valby Skakklub mødes hver torsdag fra 17.30 på Høffdingsvej 10 i Valby. Gratis undervisning for juniorer, begyndere, kvinder og piger. Ingen tilmelding, og besøgende betaler ikke."
+  },
+  "nav": {
+    "clubNight": "Klubaften",
+    "tournaments": "Turneringer",
+    "calendar": "Kalender",
+    "gallery": "Galleri",
+    "contact": "Kontakt",
+    "login": "Log ind",
+    "skipToContent": "Gå til indhold",
+    "openMenu": "Åbn menu",
+    "closeMenu": "Luk menu",
+    "brandHome": "Valby Skakklub, til forsiden"
+  },
+  "language": {
+    "label": "Skift sprog",
+    "da": "Dansk",
+    "en": "English",
+    "es": "Español"
+  },
+  "home": {
+    "headline": "Hver torsdag fra 17.30",
+    "lede": "Gratis undervisning. Ingen tilmelding. Alle er velkomne.",
+    "primaryCta": "Kom forbi på torsdag",
+    "secondaryCta": "Bliv medlem",
+    "address": "Høffdingsvej 10, 2500 Valby"
+  },
+  "schedule": {
+    "heading": "Klubaften",
+    "tonight": "I aften",
+    "nextNight": "Næste klubaften",
+    "now": "Nu",
+    "later": "Senere",
+    "ended": "Slut",
+    "juniorsTitle": "Junior og begyndere",
+    "womenTitle": "Kvinder og piger",
+    "roundsTitle": "Turneringsrunder"
+  },
+  "events": {
+    "heading": "Kommende i klubben",
+    "all": "Se hele kalenderen",
+    "empty": "Der er ingen planlagte arrangementer lige nu. Klubaftenen kører som altid hver torsdag."
+  },
+  "join": {
+    "heading": "Bliv medlem",
+    "price": "{price} pr. kvartal",
+    "note": "Besøgende betaler ikke. Kom så mange torsdage du vil, før du melder dig ind.",
+    "cta": "Meld dig ind"
+  },
+  "footer": {
+    "founded": "Skak i Valby siden 1935",
+    "visitHeading": "Kom forbi",
+    "contactHeading": "Kontakt",
+    "paymentHeading": "Betaling",
+    "payment": "Kontingent og turneringsgebyr betales ved bankoverførsel til klubbens konto i Nordea.",
+    "bank": "Nordea reg. {reg}, konto {account}"
+  },
+  "roles": {
+    "chair": "Formand",
+    "tournamentDirector": "Turneringsleder",
+    "editor": "Redaktion",
+    "treasurer": "Kasserer",
+    "eventCoordinator": "Eventkoordinator",
+    "juniorCoach": "Juniortræner"
+  },
+  "calendarPage": {
+    "title": "Kalender",
+    "description": "Kommende klubaftener og arrangementer i Valby Skakklub.",
+    "heading": "Kalender",
+    "intro": "Klubaftenen er hver torsdag fra 17.30. Herunder står de arrangementer, der ligger ud over den faste aften."
+  },
+  "tournamentsPage": {
+    "title": "Turneringer",
+    "description": "EMT-turneringer, lynskak og klubmesterskab i Valby Skakklub.",
+    "heading": "Turneringer",
+    "intro": "Klubbens turneringer er ratede under Dansk Skak Union og spilles på klubaftenen.",
+    "emtHeading": "EMT — ratet turnering",
+    "emtBody": "Schweizersystem over syv runder på efterfølgende torsdage, 90 minutter plus 30 sekunder pr. træk. Indskud 150 kr.",
+    "blitzHeading": "Lynskak",
+    "blitzBody": "Hurtige partier på en enkelt aften, tre partier á ti minutter. Juniorrækken er gratis med præmier på 150, 100 og 50 kr.",
+    "registerNote": "Tilmelding til turneringer åbner, når turneringssiderne er klar. Indskud betales ved bankoverførsel."
+  },
+  "galleryPage": {
+    "title": "Galleri",
+    "description": "Billeder fra Valby Skakklub.",
+    "heading": "Galleri",
+    "empty": "Der er endnu ingen billeder i galleriet. Kom forbi på en torsdag, så bliver der noget at vise."
+  },
+  "contactPage": {
+    "title": "Kontakt",
+    "description": "Kontakt bestyrelsen i Valby Skakklub.",
+    "heading": "Kontakt",
+    "intro": "Du behøver ikke skrive for at komme forbi — mød bare op på en torsdag. Har du et spørgsmål, står vi her.",
+    "bankHeading": "Bankoplysninger"
+  }
+}

@@ -40,5 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# impeccable local snapshots of superseded design work
-/.impeccable/archive/
+# impeccable design process (sketches, comps, sources, live tooling)
+/.impeccable/

@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "title": "Valby Skakklub — ajedrez en Valby desde 1935",
+    "description": "Valby Skakklub se reúne todos los jueves a partir de las 17.30 en Høffdingsvej 10, en Valby, Copenhague. Clases gratuitas para juniors, principiantes, mujeres y niñas. Sin inscripción, y las visitas no pagan nada."
+  },
+  "nav": {
+    "clubNight": "Noche de club",
+    "tournaments": "Torneos",
+    "calendar": "Calendario",
+    "gallery": "Galería",
+    "contact": "Contacto",
+    "login": "Iniciar sesión",
+    "skipToContent": "Ir al contenido",
+    "openMenu": "Abrir el menú",
+    "closeMenu": "Cerrar el menú",
+    "brandHome": "Valby Skakklub, volver a la portada"
+  },
+  "language": {
+    "label": "Cambiar de idioma",
+    "da": "Dansk",
+    "en": "English",
+    "es": "Español"
+  },
+  "home": {
+    "headline": "Todos los jueves desde las 17.30",
+    "lede": "Clases gratuitas. Sin inscripción. Todo el mundo es bienvenido.",
+    "primaryCta": "Ven el jueves",
+    "secondaryCta": "Hazte socio",
+    "address": "Høffdingsvej 10, 2500 Valby"
+  },
+  "schedule": {
+    "heading": "Noche de club",
+    "tonight": "Esta tarde",
+    "nextNight": "Próxima noche de club",
+    "now": "Ahora",
+    "later": "Más tarde",
+    "ended": "Terminado",
+    "juniorsTitle": "Juniors y principiantes",
+    "womenTitle": "Mujeres y niñas",
+    "roundsTitle": "Rondas de torneo"
+  },
+  "events": {
+    "heading": "Próximamente en el club",
+    "all": "Ver el calendario completo",
+    "empty": "Ahora mismo no hay nada más programado. La noche de club sigue cada jueves, como siempre."
+  },
+  "join": {
+    "heading": "Hazte socio",
+    "price": "{price} por trimestre",
+    "note": "Las visitas no pagan nada. Ven todos los jueves que quieras antes de hacerte socio.",
+    "cta": "Hazte socio"
+  },
+  "footer": {
+    "founded": "Ajedrez en Valby desde 1935",
+    "visitHeading": "Ven a vernos",
+    "contactHeading": "Contacto",
+    "paymentHeading": "Pagos",
+    "payment": "La cuota de socio y la inscripción a los torneos se pagan por transferencia bancaria a la cuenta del club en Nordea.",
+    "bank": "Nordea reg. {reg}, cuenta {account}"
+  },
+  "roles": {
+    "chair": "Presidente",
+    "tournamentDirector": "Director de torneos",
+    "editor": "Revista del club",
+    "treasurer": "Tesorero",
+    "eventCoordinator": "Coordinador de eventos",
+    "juniorCoach": "Entrenador de juniors"
+  },
+  "calendarPage": {
+    "title": "Calendario",
+    "description": "Próximas noches de club y eventos en Valby Skakklub.",
+    "heading": "Calendario",
+    "intro": "La noche de club es todos los jueves a partir de las 17.30. Abajo están los eventos que van más allá de la noche habitual."
+  },
+  "tournamentsPage": {
+    "title": "Torneos",
+    "description": "Torneos puntuables, ajedrez relámpago y el campeonato del club en Valby Skakklub.",
+    "heading": "Torneos",
+    "intro": "Los torneos del club son puntuables en la Unión Danesa de Ajedrez y se juegan en la noche de club.",
+    "emtHeading": "EMT — torneo puntuable",
+    "emtBody": "Sistema suizo a siete rondas en jueves consecutivos, 90 minutos más 30 segundos por jugada. Inscripción 150 kr.",
+    "blitzHeading": "Lynskak — ajedrez relámpago",
+    "blitzBody": "Partidas rápidas en una sola tarde, tres partidas de diez minutos. La serie junior es gratuita, con premios de 150, 100 y 50 kr.",
+    "registerNote": "La inscripción a los torneos se abrirá cuando estén listas las páginas de torneos. La inscripción se paga por transferencia bancaria."
+  },
+  "galleryPage": {
+    "title": "Galería",
+    "description": "Fotos de Valby Skakklub.",
+    "heading": "Galería",
+    "empty": "Todavía no hay fotos aquí. Ven un jueves y habrá algo que enseñar."
+  },
+  "contactPage": {
+    "title": "Contacto",
+    "description": "Ponte en contacto con la junta de Valby Skakklub.",
+    "heading": "Contacto",
+    "intro": "No hace falta escribir antes de venir: preséntate un jueves sin más. Si tienes alguna pregunta, aquí estamos.",
+    "bankHeading": "Datos bancarios"
+  }
+}
