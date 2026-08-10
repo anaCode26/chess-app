@@ -124,14 +124,13 @@ lib/
   db.ts               ← Prisma client singleton (`db`)
 
 app/
-  [locale]/           ← all user-facing routes live under the locale segment
-    (public)/         ← public club site
-    (auth)/           ← login / register
-    (backoffice)/     ← /backoffice/*
-  api/                ← Auth.js route, uploads, webhooks if needed (not localized)
+  (public)/           ← public club site
+  (auth)/             ← login / register
+  (backoffice)/       ← /backoffice/*
+  api/                ← Auth.js route, uploads, webhooks if needed
 
 messages/             ← translation catalogs: da.json, en.json, es.json
-i18n/                 ← next-intl routing + request config
+i18n/                 ← next-intl request config + locale resolution (no routing config)
 
 tests/
   unit/               ← *.unit.test.ts
@@ -167,8 +166,14 @@ The club is international. **Three locales ship together — none is optional:**
 
 Rules:
 
-- Routes are localized under `app/[locale]/`; `da` is the default locale. API routes are not localized.
-- `next-intl` middleware must be **composed inside `proxy.ts`**, alongside the backoffice guard. Never create `middleware.ts`.
+- **The locale is never in the URL.** No `[locale]` segment, no path prefix, no per-language subdomain. Every page has exactly one URL and serves whichever language the visitor is on. Do not introduce localized routing later.
+- Locale is resolved per request in this order: the `NEXT_LOCALE` cookie (the visitor's explicit choice) → the `Accept-Language` header → `da`. That resolution lives in one place (`i18n/locale.ts`); nothing else reads the cookie or the header directly.
+- `i18n/request.ts` is `next-intl`'s `getRequestConfig` in its **without-i18n-routing** mode: it calls the resolver and loads `messages/<locale>.json`. There is no `routing.ts`, no `Link`/`redirect` wrappers from `next-intl/navigation` — use the plain `next/link` and `next/navigation` ones.
+- The language switcher is a Server Action that writes the `NEXT_LOCALE` cookie and revalidates the page. It must never navigate to a different URL.
+- **Do not add `next-intl` middleware** — without routing there is nothing for it to do. `proxy.ts` holds only the backoffice guard, and `middleware.ts` must never be created.
+- The root layout sets `<html lang>` from the resolved locale.
+- Because the locale comes from a cookie/header, localized pages render per request. Do not mark them `force-static`, and never cache localized output in a way that could be shared across visitors on different languages.
+- **Accepted SEO trade-off:** with one URL per page, crawlers only index the language served to them and there is no `hreflang`. This is a deliberate product decision — do not "fix" it by adding locale routes.
 - All user-facing strings come from `messages/<locale>.json`. No hardcoded copy in components.
 - **Never assume Danish string lengths.** Spanish and English run materially longer; layouts must tolerate it.
 - **No text inside images or SVGs.** The logo is a mark, not a wordmark.
@@ -180,7 +185,7 @@ Rules:
 
 ## Architecture
 
-Single Next.js app with route groups `(public)`, `(auth)`, and `(backoffice)`, all nested under the `[locale]` segment.
+Single Next.js app with route groups `(public)`, `(auth)`, and `(backoffice)` directly under `app/`. URLs carry no locale segment — see [Internationalization](#internationalization).
 
 ### Data flow
 
