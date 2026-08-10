@@ -2,8 +2,10 @@
 
 Guidance for AI agents working in this repository (Cursor and compatible tools).
 
-**Project / repo:** `chess-app`  
-**Product brand:** Chess App
+**Project / repo:** `chess-app` 
+**Product brand:** Valby Skakklub — a chess club in Valby, Copenhagen (Høffdingsvej 10, 2500 Valby). This project replaces the club's existing site at `valbyskakklub.dk`.
+
+Earlier drafts of this file used "Chess App" and "Springeren" as the brand. Both are wrong. The knight logo in `public/logoSpringeren.svg` is correct and is the only asset kept from the old site; only its filename is misleading. See [PRODUCT.md](PRODUCT.md) for confirmed club facts.
 
 ## Design System
 
@@ -17,17 +19,20 @@ All visual decisions (colors, typography, spacing, radii, shadows, motion, compo
 
 ## Project Overview
 
-**Chess App** (`chess-app`) is a chess club website and tournament management system. It has two faces sharing one Next.js codebase:
+**Valby Skakklub** (`chess-app`) is a chess club website and tournament management system. It has two faces sharing one Next.js codebase:
 
 1. **Public site** — club presence for visitors and members.
 2. **Backoffice** (`/backoffice`) — admin panel with role-based permissions to manage content and tournaments.
 
 ### Public site (planned)
 
-- **Home** — about the chess club (story, mission, what the club offers).
+- **Home** — the club night (Thursdays from 17:30), free teaching slots, upcoming events, tournaments, and how to join.
 - **Events** — upcoming public events, created and published from the backoffice.
 - **Tournaments** — tournaments created from the backoffice (permissioned). Visible publicly as a **list + detail** for now. Calendar vs dashboard presentation is **undecided** — do not build both; stick to list/detail until a decision is recorded here.
 - **Tournament registration** — tournament cards/detail expose a register CTA. Users must be logged in (or complete registration) to register for a tournament.
+- **Membership signup** — new members register through the app; there is no offline-only path.
+
+**No payments in the app.** Tournament entry fees and membership dues are paid by bank transfer to the club's Nordea account. Registration records the registration and surfaces the payment details; it never takes money. Do not add a payment provider.
 - **Gallery** — club photos.
 - **Contact** — contact information + contact form (email forwarding pattern similar to eet1-concordia).
 
@@ -62,6 +67,7 @@ Document future ideas here; do not implement them unprompted.
 - **Auth:** next-auth v5 (Auth.js)
 - **ORM:** Prisma 7 + PostgreSQL (`@prisma/adapter-pg`)
 - **Validation:** Zod (schemas + types colocated with actions)
+- **i18n:** `next-intl` (three locales — see [Internationalization](#internationalization))
 - **Email:** Nodemailer
 - **File storage:** S3-compatible (MinIO locally; Cloudflare R2 later)
 - **Testing:** Vitest (unit + integration via Testcontainers)
@@ -118,10 +124,14 @@ lib/
   db.ts               ← Prisma client singleton (`db`)
 
 app/
-  (public)/           ← public club site
-  (auth)/             ← login / register
-  (backoffice)/       ← /backoffice/*
-  api/                ← Auth.js route, uploads, webhooks if needed
+  [locale]/           ← all user-facing routes live under the locale segment
+    (public)/         ← public club site
+    (auth)/           ← login / register
+    (backoffice)/     ← /backoffice/*
+  api/                ← Auth.js route, uploads, webhooks if needed (not localized)
+
+messages/             ← translation catalogs: da.json, en.json, es.json
+i18n/                 ← next-intl routing + request config
 
 tests/
   unit/               ← *.unit.test.ts
@@ -145,9 +155,32 @@ Defined in `tsconfig.json`. Prefer these over deep relative imports across top-l
 @tests/*        → ./tests/*
 ```
 
+## Internationalization
+
+The club is international. **Three locales ship together — none is optional:**
+
+| Locale | Role |
+| ------ | ---------------------------------- |
+| `da`   | Default. Danish is the club's language. |
+| `en`   | Full parity with Danish. |
+| `es`   | Full parity with Danish. |
+
+Rules:
+
+- Routes are localized under `app/[locale]/`; `da` is the default locale. API routes are not localized.
+- `next-intl` middleware must be **composed inside `proxy.ts`**, alongside the backoffice guard. Never create `middleware.ts`.
+- All user-facing strings come from `messages/<locale>.json`. No hardcoded copy in components.
+- **Never assume Danish string lengths.** Spanish and English run materially longer; layouts must tolerate it.
+- **No text inside images or SVGs.** The logo is a mark, not a wordmark.
+- Dates, times, and numbers are formatted through `next-intl`, not hand-built.
+- Club-specific terms (`lynskak`, `EMT`, `Åbnefolk`, `Valbymesterskabet`) get real translations or a short gloss in `en`/`es` — do not ship untranslated loanwords.
+- **Localization covers UI chrome only.** User-generated content (events, tournaments, gallery captions) is stored as a single string in whatever language the author wrote it, and is rendered as-is in every locale. No translation fields on content models, no fallback chains, no "missing translation" states. A Spanish-speaking visitor sees Spanish navigation around a Danish event title — that is the intended behaviour, so never style content as if it were broken or untranslated.
+
+`next-intl` is **not yet installed** — adding it is the first step of the i18n work.
+
 ## Architecture
 
-Single Next.js app with route groups `(public)`, `(auth)`, and `(backoffice)`.
+Single Next.js app with route groups `(public)`, `(auth)`, and `(backoffice)`, all nested under the `[locale]` segment.
 
 ### Data flow
 
