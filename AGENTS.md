@@ -11,11 +11,17 @@ Earlier drafts of this file used "Chess App" and "Springeren" as the brand. Both
 
 All visual decisions (colors, typography, spacing, radii, shadows, motion, component specs, copy rules) belong in [DESIGN.md](DESIGN.md). **That file is the source of truth for UI — it outranks taste and this file.**
 
-`DESIGN.md` is intentionally empty until the brand/design is finalized. Until it is filled in:
+`DESIGN.md` is written. It documents the shipped system — North Star **"The Lit Window"** — as YAML token frontmatter plus the eight canonical DESIGN.md-spec sections, with `.impeccable/design.json` as its machine-readable sidecar. Read it before changing any UI.
 
-- Do **not** invent a permanent visual identity (no default purple/indigo AI themes, no decorative glassmorphism, no fake brand tokens).
-- Keep UI minimal and functional; prefer existing Tailwind/shadcn primitives already in the project.
-- When `DESIGN.md` is updated, follow it for all new and changed UI.
+The load-bearing rules in short, though the file itself is what binds:
+
+- Amber `#ffb000` is light: the lit hall and every action, and nothing else on any surface.
+- The system is flat. 1px hairlines separate; the one shadow that exists belongs to the lit schedule window.
+- 2px radius on interactive surfaces, 0 on rules, rails and panes. There is no card component, and there must not be one.
+- Anton capitals announce, `.label-caps` condensed capitals label, Archivo sentence case reads.
+- No photography, no gradients, no second accent, no warm greys.
+
+The night-time version of this world (`.impeccable/brief-body.md`, `mocks/home-comp-a.*`, `quality-bar/*`) is **withdrawn**. Those files are build history, not a target — do not restore the dark palette or the street illustration from them.
 
 ## Project Overview
 
@@ -277,7 +283,7 @@ pnpm test:integration
 - Keep pages/components under ~300 lines; extract when approaching the limit.
 - Every page exports `metadata` / `generateMetadata` with a `title`.
 - Public pages should get solid SEO metadata once real content exists.
-- Until `DESIGN.md` is filled, keep chrome minimal and avoid inventing brand assets.
+- Follow [DESIGN.md](DESIGN.md) for all new and changed UI. If a pattern it does not cover comes up, add it to that file rather than improvising per component.
 
 ## Reference project
 

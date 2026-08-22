@@ -5,7 +5,7 @@ import { BrandMark } from "./brand-mark";
 import { LanguageSwitcher } from "./language-switcher";
 
 const navItems = [
-  { key: "clubNight", href: "/#klubaften" },
+  { key: "home", href: "/" },
   { key: "tournaments", href: "/turneringer" },
   { key: "calendar", href: "/kalender" },
   { key: "gallery", href: "/galleri" },
