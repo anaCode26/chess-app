@@ -40,30 +40,30 @@
 }
 
 :root {
-  /* Blue Hour: a city passing from blue hour into rain-dark night. */
-  --ground: #080f16;
-  --bluehour: #0a1b3d;
-  --wet: #1a1f26;
+  /* Blue Hour, daylit: cool pale ground, ink chalk, amber still the hall light. */
+  --ground: #f3f5f8;
+  --bluehour: #e2e9f3;
+  --wet: #d5dde9;
   --amber: #ffb000;
   --ultramarine: #000098;
-  --silver: #a7b3c7;
-  --chalk: #e8eef6;
-  --hairline: rgba(167, 179, 199, 0.22);
+  --silver: #5a6b82;
+  --chalk: #0c1520;
+  --hairline: rgba(12, 21, 32, 0.14);
 
   --background: var(--ground);
   --foreground: var(--chalk);
-  --card: var(--bluehour);
+  --card: #ffffff;
   --card-foreground: var(--chalk);
-  --popover: var(--bluehour);
+  --popover: #ffffff;
   --popover-foreground: var(--chalk);
   --primary: var(--amber);
-  --primary-foreground: var(--ground);
-  --secondary: var(--wet);
+  --primary-foreground: var(--chalk);
+  --secondary: var(--bluehour);
   --secondary-foreground: var(--chalk);
   --muted: var(--wet);
   --muted-foreground: var(--silver);
   --accent: var(--amber);
-  --accent-foreground: var(--ground);
+  --accent-foreground: var(--chalk);
   --destructive: #ff3b5c;
   --border: var(--hairline);
   --input: var(--hairline);
@@ -82,7 +82,7 @@
 
   ::selection {
     background: var(--amber);
-    color: var(--ground);
+    color: var(--chalk);
   }
 
   :focus-visible {
@@ -104,8 +104,7 @@
 
 /*
  * Unlayered on purpose. A bare `a { background-color: transparent }` reset —
- * injected outside Tailwind's layers — otherwise wins over utility `bg-amber`
- * and the primary CTA paints dark text on the night street.
+ * injected outside Tailwind's layers — otherwise wins over utility `bg-amber`.
  */
 a.action-link {
   display: inline-flex;
@@ -122,20 +121,21 @@ a.action-link {
 
 a.action-link--primary {
   background-color: var(--amber);
-  color: var(--ground);
+  color: var(--chalk);
 }
 
 a.action-link--primary:hover {
-  background-color: var(--chalk);
+  background-color: var(--ultramarine);
+  color: #f3f5f8;
 }
 
 a.action-link--ghost {
-  border: 1px solid var(--amber);
+  border: 1px solid var(--ultramarine);
   background-color: transparent;
-  color: var(--amber);
+  color: var(--ultramarine);
 }
 
 a.action-link--ghost:hover {
-  background-color: var(--amber);
-  color: var(--ground);
+  background-color: var(--ultramarine);
+  color: #f3f5f8;
 }

@@ -6,7 +6,7 @@ type Variant = "primary" | "ghost";
 /**
  * Styles live in globals.css (unlayered `a.action-link--*`) so they beat the
  * bare `a { background-color: transparent }` reset that otherwise wipes the
- * amber fill after first paint.
+ * amber fill.
  */
 const variants: Record<Variant, string> = {
   primary: "action-link--primary",
