@@ -1,0 +1,28 @@
+---
+description: Page files must follow DESIGN.md and the new-page conventions
+globs: app/**/page.tsx
+alwaysApply: false
+---
+
+# Pages follow DESIGN.md
+
+Before writing or editing JSX in a page file, read [DESIGN.md](../../DESIGN.md).
+It is the source of truth for all visual decisions and outranks both taste and
+`AGENTS.md`. For a new page, follow the `new-page` skill
+(`.cursor/skills/new-page/SKILL.md`) end to end.
+
+Non-negotiables that generic Next.js/shadcn scaffolding violates:
+
+- No card component, no shadow, no gradient. The one glow in the system belongs
+  to the lit schedule window.
+- Semantic tokens only — `text-chalk`, `text-silver`, `border-hairline`,
+  `bg-bluehour`, `text-amber`, `font-display`. Never raw hex, never a warm grey.
+- Amber `#ffb000` is light: at most one amber thing per screen region, marking
+  the lit state or the primary action.
+- 2px radius on interactive surfaces, 0 on rules, rails and panes.
+- Groups of records are hairline-separated full-width rows
+  (`border-b border-hairline py-9 first:border-t`), not a grid of boxes.
+- Every band sits in `mx-auto max-w-[90rem] px-5 py-16 sm:px-8`.
+- No user-facing string in the file. Copy comes from `messages/{da,en,es}.json`
+  via `getTranslations`, in sentence case; capitals come from `text-transform`.
+- No `[locale]` segment in the route, and never `force-static`.
