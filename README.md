@@ -1,6 +1,6 @@
 # chess-app
 
-Chess club website and tournament management system. Boilerplate aligned with the `eet1-concordia` stack and layout.
+Chess club website and tournament management system.
 
 ## Stack
 
