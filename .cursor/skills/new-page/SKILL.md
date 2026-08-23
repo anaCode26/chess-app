@@ -68,18 +68,19 @@ export default async function <Name>Page() {
 
 ## Step 4 — Style within the system
 
-Use the semantic Tailwind tokens from `app/globals.css` — `text-chalk`,
-`text-silver`, `border-hairline`, `bg-bluehour`, `bg-ground`, `text-amber`,
-`font-display` — never raw hex.
+Import type from `@components/ui/text`. Do not reassemble `font-display`,
+`.label-caps`, or `text-lg` at the call site. Surface tokens (`bg-ground`,
+`border-hairline`, `text-amber` on non-type chrome) still come from
+`app/globals.css` — never raw hex.
 
 | Need | Use |
 | ---- | --- |
 | Container | `mx-auto max-w-[90rem] px-5 py-16 sm:px-8` |
-| Section heading | `font-display text-3xl uppercase leading-tight text-chalk` |
-| Named row item | `font-display text-2xl uppercase leading-tight text-chalk` |
-| Body copy | `max-w-prose leading-relaxed text-silver` |
-| Lede | `max-w-2xl text-lg leading-relaxed text-silver` |
-| Label / eyebrow / nav | `.label-caps` at 0.6875 / 0.75 / 0.8125rem |
+| Section heading | `<Title size="lg">` |
+| Named row item | `<Title size="md" as="span">` or `as="dt"` |
+| Body copy | `<Body className="max-w-prose">` |
+| Page-header intro | `<Body className="max-w-2xl">` (via `PageHeader`) |
+| Label / eyebrow / nav | `<Label>`, `<Label size="sm">`, or `<Label size="lg">`; `color="amber"` for eyebrows |
 | A list of records | hairline rows: `border-b border-hairline py-9 first:border-t` |
 | Button / CTA | `ActionLink` from `@components/common/action-link` |
 | Section divider | a 1px hairline, not extra whitespace |

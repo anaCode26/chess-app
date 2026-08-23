@@ -1,4 +1,5 @@
 import { getFormatter, getTranslations } from "next-intl/server";
+import { Label, Numeral } from "@components/ui/text";
 import { club } from "@lib/content/club";
 import type { ClubNightState } from "@lib/club-night";
 
@@ -24,9 +25,9 @@ export async function ClubWindow({ state }: { state: ClubNightState }) {
     <div className="w-full">
       <h2 className="sr-only">{t("heading")}</h2>
 
-      <p className="label-caps mb-3 text-[0.75rem] leading-none text-ultramarine">
+      <Label color="ultramarine" className="mb-3 block">
         {club.name}
-      </p>
+      </Label>
 
       <div
         className={`relative w-full overflow-hidden border transition-colors duration-700 ease-out ${
@@ -55,17 +56,13 @@ export async function ClubWindow({ state }: { state: ClubNightState }) {
                     : ""
               }`}
             >
-              <span
-                className={`font-display text-[clamp(1.75rem,5vw,2.25rem)] leading-none tabular-nums ${
-                  lit ? "text-chalk" : "text-ultramarine"
-                }`}
-              >
+              <Numeral size="md" color={lit ? "chalk" : "ultramarine"}>
                 {slot.label}
-              </span>
+              </Numeral>
 
-              <span className="label-caps min-w-0 flex-1 text-balance text-[0.75rem] leading-[1.2] sm:text-[0.8125rem]">
+              <Label color="inherit" className="min-w-0 flex-1 text-balance leading-[1.2]">
                 {t(SLOT_TITLE[slot.id])}
-              </span>
+              </Label>
 
               <span className="sr-only">{t(slot.status)}</span>
             </li>
@@ -73,7 +70,7 @@ export async function ClubWindow({ state }: { state: ClubNightState }) {
         </ul>
       </div>
 
-      <p className="label-caps mt-4 text-[0.6875rem] leading-none text-silver">
+      <Label size="sm" className="mt-4 block">
         {state.isTonight ? t("tonight") : t("nextNight")}
         {" — "}
         {format.dateTime(state.date, {
@@ -81,7 +78,7 @@ export async function ClubWindow({ state }: { state: ClubNightState }) {
           day: "numeric",
           month: "long",
         })}
-      </p>
+      </Label>
     </div>
   );
 }

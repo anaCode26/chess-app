@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { PageHeader } from "@components/common/page-header";
+import { Body, Title } from "@components/ui/text";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("tournamentsPage");
@@ -27,17 +28,17 @@ export default async function TournamentsPage() {
               key={entry.id}
               className="flex flex-col gap-3 border-b border-hairline py-9 first:border-t md:flex-row md:gap-16"
             >
-              <dt className="font-display text-2xl uppercase leading-tight text-chalk md:w-80 md:shrink-0">
+              <Title size="md" as="dt" className="md:w-80 md:shrink-0">
                 {entry.heading}
-              </dt>
-              <dd className="max-w-prose leading-relaxed text-silver">{entry.body}</dd>
+              </Title>
+              <Body as="dd" className="max-w-prose">
+                {entry.body}
+              </Body>
             </div>
           ))}
         </dl>
 
-        <p className="mt-10 max-w-prose leading-relaxed text-silver">
-          {t("registerNote")}
-        </p>
+        <Body className="mt-10 max-w-prose">{t("registerNote")}</Body>
       </div>
     </>
   );

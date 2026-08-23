@@ -52,11 +52,6 @@ typography:
     fontWeight: 400
     lineHeight: 1
     fontFeature: "'tnum'"
-  lede:
-    fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1.125rem"
-    fontWeight: 400
-    lineHeight: 1.625
   body:
     fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"
     fontSize: "1rem"
@@ -180,7 +175,7 @@ A cool, overcast palette — the greys are blue-shifted rather than neutral — 
 - **Wet** (`#d5dde9`): The deepest of the pale tints, held in reserve as the muted surface. Currently mapped to shadcn's `--muted`.
 - **Card White** (`#ffffff`): Pure white, used only for the unlit schedule rows so they read as glass against the Blue Hour frame around them.
 - **Chalk** (`#0c1520`): The ink. Near-black with a blue cast, used for all display type, headings, and any text that must be read first.
-- **Silver** (`#5a6b82`): Secondary text. Body copy, ledes, dates, addresses, nav in its resting state — the majority of words on the site are this colour, not chalk.
+- **Silver** (`#5a6b82`): Secondary text. Body copy, page intros, dates, addresses, nav in its resting state — the majority of words on the site are this colour, not chalk.
 - **Hairline** (`rgba(12, 21, 32, 0.14)`): Chalk at 14%. Every border, divider and rule in the system is this one value at 1px.
 
 ### Status
@@ -211,14 +206,35 @@ A cool, overcast palette — the greys are blue-shifted rather than neutral — 
 - **Title, small** (Anton 400, `1.25rem`, line-height 1.25, uppercase): Compact titles in dense arrangements, such as the events rail.
 - **Numeral, large** (Anton 400, `2.25rem`, line-height 1, tabular): A single figure carrying weight, like the membership price.
 - **Numeral, medium** (Anton 400, `clamp(1.75rem, 5vw, 2.25rem)`, line-height 1, tabular): Schedule times in the window panes. Tabular figures are required so the times stack in a straight column.
-- **Lede** (Archivo 400, `1.125rem`, line-height 1.625): The one paragraph under a display or headline. Silver, and capped around `max-w-xl` to `max-w-2xl`.
-- **Body** (Archivo 400, `1rem`, line-height 1.625): Running prose, silver, capped at `max-w-prose`.
+- **Body** (Archivo 400, `1rem`, line-height 1.625): Running prose and the paragraph under a display or headline. Silver. Running copy is capped at `max-w-prose`; page-header intros at `max-w-2xl`.
 - **Caption** (Archivo 400, `0.875rem`, line-height 1.5): Addresses, dates, email links, supporting detail.
 - **Label, large** (Archivo 600, `0.8125rem`, tracking 0.08em, width 87.5%, uppercase): Button labels and the mobile menu.
 - **Label** (Archivo 600, `0.75rem`, tracking 0.08em, width 87.5%, uppercase): The workhorse — desktop nav, section eyebrows, roles, dates in list rows, the skip link.
 - **Label, small** (Archivo 600, `0.6875rem`, tracking 0.08em, width 87.5%, uppercase): Meta text under a component, and the language switcher.
 
-The three label steps share one implementation, the `.label-caps` class: `text-transform: uppercase`, `letter-spacing: 0.08em`, `font-weight: 600`, `font-stretch: 87.5%`. Reach for that class rather than reassembling the recipe.
+The three label steps share one implementation, the `.label-caps` class: `text-transform: uppercase`, `letter-spacing: 0.08em`, `font-weight: 600`, `font-stretch: 87.5%`. `Label` applies that class; call sites do not.
+
+### Typography components (`@components/ui/text`)
+
+The type scale is implemented as named React components. The component name is the role. There is no generic `<Text variant="…">`. Size lives on the component (inline `fontSize`, including `clamp()` on Display, Headline and Numeral medium) so a stray `text-lg` on the caller cannot restyle a Title. Spacing and measure stay on the caller via `className`.
+
+`color` accepts `chalk` | `silver` | `amber` | `ultramarine`, mapped to the CSS variables in `globals.css`. Omit `color` to use the role default. Pass `color="inherit"` when the parent already sets the ink (lit schedule panes, hover on a nav link). Do not invent a second colour map in TypeScript.
+
+| Component | Default tag | Face / recipe | Size | Default colour |
+| --- | --- | --- | --- | --- |
+| `Display` | `h1` | Anton, uppercase, balanced, tracking `-0.01em`, lh `0.92` | `clamp(2.5rem, 11vw, 3.75rem)` | chalk |
+| `Headline` | `h1` | same, lh `0.95` | `clamp(2.25rem, 5vw, 4rem)` | chalk |
+| `Title` | `h2` | Anton, uppercase, lh `1.25`; `size`: `lg` / `md` / `sm` | `1.875rem` / `1.5rem` / `1.25rem` | chalk |
+| `Numeral` | `span` | Anton, uppercase, tabular, lh `1`; `size`: `lg` / `md` | `2.25rem` / `clamp(1.75rem, 5vw, 2.25rem)` | chalk |
+| `Body` | `p` | Archivo, lh `1.625` | `1rem` | silver |
+| `Caption` | `p` | Archivo, lh `1.5` | `0.875rem` | silver |
+| `Label` | `span` | `.label-caps`; `size`: `lg` / `md` (default) / `sm` | `0.8125rem` / `0.75rem` / `0.6875rem` | silver |
+
+Constrained `as` on Title, Body, Caption and Label keeps the outline honest when a visual role is not the default tag (`Label as="h2"` for a section eyebrow, `Title as="dt"` in a record row). Display and Headline stay `<h1>`.
+
+`ActionLink` is button chrome, not a text role. It keeps `.label-caps` on the `<a>` in unlayered CSS so the amber fill still beats the `a { background }` reset. Do not wrap `Label` inside it.
+
+There is no `Lede` component. One reading size: `Body`.
 
 ### Named Rules
 
@@ -311,7 +327,7 @@ A horizontal run of upcoming evenings on a 1px amber rule at 55% opacity, each m
 
 ### Page header
 
-The band under the site header on every interior page: Blue Hour at 40% opacity, closed with a hairline, 80px of vertical padding, holding a headline-scale title and an optional lede capped at `max-w-2xl`.
+The band under the site header on every interior page: Blue Hour at 40% opacity, closed with a hairline, 80px of vertical padding, holding a `Headline` title and an optional `Body` intro capped at `max-w-2xl`.
 
 ### Record rows
 
@@ -327,7 +343,7 @@ The repeating pattern for officers, events and tournament formats. Full-width ro
 
 - **Do** treat amber (`#ffb000`) as light. One amber thing per screen region, marking either the lit state or the primary action.
 - **Do** separate with a 1px hairline (`rgba(12, 21, 32, 0.14)`) rather than a box, a shadow, or extra whitespace.
-- **Do** use `.label-caps` for anything that labels, navigates, or marks state, at one of the three established sizes.
+- **Do** use `Label` from `@components/ui/text` for anything that labels, navigates, or marks state, at one of the three established sizes. Use `Body`, `Title`, `Headline` and the rest of that module for every other type role — do not reassemble the recipes with Tailwind.
 - **Do** keep every band inside the 1440px container with 20px / 32px gutters.
 - **Do** clamp display and headline type, and balance it, so Spanish and English headlines do not break the layout.
 - **Do** carry state in something other than colour as well — the schedule window pairs its amber with visually hidden status text.

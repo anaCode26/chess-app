@@ -19,7 +19,7 @@ export default defineConfig({
         resolve: { alias },
         test: {
           name: "unit",
-          include: ["tests/unit/**/*.unit.test.ts"],
+          include: ["tests/unit/**/*.unit.test.ts", "tests/unit/**/*.unit.test.tsx"],
           environment: "node",
           setupFiles: ["./tests/helpers/env-setup.ts"],
         },

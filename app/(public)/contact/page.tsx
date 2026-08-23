@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { PageHeader } from "@components/common/page-header";
+import { Body, Caption, Label, Numeral, Title } from "@components/ui/text";
 import { club, officers } from "@lib/content/club";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -35,18 +36,22 @@ export default async function ContactPage() {
               key={officer.role}
               className="flex flex-col gap-2 border-b border-hairline py-7 first:border-t md:flex-row md:items-baseline md:gap-10"
             >
-              <span className="label-caps shrink-0 text-[0.75rem] text-amber md:w-64">
+              <Label color="amber" className="shrink-0 md:w-64">
                 {roles(officer.role)}
-              </span>
-              <span className="flex-1 text-lg text-chalk">{officer.name}</span>
-              <span className="flex flex-col gap-1 text-sm text-silver md:items-end">
-                {officer.phone ? <span>{officer.phone}</span> : null}
+              </Label>
+              <Body as="span" color="chalk" className="flex-1">
+                {officer.name}
+              </Body>
+              <span className="flex flex-col gap-1 md:items-end">
+                {officer.phone ? <Caption as="span">{officer.phone}</Caption> : null}
                 {officer.email ? (
                   <a
                     href={`mailto:${officer.email}`}
                     className="break-all underline decoration-hairline underline-offset-4 transition-colors duration-200 hover:text-amber"
                   >
-                    {officer.email}
+                    <Caption as="span" color="inherit">
+                      {officer.email}
+                    </Caption>
                   </a>
                 ) : null}
               </span>
@@ -59,22 +64,17 @@ export default async function ContactPage() {
           aria-labelledby="bliv-medlem-titel"
           className="mt-20 scroll-mt-24 border-t border-amber/45 pt-10"
         >
-          <h2
-            id="bliv-medlem-titel"
-            className="font-display text-3xl uppercase leading-tight text-chalk"
-          >
+          <Title size="lg" id="bliv-medlem-titel">
             {join("heading")}
-          </h2>
-          <p className="mt-5 font-display text-4xl uppercase leading-none text-amber">
+          </Title>
+          <Numeral size="lg" className="mt-5 block">
             {join("price", { price })}
-          </p>
-          <p className="mt-6 max-w-prose leading-relaxed text-silver">{join("note")}</p>
-          <p className="mt-6 max-w-prose leading-relaxed text-silver">
-            {footer("payment")}
-          </p>
-          <p className="mt-3 text-chalk">
+          </Numeral>
+          <Body className="mt-6 max-w-prose">{join("note")}</Body>
+          <Body className="mt-6 max-w-prose">{footer("payment")}</Body>
+          <Body color="chalk" className="mt-3">
             {footer("bank", { reg: club.bank.reg, account: club.bank.account })}
-          </p>
+          </Body>
         </section>
       </div>
     </>

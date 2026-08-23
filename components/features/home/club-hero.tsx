@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { ActionLink } from "@components/common/action-link";
+import { Body, Caption, Display } from "@components/ui/text";
 import type { ClubNightState } from "@lib/club-night";
 import { ClubWindow } from "./club-window";
 
@@ -18,16 +19,9 @@ export async function ClubHero({ state }: { state: ClubNightState }) {
     >
       <div className="mx-auto grid max-w-[90rem] items-center gap-12 px-5 py-14 sm:px-8 md:grid-cols-2 md:gap-16 md:py-20 lg:gap-20">
         <div>
-          <h1
-            id="klubaften-titel"
-            className="text-balance font-display text-[clamp(2.5rem,11vw,3.75rem)] uppercase leading-[0.92] tracking-[-0.01em] text-chalk md:text-[clamp(2.75rem,4.2vw,4.25rem)]"
-          >
-            {t("headline")}
-          </h1>
+          <Display id="klubaften-titel">{t("headline")}</Display>
 
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-silver">
-            {t("lede")}
-          </p>
+          <Body className="mt-5 max-w-xl">{t("lede")}</Body>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <ActionLink href="/calendar">{t("primaryCta")}</ActionLink>
@@ -36,7 +30,7 @@ export async function ClubHero({ state }: { state: ClubNightState }) {
             </ActionLink>
           </div>
 
-          <p className="mt-8 text-sm text-silver">{t("address")}</p>
+          <Caption className="mt-8">{t("address")}</Caption>
         </div>
 
         <ClubWindow state={state} />

@@ -1,3 +1,5 @@
+import { Label } from "@components/ui/text";
+
 export default function BackofficeLayout({
   children,
 }: {
@@ -5,8 +7,10 @@ export default function BackofficeLayout({
 }) {
   return (
     <div className="min-h-screen">
-      <header className="border-b border-border px-6 py-4">
-        <p className="text-sm font-medium">Backoffice</p>
+      <header className="border-b border-hairline px-6 py-4">
+        <Label size="lg" color="chalk">
+          Backoffice
+        </Label>
       </header>
       <main className="px-6 py-8">{children}</main>
     </div>

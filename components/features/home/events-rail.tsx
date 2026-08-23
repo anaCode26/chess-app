@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getFormatter, getTranslations } from "next-intl/server";
+import { Body, Caption, Label, Title } from "@components/ui/text";
 import { upcomingEvents } from "@lib/content/club";
 
 const RAIL_LIMIT = 4;
@@ -16,19 +17,19 @@ export async function EventsRail() {
   return (
     <section aria-labelledby="kommende" className="mx-auto max-w-[90rem] px-5 py-14 sm:px-8">
       <div className="flex flex-wrap items-baseline justify-between gap-4">
-        <h2 id="kommende" className="label-caps text-[0.75rem] text-amber">
+        <Label as="h2" id="kommende" color="amber">
           {t("heading")}
-        </h2>
+        </Label>
         <Link
           href="/calendar"
-          className="label-caps rounded-sm text-[0.75rem] text-silver underline decoration-hairline underline-offset-8 transition-colors duration-200 hover:text-chalk"
+          className="rounded-sm text-silver underline decoration-hairline underline-offset-8 transition-colors duration-200 hover:text-chalk"
         >
-          {t("all")}
+          <Label color="inherit">{t("all")}</Label>
         </Link>
       </div>
 
       {events.length === 0 ? (
-        <p className="mt-8 max-w-prose leading-relaxed text-silver">{t("empty")}</p>
+        <Body className="mt-8 max-w-prose">{t("empty")}</Body>
       ) : (
         <ol className="relative mt-14 grid gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           <span
@@ -42,16 +43,16 @@ export async function EventsRail() {
                 aria-hidden
                 className="absolute left-1/2 top-[6px] h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber"
               />
-              <p className="font-display text-xl uppercase leading-tight text-chalk">
+              <Title size="sm" as="p">
                 {event.title}
-              </p>
-              <p className="mt-2 text-sm text-silver">
+              </Title>
+              <Caption className="mt-2">
                 {format.dateTime(new Date(`${event.date}T18:00:00Z`), {
                   weekday: "long",
                   day: "numeric",
                   month: "long",
                 })}
-              </p>
+              </Caption>
             </li>
           ))}
         </ol>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { Label } from "@components/ui/text";
 import { BrandMark } from "./brand-mark";
 import { LanguageSwitcher } from "./language-switcher";
 
@@ -19,9 +20,9 @@ export async function SiteHeader() {
     <header className="relative z-20 border-b border-hairline bg-ground">
       <a
         href="#indhold"
-        className="label-caps sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-amber focus:px-4 focus:py-2 focus:text-[0.75rem] focus:text-chalk"
+        className="sr-only rounded-sm focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-amber focus:px-4 focus:py-2"
       >
-        {t("skipToContent")}
+        <Label color="chalk">{t("skipToContent")}</Label>
       </a>
 
       <div className="mx-auto flex max-w-[90rem] items-center justify-between gap-6 px-5 py-3.5 sm:px-8">
@@ -35,9 +36,9 @@ export async function SiteHeader() {
               <li key={item.key}>
                 <Link
                   href={item.href}
-                  className="label-caps rounded-sm text-[0.75rem] text-silver transition-colors duration-200 hover:text-chalk"
+                  className="rounded-sm text-silver transition-colors duration-200 hover:text-chalk"
                 >
-                  {t(item.key)}
+                  <Label color="inherit">{t(item.key)}</Label>
                 </Link>
               </li>
             ))}
@@ -51,9 +52,9 @@ export async function SiteHeader() {
 
           <Link
             href="/login"
-            className="label-caps hidden rounded-sm border-l border-hairline pl-4 text-[0.75rem] text-silver transition-colors duration-200 hover:text-chalk sm:inline-block"
+            className="hidden rounded-sm border-l border-hairline pl-4 text-silver transition-colors duration-200 hover:text-chalk sm:inline-block"
           >
-            {t("login")}
+            <Label color="inherit">{t("login")}</Label>
           </Link>
 
           <details className="group relative lg:hidden">
@@ -70,18 +71,22 @@ export async function SiteHeader() {
                   <li key={item.key}>
                     <Link
                       href={item.href}
-                      className="label-caps block rounded-sm text-[0.8125rem] text-silver transition-colors duration-200 hover:text-chalk"
+                      className="block rounded-sm text-silver transition-colors duration-200 hover:text-chalk"
                     >
-                      {t(item.key)}
+                      <Label size="lg" color="inherit">
+                        {t(item.key)}
+                      </Label>
                     </Link>
                   </li>
                 ))}
                 <li className="border-t border-hairline pt-4">
                   <Link
                     href="/login"
-                    className="label-caps block rounded-sm text-[0.8125rem] text-silver transition-colors duration-200 hover:text-chalk"
+                    className="block rounded-sm text-silver transition-colors duration-200 hover:text-chalk"
                   >
-                    {t("login")}
+                    <Label size="lg" color="inherit">
+                      {t("login")}
+                    </Label>
                   </Link>
                 </li>
                 <li className="sm:hidden">

@@ -1,8 +1,9 @@
 import Image from "next/image";
+import { Label } from "@components/ui/text";
 import { club } from "@lib/content/club";
 
 /** The knight is the club's binding mark; ultramarine stays fixed. */
-export function BrandMark({ compact = false }: { compact?: boolean }) {
+export function BrandMark() {
   return (
     <span className="flex items-center gap-3">
       <Image
@@ -13,13 +14,9 @@ export function BrandMark({ compact = false }: { compact?: boolean }) {
         priority
         className="h-12 w-auto shrink-0"
       />
-      <span
-        className={`label-caps whitespace-nowrap text-chalk ${
-          compact ? "text-[0.8125rem]" : "text-sm sm:text-base"
-        }`}
-      >
+      <Label size="lg" color="chalk" className="whitespace-nowrap">
         {club.name}
-      </span>
+      </Label>
     </span>
   );
 }

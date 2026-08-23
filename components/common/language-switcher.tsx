@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
+import { Label } from "@components/ui/text";
 import { setLocaleAction } from "@actions/locale/locale.actions";
 import { locales } from "@/i18n/locale";
 
@@ -31,11 +32,13 @@ export async function LanguageSwitcher() {
               value={locale}
               aria-label={t(locale)}
               aria-current={isCurrent ? "true" : undefined}
-              className={`label-caps rounded-sm px-2 py-1.5 text-[0.6875rem] transition-colors duration-200 ${
+              className={`rounded-sm px-2 py-1.5 transition-colors duration-200 ${
                 isCurrent ? "text-amber" : "text-silver hover:text-chalk"
               }`}
             >
-              {locale}
+              <Label size="sm" color="inherit">
+                {locale}
+              </Label>
             </button>
           );
         })}

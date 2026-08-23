@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { Body, Caption, Label } from "@components/ui/text";
 import { club, officers } from "@lib/content/club";
 
 const FOOTER_ROLES = ["chair", "tournamentDirector"] as const;
@@ -17,31 +18,37 @@ export async function SiteFooter() {
     <footer className="border-t border-hairline bg-ground">
       <div className="mx-auto grid max-w-[90rem] gap-10 px-5 py-14 sm:px-8 md:grid-cols-3 md:gap-8">
         <section>
-          <h2 className="label-caps text-[0.75rem] text-amber">{t("visitHeading")}</h2>
-          <address className="mt-5 space-y-1 not-italic text-silver">
-            <p className="text-chalk">{club.street}</p>
-            <p>
+          <Label as="h2" color="amber">
+            {t("visitHeading")}
+          </Label>
+          <address className="mt-5 space-y-1 not-italic">
+            <Body color="chalk">{club.street}</Body>
+            <Body>
               {club.postalCode} {club.city}
-            </p>
+            </Body>
           </address>
-          <p className="mt-5 text-sm text-silver">{t("founded")}</p>
+          <Caption className="mt-5">{t("founded")}</Caption>
         </section>
 
         <section>
-          <h2 className="label-caps text-[0.75rem] text-amber">{t("contactHeading")}</h2>
+          <Label as="h2" color="amber">
+            {t("contactHeading")}
+          </Label>
           <ul className="mt-5 space-y-4">
             {listed.map((officer) => (
               <li key={officer.role}>
-                <p className="label-caps text-[0.6875rem] text-silver">
-                  {roles(officer.role)}
-                </p>
-                <p className="mt-1 text-chalk">{officer.name}</p>
+                <Label size="sm">{roles(officer.role)}</Label>
+                <Body color="chalk" className="mt-1">
+                  {officer.name}
+                </Body>
                 {officer.email ? (
                   <a
                     href={`mailto:${officer.email}`}
-                    className="mt-0.5 inline-block break-all text-sm text-silver underline decoration-hairline underline-offset-4 transition-colors duration-200 hover:text-amber"
+                    className="mt-0.5 inline-block break-all underline decoration-hairline underline-offset-4 transition-colors duration-200 hover:text-amber"
                   >
-                    {officer.email}
+                    <Caption as="span" color="inherit">
+                      {officer.email}
+                    </Caption>
                   </a>
                 ) : null}
               </li>
@@ -50,13 +57,13 @@ export async function SiteFooter() {
         </section>
 
         <section>
-          <h2 className="label-caps text-[0.75rem] text-amber">{t("paymentHeading")}</h2>
-          <p className="mt-5 max-w-prose text-sm leading-relaxed text-silver">
-            {t("payment")}
-          </p>
-          <p className="mt-3 text-sm text-chalk">
+          <Label as="h2" color="amber">
+            {t("paymentHeading")}
+          </Label>
+          <Caption className="mt-5 max-w-prose leading-relaxed">{t("payment")}</Caption>
+          <Caption color="chalk" className="mt-3">
             {t("bank", { reg: club.bank.reg, account: club.bank.account })}
-          </p>
+          </Caption>
         </section>
       </div>
     </footer>

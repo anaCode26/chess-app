@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { PageHeader } from "@components/common/page-header";
+import { Body, Label, Title } from "@components/ui/text";
 import { upcomingEvents } from "@lib/content/club";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,7 +23,7 @@ export default async function CalendarPage() {
 
       <div className="mx-auto max-w-[90rem] px-5 py-16 sm:px-8">
         {upcomingEvents.length === 0 ? (
-          <p className="max-w-prose leading-relaxed text-silver">{events("empty")}</p>
+          <Body className="max-w-prose">{events("empty")}</Body>
         ) : (
           <ol>
             {upcomingEvents.map((event) => (
@@ -30,16 +31,16 @@ export default async function CalendarPage() {
                 key={event.id}
                 className="flex flex-col gap-2 border-b border-hairline py-7 first:border-t sm:flex-row sm:items-baseline sm:gap-10"
               >
-                <span className="label-caps shrink-0 text-[0.75rem] text-amber sm:w-56">
+                <Label color="amber" className="shrink-0 sm:w-56">
                   {format.dateTime(new Date(`${event.date}T18:00:00Z`), {
                     weekday: "long",
                     day: "numeric",
                     month: "long",
                   })}
-                </span>
-                <span className="font-display text-2xl uppercase leading-tight text-chalk">
+                </Label>
+                <Title size="md" as="span">
                   {event.title}
-                </span>
+                </Title>
               </li>
             ))}
           </ol>

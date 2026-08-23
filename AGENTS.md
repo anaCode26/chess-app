@@ -18,7 +18,7 @@ The load-bearing rules in short, though the file itself is what binds:
 - Amber `#ffb000` is light: the lit hall and every action, and nothing else on any surface.
 - The system is flat. 1px hairlines separate; the one shadow that exists belongs to the lit schedule window.
 - 2px radius on interactive surfaces, 0 on rules, rails and panes. There is no card component, and there must not be one.
-- Anton capitals announce, `.label-caps` condensed capitals label, Archivo sentence case reads.
+- Anton capitals announce, `Label` condensed capitals label, Archivo sentence case reads. Type roles live in `@components/ui/text` — do not reassemble `font-display` / `.label-caps` / `text-lg` at call sites.
 - No photography, no gradients, no second accent, no warm greys.
 
 The night-time version of this world (`.impeccable/brief-body.md`, `mocks/home-comp-a.*`, `quality-bar/*`) is **withdrawn**. Those files are build history, not a target — do not restore the dark palette or the street illustration from them.
@@ -284,6 +284,7 @@ pnpm test:integration
 - Every page exports `metadata` / `generateMetadata` with a `title`.
 - Public pages should get solid SEO metadata once real content exists.
 - Follow [DESIGN.md](DESIGN.md) for all new and changed UI. If a pattern it does not cover comes up, add it to that file rather than improvising per component.
+- Headings, body, captions and labels come from `@components/ui/text` (`Display`, `Headline`, `Title`, `Numeral`, `Body`, `Caption`, `Label`). Size and colour live on those components; `className` is for spacing and measure only. `ActionLink` is the exception — it keeps type on the `<a>`.
 
 ## Reference project
 
