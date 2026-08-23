@@ -70,7 +70,14 @@
     "title": "Calendario",
     "description": "Próximas noches de club y eventos en Valby Skakklub.",
     "heading": "Calendario",
-    "intro": "La noche de club es todos los jueves a partir de las 17.30. Abajo están los eventos que van más allá de la noche habitual."
+    "intro": "La noche de club es todos los jueves a partir de las 17.30. Abajo están los eventos que van más allá de la noche habitual.",
+    "noEvents": "No hay eventos este mes. La noche de club sigue cada jueves, como siempre.",
+    "monthGrid": {
+      "previous": "Mes anterior",
+      "next": "Mes siguiente",
+      "today": "Hoy",
+      "more": "+{count}"
+    }
   },
   "tournamentsPage": {
     "title": "Torneos",
@@ -95,5 +102,46 @@
     "heading": "Contacto",
     "intro": "No hace falta escribir antes de venir: preséntate un jueves sin más. Si tienes alguna pregunta, aquí estamos.",
     "bankHeading": "Datos bancarios"
+  },
+  "loginPage": {
+    "title": "Iniciar sesión",
+    "description": "Inicia sesión para administrar Valby Skakklub.",
+    "heading": "Iniciar sesión",
+    "intro": "Para la junta. Los socios también iniciarán sesión aquí cuando se abra la inscripción a los torneos.",
+    "email": "Correo",
+    "password": "Contraseña",
+    "submit": "Iniciar sesión",
+    "submitting": "Entrando",
+    "error": "Ese correo o contraseña no coinciden."
+  },
+  "backoffice": {
+    "title": "Backoffice",
+    "dashboard": "Resumen",
+    "dashboardIntro": "Administra el contenido del club.",
+    "signOut": "Cerrar sesión",
+    "events": "Eventos",
+    "eventsIntro": "Crea y publica eventos que aparecen en la página del calendario.",
+    "create": "Nuevo evento",
+    "edit": "Editar",
+    "draft": "Borrador",
+    "empty": "No hay eventos este mes.",
+    "home": "Al sitio público"
+  },
+  "eventForm": {
+    "createTitle": "Nuevo evento",
+    "editTitle": "Editar evento",
+    "title": "Título",
+    "date": "Fecha",
+    "startTime": "Hora de inicio",
+    "startTimeHint": "Como lo escribe el club, por ejemplo 19.00",
+    "description": "Descripción",
+    "published": "Publicado en la página del calendario",
+    "save": "Guardar",
+    "create": "Crear",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "deleteConfirm": "¿Eliminar este evento? Desaparecerá de la página del calendario.",
+    "saving": "Guardando",
+    "close": "Cerrar"
   }
 }

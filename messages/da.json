@@ -70,7 +70,14 @@
     "title": "Kalender",
     "description": "Kommende klubaftener og arrangementer i Valby Skakklub.",
     "heading": "Kalender",
-    "intro": "Klubaftenen er hver torsdag fra 17.30. Herunder står de arrangementer, der ligger ud over den faste aften."
+    "intro": "Klubaftenen er hver torsdag fra 17.30. Herunder står de arrangementer, der ligger ud over den faste aften.",
+    "noEvents": "Ingen arrangementer i denne måned. Klubaftenen kører som altid hver torsdag.",
+    "monthGrid": {
+      "previous": "Forrige måned",
+      "next": "Næste måned",
+      "today": "I dag",
+      "more": "+{count}"
+    }
   },
   "tournamentsPage": {
     "title": "Turneringer",
@@ -95,5 +102,46 @@
     "heading": "Kontakt",
     "intro": "Du behøver ikke skrive for at komme forbi — mød bare op på en torsdag. Har du et spørgsmål, står vi her.",
     "bankHeading": "Bankoplysninger"
+  },
+  "loginPage": {
+    "title": "Log ind",
+    "description": "Log ind for at administrere Valby Skakklub.",
+    "heading": "Log ind",
+    "intro": "Til bestyrelsen. Medlemmer logger også ind her, når tilmelding til turneringer åbner.",
+    "email": "E-mail",
+    "password": "Adgangskode",
+    "submit": "Log ind",
+    "submitting": "Logger ind",
+    "error": "E-mail eller adgangskode passer ikke."
+  },
+  "backoffice": {
+    "title": "Backoffice",
+    "dashboard": "Oversigt",
+    "dashboardIntro": "Administrér klubbens indhold.",
+    "signOut": "Log ud",
+    "events": "Arrangementer",
+    "eventsIntro": "Opret og udgiv arrangementer, som vises på kalendersiden.",
+    "create": "Nyt arrangement",
+    "edit": "Rediger",
+    "draft": "Kladde",
+    "empty": "Ingen arrangementer i denne måned.",
+    "home": "Til forsiden"
+  },
+  "eventForm": {
+    "createTitle": "Nyt arrangement",
+    "editTitle": "Rediger arrangement",
+    "title": "Titel",
+    "date": "Dato",
+    "startTime": "Starttid",
+    "startTimeHint": "Som klubben skriver det, for eksempel 19.00",
+    "description": "Beskrivelse",
+    "published": "Udgivet på kalendersiden",
+    "save": "Gem",
+    "create": "Opret",
+    "cancel": "Annuller",
+    "delete": "Slet",
+    "deleteConfirm": "Slet dette arrangement? Det forsvinder fra kalendersiden.",
+    "saving": "Gemmer",
+    "close": "Luk"
   }
 }

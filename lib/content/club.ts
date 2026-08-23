@@ -1,13 +1,5 @@
 /**
  * Confirmed club facts, authored here until the backoffice owns them.
- *
- * Event titles are stored as single authored strings and rendered as-is in
- * every locale, matching how user-generated content will behave once these
- * come from the database.
- *
- * PLACEHOLDER: the event dates below follow the real Thursday cadence but have
- * not been checked against the club's Aug-Oct 2026 calendar. Replace them with
- * the real dates before launch.
  */
 
 export const club = {
@@ -34,24 +26,6 @@ export const scheduleSlots: readonly ScheduleSlot[] = [
   { id: "juniors", startMinutes: 17 * 60 + 30, endMinutes: 18 * 60 + 45, label: "17.30" },
   { id: "women", startMinutes: 17 * 60 + 45, endMinutes: 18 * 60 + 45, label: "17.45" },
   { id: "rounds", startMinutes: 19 * 60, endMinutes: 23 * 60, label: "19.00" },
-];
-
-export interface ClubEvent {
-  id: string;
-  /** Authored in the club's own language and rendered as-is in every locale. */
-  title: string;
-  /** ISO date, Europe/Copenhagen. */
-  date: string;
-  dateIsPlaceholder: boolean;
-}
-
-export const upcomingEvents: readonly ClubEvent[] = [
-  { id: "skakbowl", title: "Skakbowl", date: "2026-08-13", dateIsPlaceholder: true },
-  { id: "grillaften", title: "Grillaften", date: "2026-08-20", dateIsPlaceholder: true },
-  { id: "grand-prix-lyn", title: "Grand Prix Lyn Finale", date: "2026-09-03", dateIsPlaceholder: true },
-  { id: "simultan", title: "Simultan mod klubmesteren", date: "2026-09-17", dateIsPlaceholder: true },
-  { id: "valbymesterskabet", title: "Valbymesterskabet, 1. runde", date: "2026-10-01", dateIsPlaceholder: true },
-  { id: "vinterturnering", title: "Vinterturnering, 1. runde", date: "2026-10-29", dateIsPlaceholder: true },
 ];
 
 export type OfficerRole =

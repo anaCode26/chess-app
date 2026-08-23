@@ -12,12 +12,39 @@ enum UserStatus {
   INACTIVE
 }
 
+enum UserRole {
+  ADMIN
+  MEMBER
+}
+
 model User {
   id           String     @id @default(cuid())
   name         String
   email        String     @unique
   passwordHash String?
   status       UserStatus @default(PENDING)
+  role         UserRole   @default(MEMBER)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
+
+  modifiedEvents Event[] @relation("EventModifiedBy")
+}
+
+model Event {
+  id    String   @id @default(cuid())
+  /// Authored in one language and rendered as-is in every locale.
+  title String
+  date  DateTime @db.Date
+  /// Display string in the club's own notation ("19.00"), not a parsed time.
+  startTime   String?
+  description String?
+  published   Boolean @default(false)
+
+  modifiedByUserId String?
+  modifiedByUser   User?   @relation("EventModifiedBy", fields: [modifiedByUserId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([date])
 }

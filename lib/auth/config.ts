@@ -1,11 +1,17 @@
 import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
+import { authService } from "./auth.service";
 
-/**
- * App Auth.js instance. Add Credentials / OAuth providers and the Prisma
- * adapter here as the domain grows (see eet1-concordia lib/auth/config.ts).
- */
 export const { auth, handlers, signIn, signOut } = NextAuth({
   ...authConfig,
-  providers: [...authConfig.providers],
+  providers: [
+    Credentials({
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      authorize: (credentials) => authService.authorizeCredentials(credentials),
+    }),
+  ],
 });

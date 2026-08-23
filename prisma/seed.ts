@@ -1,13 +1,54 @@
 import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import bcrypt from "bcryptjs";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
+const ADMIN_EMAIL = "admin@valbyskakklub.dk";
+const ADMIN_PASSWORD = "valby1935";
+
+/**
+ * PLACEHOLDER: these follow the real Thursday cadence but have not been checked
+ * against the club's Aug-Oct 2026 calendar. Replace before launch.
+ */
+const events = [
+  { title: "Skakbowl", date: "2026-08-13", startTime: "19.00" },
+  { title: "Grillaften", date: "2026-08-20", startTime: "18.00" },
+  { title: "Grand Prix Lyn Finale", date: "2026-09-03", startTime: "19.00" },
+  { title: "Simultan mod klubmesteren", date: "2026-09-17", startTime: "19.00" },
+  { title: "Valbymesterskabet, 1. runde", date: "2026-10-01", startTime: "19.00" },
+  { title: "Vinterturnering, 1. runde", date: "2026-10-29", startTime: "19.00" },
+];
+
 async function main() {
-  // Add seed data here as the domain grows.
-  console.log("Seed complete (no default data yet).");
+  const admin = await prisma.user.upsert({
+    where: { email: ADMIN_EMAIL },
+    update: { role: "ADMIN", status: "ACTIVE" },
+    create: {
+      name: "Klubadministrator",
+      email: ADMIN_EMAIL,
+      passwordHash: await bcrypt.hash(ADMIN_PASSWORD, 10),
+      status: "ACTIVE",
+      role: "ADMIN",
+    },
+  });
+
+  for (const event of events) {
+    const date = new Date(`${event.date}T00:00:00Z`);
+    const existing = await prisma.event.findFirst({
+      where: { title: event.title, date },
+    });
+
+    if (existing) continue;
+
+    await prisma.event.create({
+      data: { ...event, date, published: true, modifiedByUserId: admin.id },
+    });
+  }
+
+  console.log(`Seed complete: admin ${ADMIN_EMAIL}, ${events.length} events.`);
 }
 
 main()

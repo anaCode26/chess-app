@@ -89,6 +89,10 @@
     outline: 2px solid var(--amber);
     outline-offset: 2px;
   }
+
+  input[type="checkbox"] {
+    accent-color: var(--amber);
+  }
 }
 
 @layer components {
@@ -137,5 +141,57 @@ a.action-link--ghost {
 
 a.action-link--ghost:hover {
   background-color: var(--ultramarine);
+  color: #f3f5f8;
+}
+
+button.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  padding: 0.875rem 1.5rem;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+
+button.action-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+button.action-button--primary {
+  border: 1px solid transparent;
+  background-color: var(--amber);
+  color: var(--chalk);
+}
+
+button.action-button--primary:hover:not(:disabled) {
+  background-color: var(--ultramarine);
+  color: #f3f5f8;
+}
+
+button.action-button--ghost {
+  border: 1px solid var(--ultramarine);
+  background-color: transparent;
+  color: var(--ultramarine);
+}
+
+button.action-button--ghost:hover:not(:disabled) {
+  background-color: var(--ultramarine);
+  color: #f3f5f8;
+}
+
+button.action-button--danger {
+  border: 1px solid var(--destructive);
+  background-color: transparent;
+  color: var(--destructive);
+}
+
+button.action-button--danger:hover:not(:disabled) {
+  background-color: var(--destructive);
   color: #f3f5f8;
 }

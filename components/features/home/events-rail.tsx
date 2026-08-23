@@ -1,18 +1,18 @@
 import Link from "next/link";
 import { getFormatter, getTranslations } from "next-intl/server";
+import { getUpcomingEvents } from "@actions/event/event.actions";
 import { Body, Caption, Label, Title } from "@components/ui/text";
-import { upcomingEvents } from "@lib/content/club";
+import { parseDateOnly } from "@lib/date/month";
 
 const RAIL_LIMIT = 4;
 
 /** One amber line strung through the next few evenings, as in the comp. */
 export async function EventsRail() {
-  const [t, format] = await Promise.all([
+  const [t, format, events] = await Promise.all([
     getTranslations("events"),
     getFormatter(),
+    getUpcomingEvents(RAIL_LIMIT),
   ]);
-
-  const events = upcomingEvents.slice(0, RAIL_LIMIT);
 
   return (
     <section aria-labelledby="kommende" className="mx-auto max-w-[90rem] px-5 py-14 sm:px-8">
@@ -47,7 +47,7 @@ export async function EventsRail() {
                 {event.title}
               </Title>
               <Caption className="mt-2">
-                {format.dateTime(new Date(`${event.date}T18:00:00Z`), {
+                {format.dateTime(parseDateOnly(event.date), {
                   weekday: "long",
                   day: "numeric",
                   month: "long",

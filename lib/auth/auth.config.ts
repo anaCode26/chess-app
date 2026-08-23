@@ -2,7 +2,7 @@ import type { NextAuthConfig } from "next-auth";
 
 /**
  * Edge-safe Auth.js config (no Node-only adapters/providers here).
- * Expand with credentials / OAuth providers in config.ts as needed.
+ * Credentials live in `config.ts` so this file can run in `proxy.ts`.
  */
 export const authConfig = {
   session: { strategy: "jwt" },
@@ -14,11 +14,13 @@ export const authConfig = {
     jwt({ token, user }) {
       if (user) {
         token.id = user.id as string;
+        token.role = user.role;
       }
       return token;
     },
     session({ session, token }) {
       session.user.id = token.id as string;
+      session.user.role = token.role as typeof session.user.role;
       return session;
     },
   },

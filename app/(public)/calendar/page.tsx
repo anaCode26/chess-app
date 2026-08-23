@@ -1,8 +1,18 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
+import { getPublishedEventsInMonth } from "@actions/event/event.actions";
+import { EventRows } from "@components/features/calendar/event-rows";
+import { MonthGrid } from "@components/features/calendar/month-grid";
+import { MonthNav } from "@components/features/calendar/month-nav";
 import { PageHeader } from "@components/common/page-header";
-import { Body, Label, Title } from "@components/ui/text";
-import { upcomingEvents } from "@lib/content/club";
+import {
+  buildMonthCells,
+  monthAnchor,
+  parseDateOnly,
+  parseMonthParam,
+  todayISO,
+  weekdayAnchors,
+} from "@lib/date/month";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("calendarPage");
@@ -10,42 +20,76 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("title"), description: t("description") };
 }
 
-export default async function CalendarPage() {
-  const [t, events, format] = await Promise.all([
+export default async function CalendarPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ month?: string }>;
+}) {
+  const { month: monthParam } = await searchParams;
+  const month = parseMonthParam(monthParam);
+
+  const [t, format, events] = await Promise.all([
     getTranslations("calendarPage"),
-    getTranslations("events"),
     getFormatter(),
+    getPublishedEventsInMonth(month),
   ]);
+
+  const monthLabel = format.dateTime(monthAnchor(month), {
+    month: "long",
+    year: "numeric",
+  });
+  const weekdayLabels = weekdayAnchors().map((date) =>
+    format.dateTime(date, { weekday: "short" }),
+  );
+  const datedEvents = events.map((event) => ({
+    ...event,
+    dateLabel: formatEventDate(format, event.date, event.startTime),
+  }));
 
   return (
     <>
       <PageHeader title={t("heading")} intro={t("intro")} />
 
       <div className="mx-auto max-w-[90rem] px-5 py-16 sm:px-8">
-        {upcomingEvents.length === 0 ? (
-          <Body className="max-w-prose">{events("empty")}</Body>
-        ) : (
-          <ol>
-            {upcomingEvents.map((event) => (
-              <li
-                key={event.id}
-                className="flex flex-col gap-2 border-b border-hairline py-7 first:border-t sm:flex-row sm:items-baseline sm:gap-10"
-              >
-                <Label color="amber" className="shrink-0 sm:w-56">
-                  {format.dateTime(new Date(`${event.date}T18:00:00Z`), {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "long",
-                  })}
-                </Label>
-                <Title size="md" as="span">
-                  {event.title}
-                </Title>
-              </li>
-            ))}
-          </ol>
-        )}
+        <MonthNav
+          month={month}
+          href="/calendar"
+          label={monthLabel}
+          copy={{
+            previous: t("monthGrid.previous"),
+            next: t("monthGrid.next"),
+            today: t("monthGrid.today"),
+          }}
+        />
+
+        <div className="mt-10">
+          <MonthGrid
+            cells={buildMonthCells(month, todayISO())}
+            weekdayLabels={weekdayLabels}
+            events={events}
+            moreTemplate={t.raw("monthGrid.more") as string}
+            eventHrefPrefix="#event-"
+          />
+        </div>
+
+        <div className="mt-16">
+          <EventRows events={datedEvents} empty={t("noEvents")} />
+        </div>
       </div>
     </>
   );
+}
+
+function formatEventDate(
+  format: Awaited<ReturnType<typeof getFormatter>>,
+  iso: string,
+  startTime: string | null,
+): string {
+  const date = format.dateTime(parseDateOnly(iso), {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+
+  return startTime ? `${date} · ${startTime}` : date;
 }

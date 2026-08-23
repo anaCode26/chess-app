@@ -5,8 +5,9 @@ services:
       POSTGRES_DB: chess_app
       POSTGRES_USER: chess_app
       POSTGRES_PASSWORD: chess_app
+    # 5433 on the host: 5432 is commonly taken by a native Postgres install.
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

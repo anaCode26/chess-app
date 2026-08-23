@@ -52,6 +52,12 @@ typography:
     fontWeight: 400
     lineHeight: 1
     fontFeature: "'tnum'"
+  numeral-sm:
+    fontFamily: "Anton, Archivo, sans-serif"
+    fontSize: "1.125rem"
+    fontWeight: 400
+    lineHeight: 1
+    fontFeature: "'tnum'"
   body:
     fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"
     fontSize: "1rem"
@@ -133,6 +139,18 @@ components:
     textColor: "{colors.chalk}"
     typography: "{typography.headline}"
     padding: "80px 32px"
+  month-grid-cell:
+    backgroundColor: "{colors.ground}"
+    textColor: "{colors.chalk}"
+    typography: "{typography.numeral-sm}"
+    rounded: "0"
+    padding: "0.5rem"
+  month-grid-cell-today:
+    backgroundColor: "{colors.bluehour}"
+    textColor: "{colors.chalk}"
+  month-grid-cell-outside:
+    backgroundColor: "{colors.ground}"
+    textColor: "{colors.silver}"
 ---
 
 # Design System: Valby Skakklub
@@ -206,6 +224,7 @@ A cool, overcast palette — the greys are blue-shifted rather than neutral — 
 - **Title, small** (Anton 400, `1.25rem`, line-height 1.25, uppercase): Compact titles in dense arrangements, such as the events rail.
 - **Numeral, large** (Anton 400, `2.25rem`, line-height 1, tabular): A single figure carrying weight, like the membership price.
 - **Numeral, medium** (Anton 400, `clamp(1.75rem, 5vw, 2.25rem)`, line-height 1, tabular): Schedule times in the window panes. Tabular figures are required so the times stack in a straight column.
+- **Numeral, small** (Anton 400, `1.125rem`, line-height 1, tabular): Day figures in the month grid, where a medium numeral would fill the cell and leave no room for the event beneath it. Tabular figures keep the columns of dates true.
 - **Body** (Archivo 400, `1rem`, line-height 1.625): Running prose and the paragraph under a display or headline. Silver. Running copy is capped at `max-w-prose`; page-header intros at `max-w-2xl`.
 - **Caption** (Archivo 400, `0.875rem`, line-height 1.5): Addresses, dates, email links, supporting detail.
 - **Label, large** (Archivo 600, `0.8125rem`, tracking 0.08em, width 87.5%, uppercase): Button labels and the mobile menu.
@@ -225,7 +244,7 @@ The type scale is implemented as named React components. The component name is t
 | `Display` | `h1` | Anton, uppercase, balanced, tracking `-0.01em`, lh `0.92` | `clamp(2.5rem, 11vw, 3.75rem)` | chalk |
 | `Headline` | `h1` | same, lh `0.95` | `clamp(2.25rem, 5vw, 4rem)` | chalk |
 | `Title` | `h2` | Anton, uppercase, lh `1.25`; `size`: `lg` / `md` / `sm` | `1.875rem` / `1.5rem` / `1.25rem` | chalk |
-| `Numeral` | `span` | Anton, uppercase, tabular, lh `1`; `size`: `lg` / `md` | `2.25rem` / `clamp(1.75rem, 5vw, 2.25rem)` | chalk |
+| `Numeral` | `span` | Anton, uppercase, tabular, lh `1`; `size`: `lg` / `md` / `sm` | `2.25rem` / `clamp(1.75rem, 5vw, 2.25rem)` / `1.125rem` | chalk |
 | `Body` | `p` | Archivo, lh `1.625` | `1rem` | silver |
 | `Caption` | `p` | Archivo, lh `1.5` | `0.875rem` | silver |
 | `Label` | `span` | `.label-caps`; `size`: `lg` / `md` (default) / `sm` | `0.8125rem` / `0.75rem` / `0.6875rem` | silver |
@@ -254,6 +273,8 @@ The system is mobile-first and uses only three breakpoints: `sm` (640px), `md` (
 
 Lists of records — officers, events, tournament formats — are not grids. They are full-width rows separated by hairlines, using a `first:border-t` so the run of rows is closed at both ends, with the label column fixed and the content column fluid so long translations wrap rather than push.
 
+**The one exception is the month grid**, and it is an exception because a month is genuinely two-dimensional: the fact that an event falls on a Thursday, or in the same week as another, is information the row list cannot carry. It earns its columns by representing the calendar itself, not by arranging records into tiles. Nothing else may take a grid on that argument — if a set of records could be understood as a list, it is a list. The grid never replaces the row list either; the two appear together, the grid to show the shape of the month and the rows to carry the detail.
+
 ### Named Rules
 
 **The One Container Rule.** Everything aligns to the same 1440px container and the same 20/32px gutters. A section that invents its own width breaks the vertical alignment that the hairlines make visible.
@@ -278,7 +299,7 @@ Exactly one shadow exists in the entire codebase, and it is not elevation — it
 
 Near-square, following the geometry of a chessboard and of the knight mark.
 
-The radius scale has one value: **2px** (`--radius-sm`, `--radius-md`, `--radius-lg` are all `2px`). It applies to buttons, links that take a focus ring, and the disclosure menu. Rules, rails, schedule panes, the page-header band, and all full-bleed sections are square — 0 radius. The only round thing in the system is the 12px dot marking an event on the amber rail.
+The radius scale has one value: **2px** (`--radius-sm`, `--radius-md`, `--radius-lg` are all `2px`). It applies to buttons, links that take a focus ring, and the disclosure menu. Rules, rails, schedule panes, the page-header band, the month grid, and all full-bleed sections are square — 0 radius. The only round thing in the system is the 12px amber dot that marks an event, on the rail and in the month grid.
 
 Borders are always 1px and almost always `hairline` (`rgba(12, 21, 32, 0.14)`). Two exceptions, both deliberate: the ghost button's border is 1px solid ultramarine, and the "become a member" section opens with a 1px amber rule at 45% opacity. Borders are structural — they divide bands and rows — rather than decorative outlines around objects.
 
@@ -333,9 +354,27 @@ The band under the site header on every interior page: Blue Hour at 40% opacity,
 
 The repeating pattern for officers, events and tournament formats. Full-width rows divided by hairlines with `first:border-t`, stacking vertically on mobile and becoming a baseline-aligned label/content split at `sm` or `md`. The label column is condensed amber capitals at a fixed width; the content column is fluid.
 
+### Month grid
+
+The one permitted grid in the system, and only because a month is two-dimensional. It sits on `/calendar` (and the backoffice events screen) above the record-row list for that month — never instead of it.
+
+- **Geometry:** seven columns, Monday first as Denmark counts weeks. Cells are square (0 radius). A `gap-px bg-hairline` wrapper with `bg-ground` cells draws the 1px rules as mullions, the same trick as the schedule window. `aspect-square` below `sm`; a fixed min-height from `sm` up so titles have room.
+- **Day figure:** `Numeral` small, tabular, chalk. Outside-month padding days are silver at reduced opacity and show no events.
+- **Today** is a Blue Hour tonal step with a chalk figure — not amber. Amber inside the grid means "there is an event here" and nothing else, so the two signals never compete in one cell.
+- **Events:** the same 12px amber dot as the events rail. On mobile, dots only, up to four, with a `+N` overflow. From `sm` up, the dot sits beside the title in `Label` small, clamped to two lines. Each event is a link to its row in the list below (`#event-<id>`). No dialog, no colour per event.
+- **Navigation:** previous / today / next as plain links that write `?month=YYYY-MM`. The month is not React state. The grid is a client island so the backoffice can attach click handlers; it receives the month as serializable props from the server.
+
 ### Fields and forms
 
-**Not yet designed.** No input, select, textarea or form-field component exists in the codebase. When the first one lands — membership signup and tournament registration will need it — it must be designed against this system rather than pulled in from a default shadcn theme, and this section must be filled in.
+The first inputs (login, event create/edit) set the pattern membership signup and tournament registration will follow. They are not a second accent and they are not a card.
+
+- **Shape:** 2px radius, 1px hairline border, white fill so the field reads against the pale ground. Height 44px for single-line inputs; textarea starts at 90px and grows.
+- **Type:** Field labels are `Label` condensed capitals in chalk. The value is Archivo at body size in chalk; placeholder and supporting hint are silver Caption.
+- **Focus:** the global 2px amber outline at 2px offset. Do not add a second ring.
+- **Error:** Alarm (`#ff3b5c`) on the border (`aria-invalid`) and as a Caption under the field. No other status colour.
+- **Buttons:** the same chrome as `ActionLink` — primary amber, ghost ultramarine, hover the two-colour trade — implemented as `button.action-button` so a submit is not a link. Destructive actions use Alarm as a ghost outline, never as a fill for a primary action.
+- **Checkbox:** native, 2px radius, `accent-color` amber — publishing is the action on that screen.
+- **Dialogs:** a chalk scrim at 40% and a ground pane with a hairline. No shadow, no blur, no 8/12px radius. Escape and the scrim both dismiss.
 
 ## Do's and Don'ts
 

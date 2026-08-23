@@ -18,6 +18,7 @@ type BaseProps = {
   style?: CSSProperties;
   children: ReactNode;
   id?: string;
+  htmlFor?: string;
 };
 
 function resolveStyle(
@@ -36,7 +37,7 @@ function resolveStyle(
 }
 
 type TitleSize = "lg" | "md" | "sm";
-type NumeralSize = "lg" | "md";
+type NumeralSize = "lg" | "md" | "sm";
 type LabelSize = "lg" | "md" | "sm";
 
 const titleSizeMap: Record<TitleSize, string> = {
@@ -48,6 +49,7 @@ const titleSizeMap: Record<TitleSize, string> = {
 const numeralSizeMap: Record<NumeralSize, string> = {
   lg: "2.25rem",
   md: "clamp(1.75rem, 5vw, 2.25rem)",
+  sm: "1.125rem",
 };
 
 const labelSizeMap: Record<LabelSize, string> = {
@@ -59,7 +61,7 @@ const labelSizeMap: Record<LabelSize, string> = {
 type TitleAs = "h1" | "h2" | "h3" | "h4" | "p" | "dt" | "span";
 type BodyAs = "p" | "span" | "div" | "dd" | "li" | "address";
 type CaptionAs = "p" | "span";
-type LabelAs = "span" | "p" | "h2" | "h3";
+type LabelAs = "span" | "p" | "h2" | "h3" | "label";
 
 export function Display({
   color,
@@ -201,10 +203,12 @@ export function Label({
   style,
   children,
   id,
+  htmlFor,
 }: BaseProps & { as?: LabelAs; size?: LabelSize }) {
   return (
     <Tag
       id={id}
+      {...(Tag === "label" ? { htmlFor } : {})}
       className={cn("label-caps leading-none", className)}
       style={resolveStyle(labelSizeMap[size], "silver", color, style)}
     >

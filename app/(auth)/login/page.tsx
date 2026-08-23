@@ -1,15 +1,44 @@
-import { Caption, Title } from "@components/ui/text";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { BrandMark } from "@components/common/brand-mark";
+import { LoginForm } from "@components/features/auth/login-form";
 
-export default function LoginPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("loginPage");
+
+  return { title: t("title"), description: t("description") };
+}
+
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ callbackUrl?: string }>;
+}) {
+  const { callbackUrl } = await searchParams;
+  const t = await getTranslations("loginPage");
+  const safeCallback =
+    callbackUrl?.startsWith("/") && !callbackUrl.startsWith("//")
+      ? callbackUrl
+      : "/backoffice";
+
   return (
-    <div className="w-full max-w-sm space-y-2 text-center">
-      <Title as="h1" size="lg">
-        Login
-      </Title>
-      <Caption>
-        Wire Auth.js credentials / providers in{" "}
-        <code className="text-chalk">lib/auth</code>.
-      </Caption>
+    <div className="flex flex-col items-center gap-10">
+      <Link href="/" className="rounded-sm">
+        <BrandMark />
+      </Link>
+      <LoginForm
+        callbackUrl={safeCallback}
+        copy={{
+          heading: t("heading"),
+          intro: t("intro"),
+          email: t("email"),
+          password: t("password"),
+          submit: t("submit"),
+          submitting: t("submitting"),
+          error: t("error"),
+        }}
+      />
     </div>
   );
 }

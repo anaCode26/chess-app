@@ -70,7 +70,14 @@
     "title": "Calendar",
     "description": "Upcoming club nights and events at Valby Skakklub.",
     "heading": "Calendar",
-    "intro": "Club night is every Thursday from 17.30. Listed below are the events that go beyond the standing evening."
+    "intro": "Club night is every Thursday from 17.30. Listed below are the events that go beyond the standing evening.",
+    "noEvents": "No events this month. Club night still runs every Thursday.",
+    "monthGrid": {
+      "previous": "Previous month",
+      "next": "Next month",
+      "today": "Today",
+      "more": "+{count}"
+    }
   },
   "tournamentsPage": {
     "title": "Tournaments",
@@ -95,5 +102,46 @@
     "heading": "Contact",
     "intro": "You do not need to write ahead to visit — just turn up on a Thursday. If you have a question, we are here.",
     "bankHeading": "Bank details"
+  },
+  "loginPage": {
+    "title": "Log in",
+    "description": "Log in to manage Valby Skakklub.",
+    "heading": "Log in",
+    "intro": "For the committee. Members will also log in here once tournament registration opens.",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "submitting": "Signing in",
+    "error": "That email or password does not match."
+  },
+  "backoffice": {
+    "title": "Backoffice",
+    "dashboard": "Overview",
+    "dashboardIntro": "Manage the club's content.",
+    "signOut": "Log out",
+    "events": "Events",
+    "eventsIntro": "Create and publish events that appear on the calendar page.",
+    "create": "New event",
+    "edit": "Edit",
+    "draft": "Draft",
+    "empty": "No events this month.",
+    "home": "To the public site"
+  },
+  "eventForm": {
+    "createTitle": "New event",
+    "editTitle": "Edit event",
+    "title": "Title",
+    "date": "Date",
+    "startTime": "Start time",
+    "startTimeHint": "As the club writes it, for example 19.00",
+    "description": "Description",
+    "published": "Published on the calendar page",
+    "save": "Save",
+    "create": "Create",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this event? It will disappear from the calendar page.",
+    "saving": "Saving",
+    "close": "Close"
   }
 }
