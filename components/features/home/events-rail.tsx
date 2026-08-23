@@ -20,7 +20,7 @@ export async function EventsRail() {
           {t("heading")}
         </h2>
         <Link
-          href="/kalender"
+          href="/calendar"
           className="label-caps rounded-sm text-[0.75rem] text-silver underline decoration-hairline underline-offset-8 transition-colors duration-200 hover:text-chalk"
         >
           {t("all")}

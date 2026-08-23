@@ -30,8 +30,8 @@ export async function ClubHero({ state }: { state: ClubNightState }) {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <ActionLink href="/kalender">{t("primaryCta")}</ActionLink>
-            <ActionLink href="/kontakt#bliv-medlem" variant="ghost">
+            <ActionLink href="/calendar">{t("primaryCta")}</ActionLink>
+            <ActionLink href="/contact#bliv-medlem" variant="ghost">
               {t("secondaryCta")}
             </ActionLink>
           </div>

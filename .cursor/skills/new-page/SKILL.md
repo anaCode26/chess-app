@@ -23,8 +23,8 @@ Then read one existing page as the shape to copy:
 - **No `[locale]` segment, ever.** One URL per page; locale comes from the
   `NEXT_LOCALE` cookie via `i18n/locale.ts`.
 - URL segments are **English kebab-case**, matching the existing siblings:
-  `calendar`, `contact`, `events`, `gallery`, `ratings`, `tournaments`. The
-  Danish default locale lives in the copy, not in the route.
+  `calendar`, `contact`, `gallery`, `tournaments`. The Danish default locale
+  lives in the copy, not in the route.
 - A new backoffice module means updating `lib/constants/modules.ts` first (it is
   the source of truth for module `key`, `label` and route segment — create it if
   it does not exist yet), then the `proxy.ts` guard and the sidebar.

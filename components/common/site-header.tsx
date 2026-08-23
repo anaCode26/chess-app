@@ -6,10 +6,10 @@ import { LanguageSwitcher } from "./language-switcher";
 
 const navItems = [
   { key: "home", href: "/" },
-  { key: "tournaments", href: "/turneringer" },
-  { key: "calendar", href: "/kalender" },
-  { key: "gallery", href: "/galleri" },
-  { key: "contact", href: "/kontakt" },
+  { key: "tournaments", href: "/tournaments" },
+  { key: "calendar", href: "/calendar" },
+  { key: "gallery", href: "/gallery" },
+  { key: "contact", href: "/contact" },
 ] as const;
 
 export async function SiteHeader() {
