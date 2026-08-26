@@ -34,10 +34,14 @@ type EventRow = Prisma.EventGetPayload<object>;
  * The shape that crosses into components. `date` is an ISO string because a
  * `Date` re-parsed in another zone can land on the wrong calendar day.
  */
-export type SerializedEvent = Omit<EventRow, "date" | "createdAt" | "updatedAt"> & {
+export type SerializedEvent = Omit<
+  EventRow,
+  "date" | "createdAt" | "updatedAt" | "announcedAt"
+> & {
   date: string;
   createdAt: string;
   updatedAt: string;
+  announcedAt: string | null;
 };
 
 export function serializeEvent(event: EventRow): SerializedEvent {
@@ -46,5 +50,6 @@ export function serializeEvent(event: EventRow): SerializedEvent {
     date: toISODate(event.date),
     createdAt: event.createdAt.toISOString(),
     updatedAt: event.updatedAt.toISOString(),
+    announcedAt: event.announcedAt?.toISOString() ?? null,
   };
 }

@@ -103,6 +103,17 @@
     "intro": "You do not need to write ahead to visit — just turn up on a Thursday. If you have a question, we are here.",
     "bankHeading": "Bank details"
   },
+  "unsubscribePage": {
+    "title": "Unsubscribe",
+    "description": "Stop receiving emails about new events at Valby Skakklub.",
+    "heading": "Unsubscribe",
+    "intro": "You can stop receiving emails about new events. You stay a member of the club, and you can always sign up again.",
+    "confirm": "Unsubscribe me",
+    "submitting": "Unsubscribing",
+    "success": "You are unsubscribed. We will not email you about new events again.",
+    "error": "We could not unsubscribe you. Try again, or write to the committee.",
+    "invalid": "That link is not valid. Open the link from the most recent email you had from the club."
+  },
   "loginPage": {
     "title": "Log in",
     "description": "Log in to manage Valby Skakklub.",

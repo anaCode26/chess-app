@@ -13,6 +13,12 @@ export const envSchema = z.object({
   SMTP_PORT: z.coerce.number().int().positive(),
   SMTP_USER: z.string().min(1),
   SMTP_PASS: z.string().min(1),
+  /**
+   * A display-name form ("Valby Skakklub <...>"), which `z.email()` rejects.
+   * Deliberately has no default: a plausible-but-wrong sender shipping quietly
+   * is worse than failing at boot.
+   */
+  EMAIL_FROM: z.string().min(1),
   APP_VERSION: z.string().default("dev"),
 });
 

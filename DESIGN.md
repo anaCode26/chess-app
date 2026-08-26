@@ -376,6 +376,19 @@ The first inputs (login, event create/edit) set the pattern membership signup an
 - **Checkbox:** native, 2px radius, `accent-color` amber — publishing is the action on that screen.
 - **Dialogs:** a chalk scrim at 40% and a ground pane with a hairline. No shadow, no blur, no 8/12px radius. Escape and the scrim both dismiss.
 
+## Email
+
+Transactional mail is the one surface that cannot load the type system or the stylesheet, so it restates the tokens as literals in `lib/email/email-styles.ts`. It is a translation of this system, not an exception to it: the same flat, hairline-separated, single-amber discipline applies.
+
+- **Type:** Anton and Archivo are unavailable in mail clients, so the whole message uses one stack — `Helvetica, Arial, sans-serif`. Hierarchy is carried by weight, size, casing and letter-spacing instead of by typeface. Do not substitute Impact for Anton, and do not attempt a web font: a failed load is worse than an honest fallback.
+- **Colour:** the palette is unchanged. Ground `#f3f5f8` is the body, Blue Hour `#e2e9f3` fills the detail block, chalk is the ink, silver is secondary copy, and the club name is ultramarine.
+- **Amber:** exactly one amber element per message, and it is the call-to-action button. Nothing else may be amber, including rules, labels and headings.
+- **Hairlines:** expressed as opaque Wet (`#d5dde9`) rather than the app's `rgba(12, 21, 32, 0.14)`, because older clients drop alpha. It stays blue-shifted, so the cool-grey rule holds.
+- **Shape:** flat. 2px radius on the button, 0 everywhere else, no shadow, no card. The detail block is a fill, not a panel.
+- **Copy:** Danish only, because the club's language is Danish and members have no stored locale. The unsubscribe page it links to is ordinary web chrome and ships in all three languages.
+- **No images.** No logo file, no photography, no tracking pixel. The club name is set as text so it survives image blocking.
+- Every message ends with a hairline, a one-line reason the recipient received it, and an unsubscribe link, plus a matching `List-Unsubscribe` header.
+
 ## Do's and Don'ts
 
 ### Do:

@@ -24,6 +24,8 @@ model User {
   passwordHash String?
   status       UserStatus @default(PENDING)
   role         UserRole   @default(MEMBER)
+  /// Opt-out for the announcement sent when an event is published.
+  notifyOnNewEvent Boolean @default(true)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
@@ -39,6 +41,9 @@ model Event {
   startTime   String?
   description String?
   published   Boolean @default(false)
+  /// Stamped when members were notified. Null means never announced, and the
+  /// claim that sets it is what makes the announcement fire exactly once.
+  announcedAt DateTime?
 
   modifiedByUserId String?
   modifiedByUser   User?   @relation("EventModifiedBy", fields: [modifiedByUserId], references: [id], onDelete: SetNull)

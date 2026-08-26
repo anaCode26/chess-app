@@ -103,6 +103,17 @@
     "intro": "No hace falta escribir antes de venir: preséntate un jueves sin más. Si tienes alguna pregunta, aquí estamos.",
     "bankHeading": "Datos bancarios"
   },
+  "unsubscribePage": {
+    "title": "Darse de baja",
+    "description": "Deja de recibir correos sobre nuevos eventos de Valby Skakklub.",
+    "heading": "Darse de baja",
+    "intro": "Puedes dejar de recibir correos sobre nuevos eventos. Sigues siendo socio del club y puedes volver a suscribirte cuando quieras.",
+    "confirm": "Darme de baja",
+    "submitting": "Dando de baja",
+    "success": "Te has dado de baja. No volveremos a escribirte sobre nuevos eventos.",
+    "error": "No hemos podido darte de baja. Inténtalo de nuevo o escribe a la junta.",
+    "invalid": "El enlace no es válido. Abre el enlace del último correo que recibiste del club."
+  },
   "loginPage": {
     "title": "Iniciar sesión",
     "description": "Inicia sesión para administrar Valby Skakklub.",

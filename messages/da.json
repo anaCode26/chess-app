@@ -103,6 +103,17 @@
     "intro": "Du behøver ikke skrive for at komme forbi — mød bare op på en torsdag. Har du et spørgsmål, står vi her.",
     "bankHeading": "Bankoplysninger"
   },
+  "unsubscribePage": {
+    "title": "Afmeld beskeder",
+    "description": "Afmeld beskeder om nye arrangementer i Valby Skakklub.",
+    "heading": "Afmeld beskeder",
+    "intro": "Du kan afmelde mails om nye arrangementer. Du er stadig medlem af klubben, og du kan altid melde dig til igen.",
+    "confirm": "Afmeld mig",
+    "submitting": "Afmelder",
+    "success": "Du er nu afmeldt. Du får ikke flere mails om nye arrangementer.",
+    "error": "Det lykkedes ikke at afmelde dig. Prøv igen, eller skriv til bestyrelsen.",
+    "invalid": "Linket er ugyldigt. Åbn linket fra den seneste mail, du har fået fra klubben."
+  },
   "loginPage": {
     "title": "Log ind",
     "description": "Log ind for at administrere Valby Skakklub.",

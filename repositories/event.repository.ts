@@ -49,6 +49,20 @@ export const eventRepository = {
     });
   },
 
+  /**
+   * Claims the right to announce this event, stamping `announcedAt` in the same
+   * statement that tests it. Returns true for exactly one caller, so a retried
+   * submit, a republish, or two admins at once can never send twice.
+   */
+  async claimAnnouncement(id: string) {
+    const claimed = await db.event.updateMany({
+      where: { id, published: true, announcedAt: null },
+      data: { announcedAt: new Date() },
+    });
+
+    return claimed.count === 1;
+  },
+
   async delete(id: string) {
     return db.event.delete({ where: { id } });
   },

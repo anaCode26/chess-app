@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { UserStatus } from "@prisma/client";
 import {
   createEvent,
   deleteEvent,
@@ -10,8 +11,10 @@ import type { EventInput } from "@actions/event/event.types";
 import { auth } from "@lib/auth/config";
 import { db } from "@lib/db";
 import { toISODate, toStoredDate } from "@lib/date/month";
+import { verifyUnsubscribeToken } from "@lib/notifications/unsubscribe-token";
 import { createTestActor } from "@tests/helpers/actor";
 import { resetDb } from "@tests/helpers/db";
+import { mockSendEmail } from "@tests/helpers/mock-send-email";
 
 vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
 vi.mock("@lib/auth/config", () => ({ auth: vi.fn() }));
@@ -30,6 +33,7 @@ async function seedEvent(
     startTime: string | null;
     description: string | null;
     published: boolean;
+    announcedAt: Date | null;
   }> = {},
 ) {
   return db.event.create({
@@ -39,13 +43,38 @@ async function seedEvent(
       startTime: overrides.startTime === undefined ? "19.00" : overrides.startTime,
       description: overrides.description ?? null,
       published: overrides.published ?? true,
+      announcedAt: overrides.announcedAt ?? null,
     },
   });
 }
 
+function seedMember(
+  email: string,
+  overrides: Partial<{ status: UserStatus; notifyOnNewEvent: boolean }> = {},
+) {
+  return createTestActor({
+    name: "Medlem",
+    email,
+    role: "MEMBER",
+    status: overrides.status ?? "ACTIVE",
+    notifyOnNewEvent: overrides.notifyOnNewEvent ?? true,
+  });
+}
+
+/** Recipients of the last announcement, in the order they were sent. */
+function recipientsOf(mock: ReturnType<typeof mockSendEmail>): string[] {
+  return mock.mock.calls.map((call) => (call[0] as { to: string }).to);
+}
+
+let sendEmailMock: ReturnType<typeof mockSendEmail>;
+
 beforeEach(async () => {
   await resetDb();
-  const actor = await createTestActor();
+  sendEmailMock = mockSendEmail();
+
+  // Opted out so each test states its own recipients; one test below opts the
+  // admin back in to prove they are treated like any other member.
+  const actor = await createTestActor({ notifyOnNewEvent: false });
   vi.mocked(auth).mockResolvedValue({
     user: { id: actor.id, name: actor.name, email: actor.email, role: actor.role },
   } as never);
@@ -197,5 +226,121 @@ describe("deleteEvent", () => {
     vi.mocked(auth).mockResolvedValue(null as never);
 
     await expect(deleteEvent(event.id)).rejects.toThrow("Not authenticated.");
+  });
+});
+
+describe("event announcements", () => {
+  it("should email every active member when an event is created published", async () => {
+    await seedMember("anna@valbyskakklub.dk");
+    await seedMember("bo@valbyskakklub.dk");
+
+    await createEvent(validInput);
+
+    expect(recipientsOf(sendEmailMock).sort()).toEqual([
+      "anna@valbyskakklub.dk",
+      "bo@valbyskakklub.dk",
+    ]);
+  });
+
+  it("should email members when a draft is published", async () => {
+    await seedMember("anna@valbyskakklub.dk");
+    const event = await seedEvent({ published: false });
+
+    await updateEvent(event.id, { ...validInput, published: true });
+
+    expect(recipientsOf(sendEmailMock)).toEqual(["anna@valbyskakklub.dk"]);
+  });
+
+  it("should not email when an already announced event is edited", async () => {
+    await seedMember("anna@valbyskakklub.dk");
+    const event = await seedEvent({ published: true, announcedAt: new Date() });
+
+    await updateEvent(event.id, { ...validInput, title: "Skakbowl finale" });
+
+    expect(sendEmailMock).not.toHaveBeenCalled();
+  });
+
+  it("should not email when the event is saved as a draft", async () => {
+    await seedMember("anna@valbyskakklub.dk");
+
+    await createEvent({ ...validInput, published: false });
+
+    expect(sendEmailMock).not.toHaveBeenCalled();
+  });
+
+  it("should not email again when an event is unpublished and published once more", async () => {
+    await seedMember("anna@valbyskakklub.dk");
+    const event = await seedEvent({ published: false });
+
+    await updateEvent(event.id, { ...validInput, published: true });
+    await updateEvent(event.id, { ...validInput, published: false });
+    await updateEvent(event.id, { ...validInput, published: true });
+
+    expect(sendEmailMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should skip members when their account is not active", async () => {
+    await seedMember("pending@valbyskakklub.dk", { status: "PENDING" });
+    await seedMember("inactive@valbyskakklub.dk", { status: "INACTIVE" });
+
+    await createEvent(validInput);
+
+    expect(sendEmailMock).not.toHaveBeenCalled();
+  });
+
+  it("should skip members when they have opted out", async () => {
+    await seedMember("anna@valbyskakklub.dk", { notifyOnNewEvent: false });
+    await seedMember("bo@valbyskakklub.dk");
+
+    await createEvent(validInput);
+
+    expect(recipientsOf(sendEmailMock)).toEqual(["bo@valbyskakklub.dk"]);
+  });
+
+  it("should email the admin when they have not opted out", async () => {
+    const admin = await db.user.findFirstOrThrow({ where: { role: "ADMIN" } });
+    await db.user.update({ where: { id: admin.id }, data: { notifyOnNewEvent: true } });
+
+    await createEvent(validInput);
+
+    expect(recipientsOf(sendEmailMock)).toEqual([admin.email]);
+  });
+
+  it("should stamp announcedAt when the announcement is claimed", async () => {
+    const created = await createEvent(validInput);
+
+    const stored = await db.event.findUnique({ where: { id: created.id } });
+    expect(stored?.announcedAt).not.toBeNull();
+  });
+
+  it("should carry the event link and a personal unsubscribe link when sending", async () => {
+    const member = await seedMember("anna@valbyskakklub.dk");
+    const created = await createEvent({ ...validInput, description: "Lynskak i hallen." });
+
+    const message = sendEmailMock.mock.calls[0][0] as {
+      subject: string;
+      html: string;
+      headers: Record<string, string>;
+    };
+
+    expect(message.subject).toBe("Nyt arrangement i klubben: Skakbowl");
+    expect(message.html).toContain(`/calendar?month=2026-08#event-${created.id}`);
+    expect(message.html).toContain("/unsubscribe?token=");
+    expect(message.html).toContain("Lynskak i hallen.");
+    expect(message.headers["List-Unsubscribe"]).toContain("/unsubscribe?token=");
+
+    // The token is the member's own, not a shared one.
+    const token = /unsubscribe\?token=([^"&]+)/.exec(message.html)?.[1];
+    expect(verifyUnsubscribeToken(decodeURIComponent(token ?? ""))).toBe(member.id);
+  });
+
+  it("should still create the event when sending fails", async () => {
+    await seedMember("anna@valbyskakklub.dk");
+    sendEmailMock.mockRejectedValue(new Error("SMTP is down"));
+
+    await expect(createEvent(validInput)).resolves.toMatchObject({ title: "Skakbowl" });
+
+    const stored = await db.event.findFirst({ where: { title: "Skakbowl" } });
+    expect(stored?.published).toBe(true);
   });
 });

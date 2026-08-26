@@ -8,4 +8,19 @@ export const userRepository = {
   async findById(id: string) {
     return db.user.findUnique({ where: { id } });
   },
+
+  async findEventNotificationRecipients() {
+    return db.user.findMany({
+      where: { status: "ACTIVE", notifyOnNewEvent: true },
+      select: { id: true, name: true, email: true },
+      orderBy: { createdAt: "asc" },
+    });
+  },
+
+  async disableEventNotifications(id: string) {
+    return db.user.update({
+      where: { id },
+      data: { notifyOnNewEvent: false },
+    });
+  },
 };
