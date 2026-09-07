@@ -7,6 +7,7 @@ colors:
   wet: "#d5dde9"
   card: "#ffffff"
   amber: "#ffb000"
+  amber-ink: "#c17a00"
   ultramarine: "#000098"
   chalk: "#0c1520"
   silver: "#5a6b82"
@@ -180,7 +181,8 @@ A cool, overcast palette — the greys are blue-shifted rather than neutral — 
 
 ### Primary
 
-- **Transit Amber** (`#ffb000`): The hall light and every action. It fills the primary button, lights the schedule panes when club night is running, draws the events rail and its dots, marks the active language, carries section eyebrows, and is the focus ring and the selection highlight. It is never a background for reading, never a text colour on the pale ground at body size, and never decorative.
+- **Transit Amber** (`#ffb000`): The hall light and every action. It fills the primary button, lights the schedule panes when club night is running, draws the events rail and its dots, and is the focus ring and the selection highlight. It is never a background for reading, never a text colour on the pale ground, and never decorative.
+- **Amber Ink** (`#c17a00`): The same hue, one step darker, used only when amber must sit as type on the pale ground — section titles, record-row dates, footer headings, and the active language. `#ffb000` on `#f3f5f8` does not read; this ink does. It is not a second accent.
 
 ### Secondary
 
@@ -202,7 +204,7 @@ A cool, overcast palette — the greys are blue-shifted rather than neutral — 
 
 ### Named Rules
 
-**The One Light Rule.** Amber is light. It marks the lit hall, the primary action, the events rail, and the live state — and nothing else on any surface is ever amber. Its scarcity is what makes the window read as lit. If a second thing on a screen is amber, one of them is wrong.
+**The One Light Rule.** Amber is light. It marks the lit hall, the primary action, the events rail, and the live state — and nothing else on any surface is ever amber. Its scarcity is what makes the window read as lit. If a second thing on a screen is amber, one of them is wrong. When amber is type on the pale ground, use Amber Ink, not the light.
 
 **The Two-Colour Trade.** Buttons do not darken or lighten on hover; amber and ultramarine swap places. Primary goes from amber fill to ultramarine fill, ghost goes from ultramarine outline to ultramarine fill. There is no third state colour.
 
@@ -237,7 +239,7 @@ The three label steps share one implementation, the `.label-caps` class: `text-t
 
 The type scale is implemented as named React components. The component name is the role. There is no generic `<Text variant="…">`. Size lives on the component (inline `fontSize`, including `clamp()` on Display, Headline and Numeral medium) so a stray `text-lg` on the caller cannot restyle a Title. Spacing and measure stay on the caller via `className`.
 
-`color` accepts `chalk` | `silver` | `amber` | `ultramarine`, mapped to the CSS variables in `globals.css`. Omit `color` to use the role default. Pass `color="inherit"` when the parent already sets the ink (lit schedule panes, hover on a nav link). Do not invent a second colour map in TypeScript.
+`color` accepts `chalk` | `silver` | `amber` | `ultramarine`, mapped to the CSS variables in `globals.css`. `amber` resolves to Amber Ink (`--amber-ink`), not the hall light — type on the pale ground has to read. Omit `color` to use the role default. Pass `color="inherit"` when the parent already sets the ink (lit schedule panes, hover on a nav link). Do not invent a second colour map in TypeScript.
 
 | Component | Default tag | Face / recipe | Size | Default colour |
 | --- | --- | --- | --- | --- |
@@ -271,7 +273,7 @@ Vertical rhythm is coarse and consistent: 56px of section padding on compact ban
 
 The system is mobile-first and uses only three breakpoints: `sm` (640px), `md` (768px), `lg` (1024px). The hero is a single column that becomes two equal columns at `md`, with the copy left and the schedule window right, gapped 48px rising to 80px. The events rail is one column, two at `sm`, four at `lg`, with its connecting amber rule appearing only at `lg` where the row is actually horizontal. Navigation is a `lg`-and-up horizontal list; below that it collapses into a disclosure menu.
 
-Lists of records — officers, events, tournament formats — are not grids. They are full-width rows separated by hairlines, using a `first:border-t` so the run of rows is closed at both ends, with the label column fixed and the content column fluid so long translations wrap rather than push.
+Lists of records — officers, events, tournament formats, ratings — are not grids. They are full-width rows separated by hairlines, using a `first:border-t` so the run of rows is closed at both ends, with the label column fixed and the content column fluid so long translations wrap rather than push.
 
 **The one exception is the month grid**, and it is an exception because a month is genuinely two-dimensional: the fact that an event falls on a Thursday, or in the same week as another, is information the row list cannot carry. It earns its columns by representing the calendar itself, not by arranging records into tiles. Nothing else may take a grid on that argument — if a set of records could be understood as a list, it is a list. The grid never replaces the row list either; the two appear together, the grid to show the shape of the month and the rows to carry the detail.
 
@@ -329,7 +331,7 @@ Implemented as `ActionLink`, styled by unlayered `a.action-link` rules in `globa
 
 ### Language switcher
 
-Three submit buttons — `da`, `en`, `es` — in a form, because switching locale writes a cookie and revalidates rather than navigating. Condensed capitals at `0.6875rem`; the active locale is amber, the others silver going chalk on hover. The locale never appears in the URL, so this must never render as links.
+Three submit buttons — `da`, `en`, `es` — in a form, because switching locale writes a cookie and revalidates rather than navigating. Condensed capitals at `0.6875rem`; the active locale is Amber Ink, the others silver going chalk on hover. The locale never appears in the URL, so this must never render as links.
 
 ### The schedule window (signature component)
 
@@ -344,7 +346,7 @@ The system's one distinctive component and the reason the world holds together. 
 
 ### Events rail
 
-A horizontal run of upcoming evenings on a 1px amber rule at 55% opacity, each marked by a 12px amber dot with the title in Anton beneath it and the date in silver caption. The rule is drawn only at `lg`, where the items actually form a row; below that the rail collapses to stacked centred items and the line is hidden.
+A horizontal run of upcoming published calendar events on a 1px amber rule at 55% opacity, each marked by a 12px amber dot with the title in Anton beneath it and the date in silver caption. Titles link to the matching row on `/calendar`. The rule is drawn only at `lg`, where the items actually form a row; below that the rail collapses to stacked centred items and the line is hidden.
 
 ### Page header
 
@@ -352,7 +354,11 @@ The band under the site header on every interior page: Blue Hour at 40% opacity,
 
 ### Record rows
 
-The repeating pattern for officers, events and tournament formats. Full-width rows divided by hairlines with `first:border-t`, stacking vertically on mobile and becoming a baseline-aligned label/content split at `sm` or `md`. The label column is condensed amber capitals at a fixed width; the content column is fluid.
+The repeating pattern for officers, events, tournament formats and the quarterly dues table. Full-width rows divided by hairlines with `first:border-t`, stacking vertically on mobile and becoming a baseline-aligned label/content split at `sm` or `md`. The label column is condensed amber capitals at a fixed width; the content column is fluid. Dues rows are the exception to that split: the category is sentence-case body in chalk, the amount is a small tabular numeral, so eight prices can be scanned as a list rather than as labelled pairs.
+
+### Rating list
+
+The club ranking on `/ratings`. It is a run of hairline rows, not a card and not a second grid. Rank and four tabular numerals (DSU standard, rapid, blitz, FIDE) sit on each row; the name is `Title` medium. No medals, no per-row amber, no colour for the leader. On small screens the numerals stack as a labelled 2×2 under the name; from `md` they align as a right-hand column under condensed silver headers. The one amber on the page is the ActionLink to the official Dansk Skak Union club page. Numbers are formatted through `next-intl` without grouping, so 2140 never becomes 2.140. Missing FIDE is an em dash from the catalog, not a zero. Until a live feed exists the rows are labelled sample data — do not present invented names as the real club list.
 
 ### Month grid
 
@@ -393,7 +399,7 @@ Transactional mail is the one surface that cannot load the type system or the st
 
 ### Do:
 
-- **Do** treat amber (`#ffb000`) as light. One amber thing per screen region, marking either the lit state or the primary action.
+- **Do** treat amber (`#ffb000`) as light. One amber thing per screen region, marking either the lit state or the primary action. When amber is a title or label on the pale ground, use Amber Ink (`#c17a00`).
 - **Do** separate with a 1px hairline (`rgba(12, 21, 32, 0.14)`) rather than a box, a shadow, or extra whitespace.
 - **Do** use `Label` from `@components/ui/text` for anything that labels, navigates, or marks state, at one of the three established sizes. Use `Body`, `Title`, `Headline` and the rest of that module for every other type role — do not reassemble the recipes with Tailwind.
 - **Do** keep every band inside the 1440px container with 20px / 32px gutters.

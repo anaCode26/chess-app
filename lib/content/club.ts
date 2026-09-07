@@ -9,8 +9,26 @@ export const club = {
   postalCode: "2500",
   city: "Valby",
   bank: { name: "Nordea", reg: "2111", account: "0567185117" },
-  membership: { amount: 340, currency: "DKK" },
+  membership: { currency: "DKK" },
+  dsu: {
+    clubId: 13,
+    clubUrl: "https://turnering.skak.dk/ClubAndMembers/ClubDetails/13",
+  },
 } as const;
+
+/** Quarterly dues from the club's published kontingent table. */
+export const membershipTiers = [
+  { id: "senior", amount: 370 },
+  { id: "seniorStudent", amount: 200 },
+  { id: "seniorPassive", amount: 250 },
+  { id: "pensioner", amount: 265 },
+  { id: "pensionerPassive", amount: 200 },
+  { id: "junior", amount: 200 },
+  { id: "juniorStudent", amount: 150 },
+  { id: "child", amount: 150 },
+] as const;
+
+export type MembershipTierId = (typeof membershipTiers)[number]["id"];
 
 export type ScheduleSlotId = "juniors" | "women" | "rounds";
 
@@ -57,7 +75,11 @@ export const officers: readonly Officer[] = [
     email: "stig.syndergaard@gmail.com",
   },
   { role: "editor", name: "Erling Nilsson", email: "klubblad@valbyskakklub.dk" },
-  { role: "treasurer", name: "Martin Skovsø Nielsen, Zoltan Orban" },
+  {
+    role: "treasurer",
+    name: "Martin Skovsø Nielsen, Zoltan Orban",
+    email: "kasserer@valbyskakklub.dk",
+  },
   { role: "eventCoordinator", name: "Alex Hansen" },
   { role: "juniorCoach", name: "Steen Guldager Pedersen, Jakob Bank" },
 ];

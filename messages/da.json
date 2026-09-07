@@ -6,6 +6,7 @@
   "nav": {
     "home": "Forside",
     "tournaments": "Turneringer",
+    "ratings": "Ratingliste",
     "calendar": "Kalender",
     "gallery": "Galleri",
     "contact": "Kontakt",
@@ -46,9 +47,18 @@
   },
   "join": {
     "heading": "Bliv medlem",
-    "price": "{price} pr. kvartal",
     "note": "Besøgende betaler ikke. Kom så mange torsdage du vil, før du melder dig ind.",
-    "cta": "Meld dig ind"
+    "duesHeading": "Kontingent pr. kvartal",
+    "tiers": {
+      "senior": "Senior (21 til 64 år)",
+      "seniorStudent": "Studerende senior (21 til 64 år)",
+      "seniorPassive": "Passiv senior (21 til 64 år)",
+      "pensioner": "Pensionist (over 65 år)",
+      "pensionerPassive": "Passiv pensionist (over 65 år)",
+      "junior": "Junior (15 til 20 år)",
+      "juniorStudent": "Studerende junior (15 til 20 år)",
+      "child": "Barn (under 15 år)"
+    }
   },
   "footer": {
     "founded": "Skak i Valby siden 1935",
@@ -89,6 +99,21 @@
     "blitzHeading": "Lynskak",
     "blitzBody": "Hurtige partier på en enkelt aften, tre partier á ti minutter. Juniorrækken er gratis med præmier på 150, 100 og 50 kr.",
     "registerNote": "Tilmelding til turneringer åbner, når turneringssiderne er klar. Indskud betales ved bankoverførsel."
+  },
+  "ratingsPage": {
+    "title": "Ratingliste",
+    "description": "Klubbens ratingtal hos Dansk Skak Union.",
+    "heading": "Ratingliste",
+    "intro": "Ratingtallene kommer fra Dansk Skak Union. Listen her er et eksempel, indtil vi henter tallene direkte.",
+    "official": "Åbn den officielle liste",
+    "rank": "Plads",
+    "player": "Navn",
+    "rating": "Rating",
+    "rapid": "Hurtig",
+    "blitz": "Lyn",
+    "fide": "Fide",
+    "unrated": "—",
+    "sampleNote": "Eksempeldata. Den levende liste står hos Dansk Skak Union."
   },
   "galleryPage": {
     "title": "Galleri",

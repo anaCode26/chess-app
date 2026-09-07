@@ -6,6 +6,7 @@
   "nav": {
     "home": "Inicio",
     "tournaments": "Torneos",
+    "ratings": "Clasificación",
     "calendar": "Calendario",
     "gallery": "Galería",
     "contact": "Contacto",
@@ -46,9 +47,18 @@
   },
   "join": {
     "heading": "Hazte socio",
-    "price": "{price} por trimestre",
     "note": "Las visitas no pagan nada. Ven todos los jueves que quieras antes de hacerte socio.",
-    "cta": "Hazte socio"
+    "duesHeading": "Cuota por trimestre",
+    "tiers": {
+      "senior": "Senior (21 a 64 años)",
+      "seniorStudent": "Senior estudiante (21 a 64 años)",
+      "seniorPassive": "Senior pasivo (21 a 64 años)",
+      "pensioner": "Jubilado (más de 65 años)",
+      "pensionerPassive": "Jubilado pasivo (más de 65 años)",
+      "junior": "Junior (15 a 20 años)",
+      "juniorStudent": "Junior estudiante (15 a 20 años)",
+      "child": "Niño (menos de 15 años)"
+    }
   },
   "footer": {
     "founded": "Ajedrez en Valby desde 1935",
@@ -89,6 +99,21 @@
     "blitzHeading": "Lynskak — ajedrez relámpago",
     "blitzBody": "Partidas rápidas en una sola tarde, tres partidas de diez minutos. La serie junior es gratuita, con premios de 150, 100 y 50 kr.",
     "registerNote": "La inscripción a los torneos se abrirá cuando estén listas las páginas de torneos. La inscripción se paga por transferencia bancaria."
+  },
+  "ratingsPage": {
+    "title": "Clasificación",
+    "description": "Los Elo del club en la Unión Danesa de Ajedrez.",
+    "heading": "Clasificación",
+    "intro": "Los Elo vienen de la Unión Danesa de Ajedrez. Esta lista es un ejemplo hasta que podamos traer los números en directo.",
+    "official": "Abrir la lista oficial",
+    "rank": "Puesto",
+    "player": "Nombre",
+    "rating": "Clásico",
+    "rapid": "Rápidas",
+    "blitz": "Relámpago",
+    "fide": "Fide",
+    "unrated": "—",
+    "sampleNote": "Datos de ejemplo. La lista en vivo está en la Unión Danesa de Ajedrez."
   },
   "galleryPage": {
     "title": "Galería",

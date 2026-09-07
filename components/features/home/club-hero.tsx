@@ -4,10 +4,6 @@ import { Body, Caption, Display } from "@components/ui/text";
 import type { ClubNightState } from "@lib/club-night";
 import { ClubWindow } from "./club-window";
 
-/**
- * Daylit klubaften stage: no street illustration. Copy and the live schedule
- * window sit side by side on the pale ground; amber still marks the lit hall.
- */
 export async function ClubHero({ state }: { state: ClubNightState }) {
   const t = await getTranslations("home");
 

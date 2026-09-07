@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { PageHeader } from "@components/common/page-header";
-import { Body, Caption, Label, Numeral, Title } from "@components/ui/text";
-import { club, officers } from "@lib/content/club";
+import { DuesList } from "@components/features/membership/dues-list";
+import { Body, Caption, Label, Title } from "@components/ui/text";
+import { club, membershipTiers, officers } from "@lib/content/club";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("contactPage");
@@ -19,11 +20,18 @@ export default async function ContactPage() {
     getFormatter(),
   ]);
 
-  const price = format.number(club.membership.amount, {
-    style: "currency",
-    currency: club.membership.currency,
-    maximumFractionDigits: 0,
-  });
+  const money = (amount: number) =>
+    format.number(amount, {
+      style: "currency",
+      currency: club.membership.currency,
+      maximumFractionDigits: 0,
+    });
+
+  const dues = membershipTiers.map((tier) => ({
+    id: tier.id,
+    label: join(`tiers.${tier.id}`),
+    price: money(tier.amount),
+  }));
 
   return (
     <>
@@ -67,11 +75,11 @@ export default async function ContactPage() {
           <Title size="lg" id="bliv-medlem-titel">
             {join("heading")}
           </Title>
-          <Numeral size="lg" className="mt-5 block">
-            {join("price", { price })}
-          </Numeral>
           <Body className="mt-6 max-w-prose">{join("note")}</Body>
-          <Body className="mt-6 max-w-prose">{footer("payment")}</Body>
+
+          <DuesList heading={join("duesHeading")} rows={dues} />
+
+          <Body className="mt-10 max-w-prose">{footer("payment")}</Body>
           <Body color="chalk" className="mt-3">
             {footer("bank", { reg: club.bank.reg, account: club.bank.account })}
           </Body>

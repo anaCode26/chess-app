@@ -33,7 +33,7 @@ export async function LanguageSwitcher() {
               aria-label={t(locale)}
               aria-current={isCurrent ? "true" : undefined}
               className={`rounded-sm px-2 py-1.5 transition-colors duration-200 ${
-                isCurrent ? "text-amber" : "text-silver hover:text-chalk"
+                isCurrent ? "text-amber-ink" : "text-silver hover:text-chalk"
               }`}
             >
               <Label size="sm" color="inherit">

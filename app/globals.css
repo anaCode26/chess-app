@@ -7,6 +7,7 @@
   --color-bluehour: var(--bluehour);
   --color-wet: var(--wet);
   --color-amber: var(--amber);
+  --color-amber-ink: var(--amber-ink);
   --color-ultramarine: var(--ultramarine);
   --color-silver: var(--silver);
   --color-chalk: var(--chalk);
@@ -45,6 +46,7 @@
   --bluehour: #e2e9f3;
   --wet: #d5dde9;
   --amber: #ffb000;
+  --amber-ink: #c17a00;
   --ultramarine: #000098;
   --silver: #5a6b82;
   --chalk: #0c1520;

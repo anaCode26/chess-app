@@ -6,6 +6,7 @@
   "nav": {
     "home": "Home",
     "tournaments": "Tournaments",
+    "ratings": "Ratings",
     "calendar": "Calendar",
     "gallery": "Gallery",
     "contact": "Contact",
@@ -46,9 +47,18 @@
   },
   "join": {
     "heading": "Become a member",
-    "price": "{price} per quarter",
     "note": "Visitors pay nothing. Come as many Thursdays as you like before you join.",
-    "cta": "Join the club"
+    "duesHeading": "Dues per quarter",
+    "tiers": {
+      "senior": "Senior (21 to 64 years)",
+      "seniorStudent": "Student senior (21 to 64 years)",
+      "seniorPassive": "Passive senior (21 to 64 years)",
+      "pensioner": "Pensioner (over 65 years)",
+      "pensionerPassive": "Passive pensioner (over 65 years)",
+      "junior": "Junior (15 to 20 years)",
+      "juniorStudent": "Student junior (15 to 20 years)",
+      "child": "Child (under 15 years)"
+    }
   },
   "footer": {
     "founded": "Chess in Valby since 1935",
@@ -89,6 +99,21 @@
     "blitzHeading": "Lynskak — blitz chess",
     "blitzBody": "Fast games on a single evening, three games of ten minutes each. The junior series is free, with prizes of 150, 100 and 50 kr.",
     "registerNote": "Tournament registration opens once the tournament pages are ready. Entry fees are paid by bank transfer."
+  },
+  "ratingsPage": {
+    "title": "Ratings",
+    "description": "The club's ratings at the Danish Chess Union.",
+    "heading": "Ratings",
+    "intro": "Ratings come from the Danish Chess Union. This list is a sample until we can pull the numbers directly.",
+    "official": "Open the official list",
+    "rank": "Rank",
+    "player": "Name",
+    "rating": "Standard",
+    "rapid": "Rapid",
+    "blitz": "Blitz",
+    "fide": "Fide",
+    "unrated": "—",
+    "sampleNote": "Sample data. The live list lives at the Danish Chess Union."
   },
   "galleryPage": {
     "title": "Gallery",

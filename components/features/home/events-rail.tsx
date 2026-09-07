@@ -37,24 +37,33 @@ export async function EventsRail() {
             className="absolute inset-x-[12%] top-[6px] hidden h-px bg-amber/55 lg:block"
           />
 
-          {events.map((event) => (
-            <li key={event.id} className="relative flex flex-col items-center px-4 pt-9 text-center">
-              <span
-                aria-hidden
-                className="absolute left-1/2 top-[6px] h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber"
-              />
-              <Title size="sm" as="p">
-                {event.title}
-              </Title>
-              <Caption className="mt-2">
-                {format.dateTime(parseDateOnly(event.date), {
-                  weekday: "long",
-                  day: "numeric",
-                  month: "long",
-                })}
-              </Caption>
-            </li>
-          ))}
+          {events.map((event) => {
+            const dateLabel = format.dateTime(parseDateOnly(event.date), {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            });
+
+            return (
+              <li key={event.id} className="relative flex flex-col items-center px-4 pt-9 text-center">
+                <span
+                  aria-hidden
+                  className="absolute left-1/2 top-[6px] h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber"
+                />
+                <Title size="sm" as="p">
+                  <Link
+                    href={`/calendar?month=${event.date.slice(0, 7)}#event-${event.id}`}
+                    className="rounded-sm"
+                  >
+                    {event.title}
+                  </Link>
+                </Title>
+                <Caption className="mt-2">
+                  {event.startTime ? `${dateLabel} · ${event.startTime}` : dateLabel}
+                </Caption>
+              </li>
+            );
+          })}
         </ol>
       )}
     </section>

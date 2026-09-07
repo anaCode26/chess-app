@@ -11,7 +11,6 @@ import type { EventInput, SerializedEvent } from "@actions/event/event.types";
 import { EventRows } from "@components/features/calendar/event-rows";
 import { MonthGrid } from "@components/features/calendar/month-grid";
 import { MonthNav } from "@components/features/calendar/month-nav";
-import { Button } from "@components/ui/button";
 import { Label } from "@components/ui/text";
 import { formatMonthParam, type MonthCell, type MonthKey } from "@lib/date/month";
 import { DeleteEventDialog } from "./delete-event-dialog";
@@ -96,21 +95,16 @@ export function EventsManager({
 
   return (
     <>
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <MonthNav
-          month={month}
-          href="/backoffice/events"
-          label={monthLabel}
-          copy={{
-            previous: copy.previous,
-            next: copy.next,
-            today: copy.today,
-          }}
-        />
-        <Button type="button" onClick={() => openCreate()} className="hidden sm:inline-flex">
-          {copy.create}
-        </Button>
-      </div>
+      <MonthNav
+        month={month}
+        href="/backoffice/events"
+        label={monthLabel}
+        copy={{
+          previous: copy.previous,
+          next: copy.next,
+          today: copy.today,
+        }}
+      />
 
       <div className="mt-10">
         <MonthGrid

@@ -48,7 +48,7 @@ Teaching is free and requires no advance signup.
 
 **Membership and payment**
 
-- Membership costs **340 DKK per quarter**, paid trimestrally.
+- Membership is paid **per quarter** by bank transfer. Published dues: senior 370 DKK (21–64); student senior 200; passive senior 250; pensioner 265 (65+); passive pensioner 200; junior 200 (15–20); student junior 150; child 150 (under 15).
 - **Visitors do not pay.** Coming to a club night, including all teaching, is free and requires no membership and no signup.
 - Tournament entry fees are paid by bank transfer to the club's Nordea account (reg. 2111, account 0567185117); entry minus the EMT fee goes to prizes.
 
@@ -100,7 +100,7 @@ Teaching is free and requires no advance signup.
 | Address | Høffdingsvej 10, 2500 Valby |
 | Club night | Thursdays from 17:30 — free, no signup, visitors pay nothing |
 | Founded | 1935 |
-| Membership | 340 DKK per quarter |
+| Membership | Quarterly dues by category (senior 370 DKK; see kontingent table) |
 | Formand | Hans Forchhammer — 30 13 75 71, formand@valbyskakklub.dk |
 | Turneringsleder | Stig Syndergaard — 22 71 62 55, stig.syndergaard@gmail.com |
 | Redaktion | Erling Nilsson — klubblad@valbyskakklub.dk |

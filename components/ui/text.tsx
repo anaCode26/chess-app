@@ -6,7 +6,7 @@ export type TextColor = "chalk" | "silver" | "amber" | "ultramarine";
 const colorMap: Record<TextColor, string> = {
   chalk: "var(--chalk)",
   silver: "var(--silver)",
-  amber: "var(--amber)",
+  amber: "var(--amber-ink)",
   ultramarine: "var(--ultramarine)",
 };
 

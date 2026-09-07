@@ -8,6 +8,7 @@ import { LanguageSwitcher } from "./language-switcher";
 const navItems = [
   { key: "home", href: "/" },
   { key: "tournaments", href: "/tournaments" },
+  { key: "ratings", href: "/ratings" },
   { key: "calendar", href: "/calendar" },
   { key: "gallery", href: "/gallery" },
   { key: "contact", href: "/contact" },
