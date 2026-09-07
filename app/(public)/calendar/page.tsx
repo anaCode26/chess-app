@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { getPublishedEventsInMonth } from "@actions/event/event.actions";
 import { EventRows } from "@components/features/calendar/event-rows";
+import { expandOccurrencesInMonth } from "@components/features/calendar/group-events";
 import { MonthGrid } from "@components/features/calendar/month-grid";
 import { MonthNav } from "@components/features/calendar/month-nav";
 import { PageHeader } from "@components/common/page-header";
@@ -41,9 +42,10 @@ export default async function CalendarPage({
   const weekdayLabels = weekdayAnchors().map((date) =>
     format.dateTime(date, { weekday: "short" }),
   );
-  const datedEvents = events.map((event) => ({
+  const occurrences = expandOccurrencesInMonth(events, month);
+  const datedEvents = occurrences.map((event) => ({
     ...event,
-    dateLabel: formatEventDate(format, event.date, event.startTime),
+    dateLabel: formatEventDate(format, event.occurrenceDate, event.startTime),
   }));
 
   return (
@@ -66,7 +68,7 @@ export default async function CalendarPage({
           <MonthGrid
             cells={buildMonthCells(month, todayISO())}
             weekdayLabels={weekdayLabels}
-            events={events}
+            events={occurrences}
             moreTemplate={t.raw("monthGrid.more") as string}
             eventHrefPrefix="#event-"
           />

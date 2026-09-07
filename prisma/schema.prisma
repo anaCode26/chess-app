@@ -36,7 +36,12 @@ model Event {
   id    String   @id @default(cuid())
   /// Authored in one language and rendered as-is in every locale.
   title String
+  /// First club night of the series. A single-night event has no `endDate`.
   date  DateTime @db.Date
+  /// Last club night of the series. Null means the event is only `date`.
+  endDate DateTime? @db.Date
+  /// ISO dates (`YYYY-MM-DD`) for club nights inside the range that do not run.
+  skippedDates String[] @default([])
   /// Display string in the club's own notation ("19.00"), not a parsed time.
   startTime   String?
   description String?

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { getManagedEventsInMonth } from "@actions/event/event.actions";
+import { expandOccurrencesInMonth } from "@components/features/calendar/group-events";
 import { EventsManager } from "@components/features/events/events-manager";
 import { Body, Title } from "@components/ui/text";
+import { getUserLocale } from "@/i18n/locale";
 import {
   buildMonthCells,
   monthAnchor,
@@ -26,12 +28,13 @@ export default async function EventsPage({
   const { month: monthParam } = await searchParams;
   const month = parseMonthParam(monthParam);
 
-  const [t, form, calendar, format, events] = await Promise.all([
+  const [t, form, calendar, format, events, locale] = await Promise.all([
     getTranslations("backoffice"),
     getTranslations("eventForm"),
     getTranslations("calendarPage"),
     getFormatter(),
     getManagedEventsInMonth(month),
+    getUserLocale(),
   ]);
 
   const monthLabel = format.dateTime(monthAnchor(month), {
@@ -42,9 +45,9 @@ export default async function EventsPage({
     format.dateTime(date, { weekday: "short" }),
   );
   const dateLabels = Object.fromEntries(
-    events.map((event) => [
-      event.id,
-      formatEventDate(format, event.date, event.startTime),
+    expandOccurrencesInMonth(events, month).map((event) => [
+      `${event.id}-${event.occurrenceDate}`,
+      formatEventDate(format, event.occurrenceDate, event.startTime),
     ]),
   );
 
@@ -63,6 +66,7 @@ export default async function EventsPage({
           cells={buildMonthCells(month, todayISO())}
           weekdayLabels={weekdayLabels}
           dateLabels={dateLabels}
+          locale={locale}
           copy={{
             create: t("create"),
             edit: t("edit"),
@@ -78,6 +82,10 @@ export default async function EventsPage({
               editTitle: form("editTitle"),
               title: form("title"),
               date: form("date"),
+              endDate: form("endDate"),
+              endDateHint: form("endDateHint"),
+              thursdays: form("thursdays"),
+              seriesHint: form("seriesHint"),
               startTime: form("startTime"),
               startTimeHint: form("startTimeHint"),
               description: form("description"),

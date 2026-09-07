@@ -8,6 +8,7 @@ import {
   updateEvent,
 } from "@actions/event/event.actions";
 import type { EventInput } from "@actions/event/event.types";
+import { expandOccurrencesInMonth } from "@components/features/calendar/group-events";
 import { auth } from "@lib/auth/config";
 import { db } from "@lib/db";
 import { toISODate, toStoredDate } from "@lib/date/month";
@@ -30,6 +31,8 @@ async function seedEvent(
   overrides: Partial<{
     title: string;
     date: string;
+    endDate: string | null;
+    skippedDates: string[];
     startTime: string | null;
     description: string | null;
     published: boolean;
@@ -40,6 +43,8 @@ async function seedEvent(
     data: {
       title: overrides.title ?? "Skakbowl",
       date: toStoredDate(overrides.date ?? "2026-08-13"),
+      endDate: overrides.endDate ? toStoredDate(overrides.endDate) : null,
+      skippedDates: overrides.skippedDates ?? [],
       startTime: overrides.startTime === undefined ? "19.00" : overrides.startTime,
       description: overrides.description ?? null,
       published: overrides.published ?? true,
@@ -342,5 +347,143 @@ describe("event announcements", () => {
 
     const stored = await db.event.findFirst({ where: { title: "Skakbowl" } });
     expect(stored?.published).toBe(true);
+  });
+
+  it("should list every included Thursday once when a series is published", async () => {
+    await seedMember("anna@valbyskakklub.dk");
+
+    await createEvent({
+      ...validInput,
+      date: "2026-08-13",
+      endDate: "2026-08-27",
+    });
+
+    const html = (sendEmailMock.mock.calls[0][0] as { html: string }).html;
+    expect(sendEmailMock).toHaveBeenCalledTimes(1);
+    expect(html).toContain("13.");
+    expect(html).toContain("20.");
+    expect(html).toContain("27.");
+  });
+});
+
+describe("event Thursday series", () => {
+  it("should store the range when an officer saves from Thursday to Thursday", async () => {
+    await createEvent({
+      ...validInput,
+      date: "2026-08-13",
+      endDate: "2026-09-03",
+    });
+
+    const stored = await db.event.findFirst({ where: { title: "Skakbowl" } });
+    expect(stored && toISODate(stored.date)).toBe("2026-08-13");
+    expect(stored?.endDate && toISODate(stored.endDate)).toBe("2026-09-03");
+    expect(stored?.skippedDates).toEqual([]);
+  });
+
+  it("should return the series in every overlapped month when it crosses a boundary", async () => {
+    await createEvent({
+      ...validInput,
+      title: "Valbymesterskabet",
+      date: "2026-10-29",
+      endDate: "2026-11-12",
+    });
+
+    const october = await getPublishedEventsInMonth({ year: 2026, month: 10 });
+    const november = await getPublishedEventsInMonth({ year: 2026, month: 11 });
+
+    expect(october).toHaveLength(1);
+    expect(november).toHaveLength(1);
+    expect(expandOccurrencesInMonth(october, { year: 2026, month: 10 })).toHaveLength(1);
+    expect(expandOccurrencesInMonth(november, { year: 2026, month: 11 })).toHaveLength(2);
+  });
+
+  it("should omit a skipped Thursday from the month list when it is deselected", async () => {
+    await createEvent({
+      ...validInput,
+      date: "2026-08-13",
+      endDate: "2026-08-27",
+      skippedDates: ["2026-08-20"],
+    });
+
+    const month = await getPublishedEventsInMonth({ year: 2026, month: 8 });
+    const days = expandOccurrencesInMonth(month, { year: 2026, month: 8 }).map(
+      (event) => event.occurrenceDate,
+    );
+
+    expect(days).toEqual(["2026-08-13", "2026-08-27"]);
+  });
+
+  it("should return three occurrences when three included Thursdays fall in one month", async () => {
+    await createEvent({
+      ...validInput,
+      date: "2026-08-13",
+      endDate: "2026-08-27",
+    });
+
+    const month = await getPublishedEventsInMonth({ year: 2026, month: 8 });
+    expect(expandOccurrencesInMonth(month, { year: 2026, month: 8 })).toHaveLength(3);
+  });
+
+  it("should return a series once when listing upcoming events", async () => {
+    await createEvent({
+      ...validInput,
+      title: "Lang turnering",
+      date: "2099-01-01",
+      endDate: "2099-02-12",
+    });
+    await createEvent({
+      ...validInput,
+      title: "Grillaften",
+      date: "2099-03-05",
+    });
+
+    const upcoming = await getUpcomingEvents(4);
+
+    expect(upcoming.map((event) => event.title)).toEqual(["Lang turnering", "Grillaften"]);
+    expect(upcoming[0]?.date).toBe("2099-01-01");
+  });
+
+  it("should throw when the end date is before the start date", async () => {
+    await expect(
+      createEvent({ ...validInput, date: "2026-08-20", endDate: "2026-08-13" }),
+    ).rejects.toThrow("End date must be on or after the start date.");
+  });
+
+  it("should repeat on the start date's weekday when that is not Thursday", async () => {
+    await createEvent({
+      ...validInput,
+      title: "Onsdagslyn",
+      date: "2026-08-12",
+      endDate: "2026-08-26",
+    });
+
+    const month = await getPublishedEventsInMonth({ year: 2026, month: 8 });
+    expect(
+      expandOccurrencesInMonth(month, { year: 2026, month: 8 }).map((event) => event.occurrenceDate),
+    ).toEqual(["2026-08-12", "2026-08-19", "2026-08-26"]);
+  });
+
+  it("should keep the start weekday when the end date falls on another weekday", async () => {
+    await createEvent({
+      ...validInput,
+      date: "2026-08-13",
+      endDate: "2026-08-15",
+    });
+
+    const month = await getPublishedEventsInMonth({ year: 2026, month: 8 });
+    expect(
+      expandOccurrencesInMonth(month, { year: 2026, month: 8 }).map((event) => event.occurrenceDate),
+    ).toEqual(["2026-08-13"]);
+  });
+
+  it("should drop a skip outside the range when the window is saved", async () => {
+    const created = await createEvent({
+      ...validInput,
+      date: "2026-08-13",
+      endDate: "2026-08-20",
+      skippedDates: ["2026-08-27"],
+    });
+
+    expect(created.skippedDates).toEqual([]);
   });
 });

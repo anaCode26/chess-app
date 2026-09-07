@@ -1,26 +1,36 @@
 import { db } from "@lib/db";
 import type { EventData } from "@actions/event/event.types";
 
+function overlapsRange(from: Date, to: Date) {
+  return {
+    date: { lt: to },
+    OR: [{ endDate: { gte: from } }, { AND: [{ endDate: null }, { date: { gte: from } }] }],
+  };
+}
+
 export const eventRepository = {
   /** `to` is exclusive, matching `monthRange` in `lib/date/month.ts`. */
   async findPublishedInRange(from: Date, to: Date) {
     return db.event.findMany({
-      where: { published: true, date: { gte: from, lt: to } },
+      where: { published: true, ...overlapsRange(from, to) },
       orderBy: [{ date: "asc" }, { startTime: "asc" }],
     });
   },
 
-  async findNextPublished(from: Date, limit: number) {
+  /** Published series whose last night is still on or after `from`. */
+  async findPublishedFrom(from: Date) {
     return db.event.findMany({
-      where: { published: true, date: { gte: from } },
+      where: {
+        published: true,
+        OR: [{ endDate: { gte: from } }, { AND: [{ endDate: null }, { date: { gte: from } }] }],
+      },
       orderBy: [{ date: "asc" }, { startTime: "asc" }],
-      take: limit,
     });
   },
 
   async findInRange(from: Date, to: Date) {
     return db.event.findMany({
-      where: { date: { gte: from, lt: to } },
+      where: overlapsRange(from, to),
       orderBy: [{ date: "asc" }, { startTime: "asc" }],
     });
   },
@@ -34,7 +44,13 @@ export const eventRepository = {
   },
 
   async create(data: EventData, modifiedByUserId: string) {
-    return db.event.create({ data: { ...data, modifiedByUserId } });
+    return db.event.create({
+      data: {
+        ...data,
+        endDate: data.endDate ?? null,
+        modifiedByUserId,
+      },
+    });
   },
 
   async update(id: string, data: EventData, modifiedByUserId: string) {
@@ -44,6 +60,8 @@ export const eventRepository = {
         ...data,
         startTime: data.startTime ?? null,
         description: data.description ?? null,
+        endDate: data.endDate ?? null,
+        skippedDates: data.skippedDates,
         modifiedByUserId,
       },
     });

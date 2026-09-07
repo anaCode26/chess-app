@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 import type { Event as EventRow } from "@prisma/client";
 import { auth } from "@lib/auth/config";
 import { canManageEvents } from "@lib/auth/permissions";
-import { monthRange, toStoredDate, todayISO, type MonthKey } from "@lib/date/month";
+import { monthRange, toISODate, toStoredDate, todayISO, type MonthKey } from "@lib/date/month";
+import { nextIncludedDate } from "@lib/date/series";
 import { eventNotificationService } from "@lib/notifications/event-notification.service";
 import { eventRepository } from "@repositories/event.repository";
 import {
@@ -22,9 +23,27 @@ export async function getPublishedEventsInMonth(month: MonthKey): Promise<Serial
 }
 
 export async function getUpcomingEvents(limit: number): Promise<SerializedEvent[]> {
-  const events = await eventRepository.findNextPublished(toStoredDate(todayISO()), limit);
+  const today = todayISO();
+  const events = await eventRepository.findPublishedFrom(toStoredDate(today));
 
-  return events.map(serializeEvent);
+  return events
+    .map((event) => {
+      const next = nextIncludedDate(
+        toISODate(event.date),
+        event.endDate ? toISODate(event.endDate) : null,
+        event.skippedDates,
+        today,
+      );
+      return next ? { event, next } : null;
+    })
+    .filter((entry): entry is { event: EventRow; next: string } => entry !== null)
+    .sort((left, right) => {
+      const byDate = left.next.localeCompare(right.next);
+      if (byDate !== 0) return byDate;
+      return (left.event.startTime ?? "").localeCompare(right.event.startTime ?? "");
+    })
+    .slice(0, limit)
+    .map(({ event, next }) => ({ ...serializeEvent(event), date: next }));
 }
 
 export async function getManagedEventsInMonth(month: MonthKey): Promise<SerializedEvent[]> {

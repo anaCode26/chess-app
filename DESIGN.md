@@ -379,7 +379,7 @@ The first inputs (login, event create/edit) set the pattern membership signup an
 - **Focus:** the global 2px amber outline at 2px offset. Do not add a second ring.
 - **Error:** Alarm (`#ff3b5c`) on the border (`aria-invalid`) and as a Caption under the field. No other status colour.
 - **Buttons:** the same chrome as `ActionLink` — primary amber, ghost ultramarine, hover the two-colour trade — implemented as `button.action-button` so a submit is not a link. Destructive actions use Alarm as a ghost outline, never as a fill for a primary action.
-- **Checkbox:** native, 2px radius, `accent-color` amber — publishing is the action on that screen.
+- **Checkbox:** native, 2px radius, `accent-color` amber — publishing is the action on that screen. A generated list of Thursdays to include or skip is a hairline column of those same native checkboxes, not a card.
 - **Dialogs:** a chalk scrim at 40% and a ground pane with a hairline. No shadow, no blur, no 8/12px radius. Escape and the scrim both dismiss.
 
 ## Email

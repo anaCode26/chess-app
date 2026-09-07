@@ -1,7 +1,8 @@
 import type { Event } from "@prisma/client";
 import { render } from "@react-email/render";
 import { CLUB_TIMEZONE } from "@lib/club-night";
-import { parseDateOnly, toISODate } from "@lib/date/month";
+import { parseDateOnly, toISODate, toStoredDate } from "@lib/date/month";
+import { includedDates } from "@lib/date/series";
 import { sendEmail } from "@lib/email/email-sender.service";
 import { EventPublishedEmail } from "@lib/email/templates/event-published-email";
 import { env } from "@lib/env";
@@ -32,6 +33,16 @@ function formatDateLabel(date: Date): string {
   }).format(parseDateOnly(toISODate(date)));
 }
 
+function formatSeriesDateLabel(event: Event): string {
+  const dates = includedDates(
+    toISODate(event.date),
+    event.endDate ? toISODate(event.endDate) : null,
+    event.skippedDates,
+  );
+
+  return dates.map((iso) => formatDateLabel(toStoredDate(iso))).join(" · ");
+}
+
 export const eventNotificationService = {
   /**
    * Announces an event to every subscribed active member. Never throws: a dead
@@ -49,7 +60,7 @@ export const eventNotificationService = {
       }
 
       const eventUrl = buildEventUrl(event);
-      const dateLabel = formatDateLabel(event.date);
+      const dateLabel = formatSeriesDateLabel(event);
       const subject = `Nyt arrangement i klubben: ${event.title}`;
 
       const results = await Promise.allSettled(

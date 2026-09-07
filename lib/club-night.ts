@@ -1,9 +1,6 @@
-import { scheduleSlots, type ScheduleSlotId } from "@lib/content/club";
+import { scheduleSlots, standingNight, type ScheduleSlotId } from "@lib/content/club";
 
 export const CLUB_TIMEZONE = "Europe/Copenhagen";
-
-/** ISO weekday for Thursday. */
-const THURSDAY = 4;
 
 const LAST_SLOT_END = Math.max(...scheduleSlots.map((slot) => slot.endMinutes));
 
@@ -20,7 +17,7 @@ export interface ClubNightSlotState {
 export interface ClubNightState {
   /** True while a club night is running, from the first slot until the rooms close. */
   isTonight: boolean;
-  /** The club night being shown: tonight's, or the next Thursday. */
+  /** The club night being shown: tonight's, or the next standing night. */
   date: Date;
   slots: ClubNightSlotState[];
   phase: NightPhase;
@@ -32,7 +29,7 @@ interface ZonedNow {
   year: number;
   month: number;
   day: number;
-  weekday: number;
+  weekday: string;
   minutes: number;
 }
 
@@ -59,7 +56,7 @@ function toZoned(now: Date): ZonedNow {
     year: Number.parseInt(value("year"), 10),
     month: Number.parseInt(value("month"), 10),
     day: Number.parseInt(value("day"), 10),
-    weekday: WEEKDAYS.indexOf(value("weekday")) + 1,
+    weekday: value("weekday"),
     minutes: hour * 60 + Number.parseInt(value("minute"), 10),
   };
 }
@@ -83,10 +80,12 @@ function phaseFor(minutes: number): NightPhase {
 
 export function getClubNightState(now: Date = new Date()): ClubNightState {
   const zoned = toZoned(now);
-  const isTonight = zoned.weekday === THURSDAY && zoned.minutes < LAST_SLOT_END;
+  const isTonight = zoned.weekday === standingNight && zoned.minutes < LAST_SLOT_END;
 
   const today = calendarDate(zoned.year, zoned.month, zoned.day);
-  const daysAhead = isTonight ? 0 : ((THURSDAY - zoned.weekday + 7) % 7 || 7);
+  const from = WEEKDAYS.indexOf(zoned.weekday);
+  const to = WEEKDAYS.indexOf(standingNight);
+  const daysAhead = isTonight ? 0 : ((to - from + 7) % 7 || 7);
 
   const slots = scheduleSlots.map<ClubNightSlotState>((slot) => {
     if (!isTonight) return { id: slot.id, label: slot.label, status: "later" };

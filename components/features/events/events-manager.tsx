@@ -9,9 +9,11 @@ import {
 } from "@actions/event/event.actions";
 import type { EventInput, SerializedEvent } from "@actions/event/event.types";
 import { EventRows } from "@components/features/calendar/event-rows";
+import { expandOccurrencesInMonth } from "@components/features/calendar/group-events";
 import { MonthGrid } from "@components/features/calendar/month-grid";
 import { MonthNav } from "@components/features/calendar/month-nav";
 import { Label } from "@components/ui/text";
+import type { Locale } from "@/i18n/locale";
 import { formatMonthParam, type MonthCell, type MonthKey } from "@lib/date/month";
 import { DeleteEventDialog } from "./delete-event-dialog";
 import { EventFormDialog, type EventFormCopy } from "./event-form-dialog";
@@ -36,6 +38,7 @@ export function EventsManager({
   cells,
   weekdayLabels,
   dateLabels,
+  locale,
   copy,
 }: {
   events: SerializedEvent[];
@@ -44,6 +47,7 @@ export function EventsManager({
   cells: MonthCell[];
   weekdayLabels: string[];
   dateLabels: Record<string, string>;
+  locale: Locale;
   copy: EventsManagerCopy;
 }) {
   const router = useRouter();
@@ -53,9 +57,10 @@ export function EventsManager({
   const [deleting, setDeleting] = useState<SerializedEvent | null>(null);
   const [, startTransition] = useTransition();
 
-  const datedEvents = events.map((event) => ({
+  const occurrences = expandOccurrencesInMonth(events, month);
+  const datedEvents = occurrences.map((event) => ({
     ...event,
-    dateLabel: dateLabels[event.id] ?? event.date,
+    dateLabel: dateLabels[`${event.id}-${event.occurrenceDate}`] ?? event.occurrenceDate,
   }));
 
   function openCreate(iso?: string) {
@@ -110,7 +115,7 @@ export function EventsManager({
         <MonthGrid
           cells={cells}
           weekdayLabels={weekdayLabels}
-          events={events}
+          events={occurrences}
           moreTemplate={copy.more}
           draftLabel={copy.draft}
           onDayClick={(iso) => openCreate(iso)}
@@ -146,6 +151,7 @@ export function EventsManager({
         open={formOpen}
         event={editing}
         defaultDate={defaultDate}
+        locale={locale}
         copy={copy.form}
         onClose={() => setFormOpen(false)}
         onSubmit={handleSubmit}

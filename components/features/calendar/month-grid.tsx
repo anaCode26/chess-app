@@ -1,11 +1,11 @@
 "use client";
 
 import type { KeyboardEvent, MouseEvent, ReactNode } from "react";
-import type { SerializedEvent } from "@actions/event/event.types";
+import type { EventOccurrence, SerializedEvent } from "@actions/event/event.types";
 import { Label, Numeral } from "@components/ui/text";
 import { cn } from "@lib/utils";
 import type { MonthCell } from "@lib/date/month";
-import { groupEventsByDate } from "./group-events";
+import { groupEventsByDate, occurrenceAnchorId } from "./group-events";
 
 const MOBILE_DOT_LIMIT = 4;
 const DESKTOP_CHIP_LIMIT = 3;
@@ -22,11 +22,11 @@ export function MonthGrid({
 }: {
   cells: MonthCell[];
   weekdayLabels: string[];
-  events: SerializedEvent[];
+  events: EventOccurrence[];
   moreTemplate: string;
   draftLabel?: string;
   eventHrefPrefix?: string;
-  onDayClick?: (iso: string, events: SerializedEvent[]) => void;
+  onDayClick?: (iso: string, events: EventOccurrence[]) => void;
   onEventClick?: (event: SerializedEvent) => void;
 }) {
   const eventsByDate = groupEventsByDate(events);
@@ -99,7 +99,7 @@ function DayEvents({
   eventHrefPrefix,
   onEventClick,
 }: {
-  events: SerializedEvent[];
+  events: EventOccurrence[];
   moreLabel: (count: number) => string;
   draftLabel?: string;
   eventHrefPrefix?: string;
@@ -112,7 +112,7 @@ function DayEvents({
     <>
       <ul className="mt-auto flex flex-wrap gap-1 sm:hidden">
         {events.slice(0, MOBILE_DOT_LIMIT).map((event) => (
-          <li key={event.id}>
+          <li key={`${event.id}-${event.occurrenceDate}`}>
             <EventAnchor
               event={event}
               eventHrefPrefix={eventHrefPrefix}
@@ -141,7 +141,7 @@ function DayEvents({
 
       <ul className="mt-1 hidden flex-col gap-1 sm:flex">
         {events.slice(0, DESKTOP_CHIP_LIMIT).map((event) => (
-          <li key={event.id}>
+          <li key={`${event.id}-${event.occurrenceDate}`}>
             <EventAnchor
               event={event}
               eventHrefPrefix={eventHrefPrefix}
@@ -187,7 +187,7 @@ function EventAnchor({
   className,
   children,
 }: {
-  event: SerializedEvent;
+  event: EventOccurrence;
   eventHrefPrefix?: string;
   onEventClick?: (event: SerializedEvent) => void;
   className?: string;
@@ -214,7 +214,7 @@ function EventAnchor({
 
   if (eventHrefPrefix) {
     return (
-      <a href={`${eventHrefPrefix}${event.id}`} className={className}>
+      <a href={`#${occurrenceAnchorId(event)}`} className={className}>
         {children}
       </a>
     );

@@ -9,10 +9,6 @@ const SLOT_TITLE = {
   rounds: "roundsTitle",
 } as const;
 
-/**
- * Live Thursday schedule as pane rows. Lit panes go amber when club night is
- * on; otherwise they sit as soft blue fields on the daylit page.
- */
 export async function ClubWindow({ state }: { state: ClubNightState }) {
   const [t, format] = await Promise.all([
     getTranslations("schedule"),

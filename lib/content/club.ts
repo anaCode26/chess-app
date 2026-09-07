@@ -30,6 +30,9 @@ export const membershipTiers = [
 
 export type MembershipTierId = (typeof membershipTiers)[number]["id"];
 
+/** `en-GB` short weekday — the hall's standing weekly night, next to the slot times. */
+export const standingNight = "Thu";
+
 export type ScheduleSlotId = "juniors" | "women" | "rounds";
 
 export interface ScheduleSlot {
