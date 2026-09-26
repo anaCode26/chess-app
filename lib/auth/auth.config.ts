@@ -1,5 +1,8 @@
 import type { NextAuthConfig } from "next-auth";
 
+/** Sign-in is for officers entering the backoffice — never linked from the public site. */
+export const LOGIN_PATH = "/backoffice/login";
+
 /**
  * Edge-safe Auth.js config (no Node-only adapters/providers here).
  * Credentials live in `config.ts` so this file can run in `proxy.ts`.
@@ -7,7 +10,7 @@ import type { NextAuthConfig } from "next-auth";
 export const authConfig = {
   session: { strategy: "jwt" },
   pages: {
-    signIn: "/login",
+    signIn: LOGIN_PATH,
   },
   providers: [],
   callbacks: {

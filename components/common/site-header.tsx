@@ -51,13 +51,6 @@ export async function SiteHeader() {
             <LanguageSwitcher />
           </div>
 
-          <Link
-            href="/login"
-            className="hidden rounded-sm border-l border-hairline pl-4 text-silver transition-colors duration-200 hover:text-chalk sm:inline-block"
-          >
-            <Label color="inherit">{t("login")}</Label>
-          </Link>
-
           <details className="group relative lg:hidden">
             <summary
               aria-label={t("openMenu")}
@@ -80,17 +73,7 @@ export async function SiteHeader() {
                     </Link>
                   </li>
                 ))}
-                <li className="border-t border-hairline pt-4">
-                  <Link
-                    href="/login"
-                    className="block rounded-sm text-silver transition-colors duration-200 hover:text-chalk"
-                  >
-                    <Label size="lg" color="inherit">
-                      {t("login")}
-                    </Label>
-                  </Link>
-                </li>
-                <li className="sm:hidden">
+                <li className="border-t border-hairline pt-4 sm:hidden">
                   <LanguageSwitcher />
                 </li>
               </ul>

@@ -7,6 +7,7 @@ export async function createTestActor(
     email?: string;
     role?: UserRole;
     status?: UserStatus;
+    passwordHash?: string;
     notifyOnNewEvent?: boolean;
   } = {},
 ) {
@@ -14,7 +15,7 @@ export async function createTestActor(
     data: {
       name: overrides.name ?? "Test Actor",
       email: overrides.email ?? "actor@valbyskakklub.dk",
-      passwordHash: "not-a-real-hash",
+      passwordHash: overrides.passwordHash ?? "not-a-real-hash",
       status: overrides.status ?? "ACTIVE",
       role: overrides.role ?? "ADMIN",
       notifyOnNewEvent: overrides.notifyOnNewEvent ?? true,

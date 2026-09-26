@@ -18,7 +18,8 @@ export default async function LoginPage({
   const { callbackUrl } = await searchParams;
   const t = await getTranslations("loginPage");
   const safeCallback =
-    callbackUrl?.startsWith("/") && !callbackUrl.startsWith("//")
+    callbackUrl?.startsWith("/backoffice") &&
+    !callbackUrl.startsWith("/backoffice/login")
       ? callbackUrl
       : "/backoffice";
 
