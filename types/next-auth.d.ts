@@ -1,6 +1,6 @@
 export {};
 
-import type { UserRole } from "@prisma/client";
+import type { AccessPermission } from "@lib/auth/permissions";
 
 declare module "next-auth" {
   interface Session {
@@ -8,19 +8,25 @@ declare module "next-auth" {
       id: string;
       name: string;
       email: string;
-      role: UserRole;
+      roleId: string;
+      roleName: string;
+      permissions: AccessPermission[];
     };
   }
 
   interface User {
     id: string;
-    role: UserRole;
+    roleId: string;
+    roleName: string;
+    permissions: AccessPermission[];
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     id: string;
-    role: UserRole;
+    roleId: string;
+    roleName: string;
+    permissions: AccessPermission[];
   }
 }

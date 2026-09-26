@@ -21,38 +21,43 @@ async function createAccount(
 }
 
 describe("authorizeCredentials", () => {
-  it("should return the account when an active admin uses the right password", async () => {
-    const admin = await createAccount({ role: "ADMIN" });
+  it("should return the account with its permissions when an officer uses the right password", async () => {
+    const officer = await createAccount({
+      permissions: [{ module: "events", canRead: true, canWrite: true }],
+    });
 
     const result = await authService.authorizeCredentials({
-      email: admin.email,
+      email: officer.email,
       password: PASSWORD,
     });
 
     expect(result).toEqual({
-      id: admin.id,
-      name: admin.name,
-      email: admin.email,
-      role: "ADMIN",
+      id: officer.id,
+      name: officer.name,
+      email: officer.email,
+      roleId: officer.roleId,
+      roleName: expect.any(String),
+      permissions: [{ module: "events", canRead: true, canWrite: true }],
     });
   });
 
-  it("should return null when the account is a member", async () => {
-    const member = await createAccount({ role: "MEMBER" });
+  it("should authenticate an account whose role grants nothing when the password is right", async () => {
+    const account = await createAccount({ permissions: [] });
 
     const result = await authService.authorizeCredentials({
-      email: member.email,
+      email: account.email,
       password: PASSWORD,
     });
 
-    expect(result).toBeNull();
+    // Signing in is identity; the route guard is what keeps them out.
+    expect(result).toMatchObject({ id: account.id, permissions: [] });
   });
 
-  it("should return null when the admin account is not active", async () => {
-    const admin = await createAccount({ role: "ADMIN", status: "PENDING" });
+  it("should return null when the account is not active", async () => {
+    const pending = await createAccount({ status: "PENDING" });
 
     const result = await authService.authorizeCredentials({
-      email: admin.email,
+      email: pending.email,
       password: PASSWORD,
     });
 
@@ -60,10 +65,10 @@ describe("authorizeCredentials", () => {
   });
 
   it("should return null when the password is wrong", async () => {
-    const admin = await createAccount({ role: "ADMIN" });
+    const officer = await createAccount();
 
     const result = await authService.authorizeCredentials({
-      email: admin.email,
+      email: officer.email,
       password: "wrong-password",
     });
 

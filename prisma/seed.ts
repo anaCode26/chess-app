@@ -1,10 +1,8 @@
 import "dotenv/config";
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
-
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-const prisma = new PrismaClient({ adapter });
+// Relative rather than aliased: this runs under `tsx`, outside the Next build.
+import { db as prisma } from "../lib/db";
+import { roleService } from "../lib/auth/role.service";
 
 const ADMIN_EMAIL = "admin@valbyskakklub.dk";
 const ADMIN_PASSWORD = "valby1935";
@@ -28,15 +26,17 @@ const events = [
 ];
 
 async function main() {
+  const administrator = await roleService.ensureAdministratorRole();
+
   const admin = await prisma.user.upsert({
     where: { email: ADMIN_EMAIL },
-    update: { role: "ADMIN", status: "ACTIVE" },
+    update: { roleId: administrator.id, status: "ACTIVE" },
     create: {
       name: "Klubadministrator",
       email: ADMIN_EMAIL,
       passwordHash: await bcrypt.hash(ADMIN_PASSWORD, 10),
       status: "ACTIVE",
-      role: "ADMIN",
+      roleId: administrator.id,
     },
   });
 

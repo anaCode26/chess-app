@@ -2,8 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import type { Event as EventRow } from "@prisma/client";
-import { auth } from "@lib/auth/config";
-import { canManageEvents } from "@lib/auth/permissions";
+import { permissionService } from "@lib/auth/permission.service";
 import { monthRange, toISODate, toStoredDate, todayISO, type MonthKey } from "@lib/date/month";
 import { nextIncludedDate } from "@lib/date/series";
 import { eventNotificationService } from "@lib/notifications/event-notification.service";
@@ -47,7 +46,7 @@ export async function getUpcomingEvents(limit: number): Promise<SerializedEvent[
 }
 
 export async function getManagedEventsInMonth(month: MonthKey): Promise<SerializedEvent[]> {
-  await requireAdminId();
+  await permissionService.requireActorId("events", "read");
   const { from, to } = monthRange(month);
   const events = await eventRepository.findInRange(from, to);
 
@@ -56,7 +55,7 @@ export async function getManagedEventsInMonth(month: MonthKey): Promise<Serializ
 
 export async function createEvent(input: EventInput): Promise<SerializedEvent> {
   const data = parseEvent(input);
-  const created = await eventRepository.create(data, await requireAdminId());
+  const created = await eventRepository.create(data, await requireEventWriterId());
   revalidateEventPaths();
   await announceIfUnannounced(created);
 
@@ -65,7 +64,7 @@ export async function createEvent(input: EventInput): Promise<SerializedEvent> {
 
 export async function updateEvent(id: string, input: EventInput): Promise<SerializedEvent> {
   const data = parseEvent(input);
-  const updated = await eventRepository.update(id, data, await requireAdminId());
+  const updated = await eventRepository.update(id, data, await requireEventWriterId());
   revalidateEventPaths();
   await announceIfUnannounced(updated);
 
@@ -73,7 +72,7 @@ export async function updateEvent(id: string, input: EventInput): Promise<Serial
 }
 
 export async function deleteEvent(id: string): Promise<void> {
-  await requireAdminId();
+  await requireEventWriterId();
   await eventRepository.delete(id);
   revalidateEventPaths();
 }
@@ -99,16 +98,8 @@ function parseEvent(input: EventInput) {
   return parsed.data;
 }
 
-async function requireAdminId(): Promise<string> {
-  const session = await auth();
-  if (!session?.user.id) {
-    throw new Error("Not authenticated.");
-  }
-  if (!canManageEvents(session)) {
-    throw new Error("Not authorized.");
-  }
-
-  return session.user.id;
+function requireEventWriterId(): Promise<string> {
+  return permissionService.requireActorId("events", "write");
 }
 
 function revalidateEventPaths() {

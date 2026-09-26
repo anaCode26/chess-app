@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import { authConfig, LOGIN_PATH } from "@lib/auth/auth.config";
+import { canAccessRoute, hasAnyReadableModule } from "@lib/auth/permissions";
 import { NextResponse } from "next/server";
 
 const { auth } = NextAuth(authConfig);
@@ -11,10 +12,11 @@ export default auth((req) => {
     return NextResponse.next();
   }
 
-  const isAdmin = req.auth?.user.role === "ADMIN";
+  const permissions = req.auth?.user.permissions ?? [];
 
+  // Handled before `canAccessRoute`, which knows only module routes.
   if (pathname === LOGIN_PATH) {
-    return isAdmin
+    return hasAnyReadableModule(permissions)
       ? NextResponse.redirect(new URL("/backoffice", req.url))
       : NextResponse.next();
   }
@@ -25,7 +27,8 @@ export default auth((req) => {
     return NextResponse.redirect(login);
   }
 
-  if (!isAdmin) {
+  // Signed in, but their role reaches nothing here.
+  if (!canAccessRoute(permissions, pathname)) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 

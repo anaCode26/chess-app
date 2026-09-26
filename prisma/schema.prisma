@@ -12,24 +12,57 @@ enum UserStatus {
   INACTIVE
 }
 
-enum UserRole {
-  ADMIN
-  MEMBER
-}
-
 model User {
   id           String     @id @default(cuid())
   name         String
   email        String     @unique
   passwordHash String?
   status       UserStatus @default(PENDING)
-  role         UserRole   @default(MEMBER)
+  roleId       String
+  role         Role       @relation("UserRole", fields: [roleId], references: [id])
   /// Opt-out for the announcement sent when an event is published.
   notifyOnNewEvent Boolean @default(true)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
   modifiedEvents Event[] @relation("EventModifiedBy")
+  modifiedRoles  Role[]  @relation("RoleModifiedBy")
+}
+
+/// What a user may do is a row, not a value in the code. Adding a role is a
+/// backoffice action; adding a *module* means editing `lib/constants/modules.ts`.
+model Role {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+  /// Seeded roles the backoffice may not rename or delete.
+  isSystem    Boolean @default(false)
+
+  permissions Permission[]
+  users       User[]       @relation("UserRole")
+
+  modifiedByUserId String?
+  modifiedByUser   User?   @relation("RoleModifiedBy", fields: [modifiedByUserId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// One row per (role, module). A module with no row is denied, so absence and
+/// `false` mean the same thing and nothing has to backfill on a new module.
+model Permission {
+  id     String @id @default(cuid())
+  roleId String
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  /// A `ModuleKey` from `lib/constants/modules.ts`.
+  module   String
+  canRead  Boolean @default(false)
+  canWrite Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([roleId, module])
 }
 
 model Event {

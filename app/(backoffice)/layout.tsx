@@ -1,7 +1,11 @@
+import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { BrandMark } from "@components/common/brand-mark";
 import { BackofficeSidebar } from "@components/features/backoffice/sidebar";
 import { Label } from "@components/ui/text";
+import { auth } from "@lib/auth/auth";
+import { LOGIN_PATH } from "@lib/auth/auth.config";
+import { hasPermission } from "@lib/auth/permissions";
 import { MODULES } from "@lib/constants/modules";
 
 export default async function BackofficeLayout({
@@ -9,10 +13,17 @@ export default async function BackofficeLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // `proxy.ts` already turned away anyone without access; this is the same
+  // check on the server, so a missing matcher could never expose the shell.
+  const session = await auth();
+  if (!session) redirect(LOGIN_PATH);
+
   const t = await getTranslations("backoffice");
   const items = [
     { href: "/backoffice", label: t("dashboard") },
-    ...MODULES.map((module) => ({
+    ...MODULES.filter((module) =>
+      hasPermission(session.user.permissions, module.key, "read"),
+    ).map((module) => ({
       href: `/backoffice/${module.route}`,
       label: t(module.key as "events"),
     })),

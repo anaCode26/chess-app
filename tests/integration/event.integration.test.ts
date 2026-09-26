@@ -9,7 +9,7 @@ import {
 } from "@actions/event/event.actions";
 import type { EventInput } from "@actions/event/event.types";
 import { expandOccurrencesInMonth } from "@components/features/calendar/group-events";
-import { auth } from "@lib/auth/config";
+import { auth } from "@lib/auth/auth";
 import { db } from "@lib/db";
 import { toISODate, toStoredDate } from "@lib/date/month";
 import { verifyUnsubscribeToken } from "@lib/notifications/unsubscribe-token";
@@ -18,7 +18,7 @@ import { resetDb } from "@tests/helpers/db";
 import { mockSendEmail } from "@tests/helpers/mock-send-email";
 
 vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
-vi.mock("@lib/auth/config", () => ({ auth: vi.fn() }));
+vi.mock("@lib/auth/auth", () => ({ auth: vi.fn() }));
 
 const validInput: EventInput = {
   title: "Skakbowl",
@@ -60,7 +60,7 @@ function seedMember(
   return createTestActor({
     name: "Medlem",
     email,
-    role: "MEMBER",
+    permissions: [],
     status: overrides.status ?? "ACTIVE",
     notifyOnNewEvent: overrides.notifyOnNewEvent ?? true,
   });
@@ -79,10 +79,9 @@ beforeEach(async () => {
 
   // Opted out so each test states its own recipients; one test below opts the
   // admin back in to prove they are treated like any other member.
+  // Only the id: the actions read permissions from the database, not the session.
   const actor = await createTestActor({ notifyOnNewEvent: false });
-  vi.mocked(auth).mockResolvedValue({
-    user: { id: actor.id, name: actor.name, email: actor.email, role: actor.role },
-  } as never);
+  vi.mocked(auth).mockResolvedValue({ user: { id: actor.id } } as never);
 });
 
 describe("getPublishedEventsInMonth", () => {
@@ -161,14 +160,12 @@ describe("createEvent", () => {
     await expect(createEvent(validInput)).rejects.toThrow("Not authenticated.");
   });
 
-  it("should throw when the actor is not an admin", async () => {
-    const member = await createTestActor({
-      email: "member@valbyskakklub.dk",
-      role: "MEMBER",
+  it("should throw when the actor may read events but not write them", async () => {
+    const reader = await createTestActor({
+      email: "reader@valbyskakklub.dk",
+      permissions: [{ module: "events", canRead: true, canWrite: false }],
     });
-    vi.mocked(auth).mockResolvedValue({
-      user: { id: member.id, name: member.name, email: member.email, role: member.role },
-    } as never);
+    vi.mocked(auth).mockResolvedValue({ user: { id: reader.id } } as never);
 
     await expect(createEvent(validInput)).rejects.toThrow("Not authorized.");
   });
@@ -303,7 +300,9 @@ describe("event announcements", () => {
   });
 
   it("should email the admin when they have not opted out", async () => {
-    const admin = await db.user.findFirstOrThrow({ where: { role: "ADMIN" } });
+    const admin = await db.user.findUniqueOrThrow({
+      where: { email: "actor@valbyskakklub.dk" },
+    });
     await db.user.update({ where: { id: admin.id }, data: { notifyOnNewEvent: true } });
 
     await createEvent(validInput);

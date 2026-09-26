@@ -13,7 +13,6 @@ describe("unsubscribeFromEventEmails", () => {
   it("should clear the preference when the token is valid", async () => {
     const member = await createTestActor({
       email: "anna@valbyskakklub.dk",
-      role: "MEMBER",
       notifyOnNewEvent: true,
     });
 
@@ -24,7 +23,7 @@ describe("unsubscribeFromEventEmails", () => {
   });
 
   it("should stay unsubscribed when the same link is clicked twice", async () => {
-    const member = await createTestActor({ email: "anna@valbyskakklub.dk", role: "MEMBER" });
+    const member = await createTestActor({ email: "anna@valbyskakklub.dk" });
     const token = signUnsubscribeToken(member.id);
 
     await unsubscribeFromEventEmails(token);
@@ -35,8 +34,8 @@ describe("unsubscribeFromEventEmails", () => {
   });
 
   it("should leave other members untouched when one unsubscribes", async () => {
-    const anna = await createTestActor({ email: "anna@valbyskakklub.dk", role: "MEMBER" });
-    const bo = await createTestActor({ email: "bo@valbyskakklub.dk", role: "MEMBER" });
+    const anna = await createTestActor({ email: "anna@valbyskakklub.dk" });
+    const bo = await createTestActor({ email: "bo@valbyskakklub.dk" });
 
     await unsubscribeFromEventEmails(signUnsubscribeToken(anna.id));
 
@@ -45,7 +44,7 @@ describe("unsubscribeFromEventEmails", () => {
   });
 
   it("should throw when the token is tampered with", async () => {
-    const member = await createTestActor({ email: "anna@valbyskakklub.dk", role: "MEMBER" });
+    const member = await createTestActor({ email: "anna@valbyskakklub.dk" });
     const forged = `${signUnsubscribeToken(member.id).split(".")[0]}.wrong-signature`;
 
     await expect(unsubscribeFromEventEmails(forged)).rejects.toThrow("Invalid unsubscribe link.");
