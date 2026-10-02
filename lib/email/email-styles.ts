@@ -11,6 +11,7 @@ const c = {
   hairline: "#d5dde9",
   white: "#ffffff",
   amber: "#ffb000",
+  amberInk: "#c17a00",
   ultramarine: "#000098",
   chalk: "#0c1520",
   silver: "#5a6b82",
@@ -91,7 +92,7 @@ export const emailStyles = {
     margin: 0,
   } satisfies React.CSSProperties,
 
-  /** The one amber element in the message. Nothing else may be amber. */
+  /** The one amber element in an announcement: the call to action. */
   button: {
     backgroundColor: c.amber,
     borderRadius: "2px",
@@ -102,6 +103,20 @@ export const emailStyles = {
     letterSpacing: "0.5px",
     padding: "14px 28px",
     textDecoration: "none",
+  } satisfies React.CSSProperties,
+
+  /**
+   * The one amber element in a code message, which has no button.
+   * Amber Ink, because the digits sit on the pale detail fill.
+   */
+  code: {
+    color: c.amberInk,
+    fontSize: "32px",
+    fontWeight: "bold",
+    letterSpacing: "0.35em",
+    lineHeight: 1.2,
+    margin: "8px 0 0 0",
+    textAlign: "center",
   } satisfies React.CSSProperties,
 
   signOff: {

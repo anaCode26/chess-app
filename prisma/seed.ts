@@ -15,14 +15,22 @@ const events = [
   { title: "Skakbowl", date: "2026-08-13", startTime: "19.00" },
   { title: "Grillaften", date: "2026-08-20", startTime: "18.00" },
   { title: "Grand Prix Lyn Finale", date: "2026-09-03", startTime: "19.00" },
-  { title: "Simultan mod klubmesteren", date: "2026-09-17", startTime: "19.00" },
+  {
+    title: "Simultan mod klubmesteren",
+    date: "2026-09-17",
+    startTime: "19.00",
+  },
   {
     title: "Valbymesterskabet",
     date: "2026-10-01",
     endDate: "2026-11-05",
     startTime: "19.00",
   },
-  { title: "Vinterturnering, 1. runde", date: "2026-10-29", startTime: "19.00" },
+  {
+    title: "Vinterturnering, 1. runde",
+    date: "2026-10-29",
+    startTime: "19.00",
+  },
 ];
 
 async function main() {

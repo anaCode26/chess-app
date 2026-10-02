@@ -22,11 +22,15 @@ model User {
   role         Role       @relation("UserRole", fields: [roleId], references: [id])
   /// Opt-out for the announcement sent when an event is published.
   notifyOnNewEvent Boolean @default(true)
+  modifiedByUserId String?
+  modifiedByUser   User?   @relation("UserModifiedBy", fields: [modifiedByUserId], references: [id], onDelete: SetNull)
+  modifiedUsers    User[]  @relation("UserModifiedBy")
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
-  modifiedEvents Event[] @relation("EventModifiedBy")
-  modifiedRoles  Role[]  @relation("RoleModifiedBy")
+  modifiedEvents    Event[]            @relation("EventModifiedBy")
+  modifiedRoles     Role[]             @relation("RoleModifiedBy")
+  verificationCodes VerificationCode[]
 }
 
 /// What a user may do is a row, not a value in the code. Adding a role is a
@@ -37,6 +41,9 @@ model Role {
   description String?
   /// Seeded roles the backoffice may not rename or delete.
   isSystem    Boolean @default(false)
+  /// The role self-service registration assigns. At most one row is true;
+  /// the repository clears the previous flag when a new one is set.
+  isDefault   Boolean @default(false)
 
   permissions Permission[]
   users       User[]       @relation("UserRole")
@@ -90,4 +97,39 @@ model Event {
   updatedAt DateTime @updatedAt
 
   @@index([date])
+}
+
+enum VerificationPurpose {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
+/// A short-lived code emailed to prove the address. The plaintext is never stored.
+model VerificationCode {
+  id        String              @id @default(cuid())
+  userId    String
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose   VerificationPurpose
+  codeHash  String
+  expiresAt DateTime
+  attempts  Int                 @default(0)
+  consumed  Boolean             @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, purpose, consumed])
+}
+
+/// Link emailed when an officer creates an account. The user sets a password
+/// before the account becomes active. One live token per address.
+model UserInvitationToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expires   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
 }

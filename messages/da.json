@@ -149,6 +149,46 @@
     "submitting": "Logger ind",
     "error": "E-mail eller adgangskode passer ikke."
   },
+  "registerPage": {
+    "title": "Opret konto",
+    "description": "Opret en konto hos Valby Skakklub. Vi sender en kode til din e-mail.",
+    "heading": "Opret konto",
+    "intro": "Skriv dit navn, din e-mail og en adgangskode. Vi sender en kode, som du skal indtaste, før kontoen er aktiv.",
+    "name": "Navn",
+    "email": "E-mail",
+    "password": "Adgangskode",
+    "passwordHint": "Mindst 8 tegn",
+    "submit": "Opret konto",
+    "submitting": "Opretter konto",
+    "errors": {
+      "emailTaken": "Der findes allerede en konto med den e-mail.",
+      "unavailable": "Tilmelding er ikke åben lige nu. Skriv til klubben.",
+      "invalid": "Tjek felterne, og prøv igen.",
+      "generic": "Vi kunne ikke oprette kontoen. Prøv igen."
+    }
+  },
+  "verifyPage": {
+    "title": "Bekræft e-mail",
+    "description": "Indtast koden, vi har sendt til din e-mail.",
+    "heading": "Bekræft e-mail",
+    "intro": "Vi har sendt en sekscifret kode. Den gælder i 15 minutter.",
+    "email": "E-mail",
+    "code": "Kode",
+    "submit": "Bekræft",
+    "submitting": "Bekræfter",
+    "resend": "Send koden igen",
+    "resending": "Sender kode",
+    "resent": "En ny kode er på vej.",
+    "success": "Kontoen er aktiv. Næste gang kan du logge ind.",
+    "errors": {
+      "invalidCode": "Koden passer ikke.",
+      "expired": "Koden er udløbet. Bed om en ny.",
+      "exhausted": "For mange forsøg. Bed om en ny kode.",
+      "rateLimited": "Vent et minut, før du beder om en ny kode.",
+      "invalid": "Tjek felterne, og prøv igen.",
+      "generic": "Vi kunne ikke bekræfte koden. Prøv igen."
+    }
+  },
   "backoffice": {
     "title": "Backoffice",
     "dashboard": "Oversigt",
@@ -156,11 +196,86 @@
     "signOut": "Log ud",
     "events": "Arrangementer",
     "eventsIntro": "Opret og udgiv arrangementer, som vises på kalendersiden.",
+    "users": "Brugere",
     "create": "Nyt arrangement",
     "edit": "Rediger",
     "draft": "Kladde",
     "empty": "Ingen arrangementer i denne måned.",
     "home": "Til forsiden"
+  },
+  "usersPage": {
+    "intro": "Opret konti, skift rolle, og send aktiveringslinket igen. En ny konto er afventende, indtil personen vælger en adgangskode.",
+    "invite": "Inviter en person",
+    "inviting": "Sender invitation",
+    "name": "Navn",
+    "email": "E-mail",
+    "role": "Rolle",
+    "save": "Gem",
+    "saving": "Gemmer",
+    "cancel": "Annuller",
+    "edit": "Rediger",
+    "disable": "Deaktiver",
+    "enable": "Aktivér",
+    "resend": "Send linket igen",
+    "empty": "Der er ingen konti endnu.",
+    "status": {
+      "active": "Aktiv",
+      "pending": "Afventer",
+      "inactive": "Inaktiv"
+    },
+    "errors": {
+      "emailTaken": "Der findes allerede en konto med den e-mail.",
+      "notFound": "Kontoen blev ikke fundet.",
+      "notPending": "Linket kan kun sendes igen til en konto, der afventer.",
+      "invalid": "Tjek felterne, og prøv igen.",
+      "unauthorized": "Du har ikke lov til at ændre brugere.",
+      "generic": "Vi kunne ikke gemme ændringen. Prøv igen."
+    }
+  },
+  "rolesPage": {
+    "heading": "Roller",
+    "intro": "En rolle er en række i databasen. Systemroller kan ikke omdøbes eller slettes. En rolle med konti kan ikke slettes.",
+    "create": "Ny rolle",
+    "edit": "Rediger",
+    "delete": "Slet",
+    "name": "Navn",
+    "description": "Beskrivelse",
+    "defaultRole": "Standard for nye konti",
+    "read": "Læse",
+    "write": "Skrive",
+    "system": "Systemrolle",
+    "save": "Gem",
+    "saving": "Gemmer",
+    "cancel": "Annuller",
+    "empty": "Der er ingen roller endnu.",
+    "userCount": "{count} konti",
+    "errors": {
+      "system": "En systemrolle kan ikke ændres eller slettes.",
+      "inUse": "En rolle med konti kan ikke slettes.",
+      "nameTaken": "Der findes allerede en rolle med det navn.",
+      "notFound": "Rollen blev ikke fundet.",
+      "invalid": "Tjek felterne, og prøv igen.",
+      "unauthorized": "Du har ikke lov til at ændre roller.",
+      "generic": "Vi kunne ikke gemme rollen. Prøv igen."
+    }
+  },
+  "activatePage": {
+    "title": "Aktivér konto",
+    "description": "Vælg en adgangskode for at aktivere din konto hos Valby Skakklub.",
+    "heading": "Aktivér konto",
+    "intro": "Vælg en adgangskode. Så er kontoen aktiv.",
+    "password": "Adgangskode",
+    "confirm": "Gentag adgangskode",
+    "passwordHint": "Mindst 8 tegn",
+    "submit": "Aktivér konto",
+    "submitting": "Aktiverer",
+    "success": "Kontoen er aktiv. Næste gang kan du logge ind.",
+    "invalid": "Linket er udløbet eller ugyldigt. Bed om et nyt.",
+    "errors": {
+      "invalidToken": "Linket er udløbet eller ugyldigt. Bed om et nyt.",
+      "invalid": "Tjek felterne, og prøv igen.",
+      "generic": "Vi kunne ikke aktivere kontoen. Prøv igen."
+    }
   },
   "eventForm": {
     "createTitle": "Nyt arrangement",

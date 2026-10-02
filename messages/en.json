@@ -149,6 +149,46 @@
     "submitting": "Signing in",
     "error": "That email or password does not match."
   },
+  "registerPage": {
+    "title": "Create an account",
+    "description": "Create an account at Valby Skakklub. We email you a code to confirm the address.",
+    "heading": "Create an account",
+    "intro": "Write your name, your email and a password. We send a code you enter before the account is active.",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "At least 8 characters",
+    "submit": "Create account",
+    "submitting": "Creating account",
+    "errors": {
+      "emailTaken": "An account with that email already exists.",
+      "unavailable": "Registration is not open right now. Write to the club.",
+      "invalid": "Check the fields and try again.",
+      "generic": "We could not create the account. Try again."
+    }
+  },
+  "verifyPage": {
+    "title": "Confirm your email",
+    "description": "Enter the code we sent to your email.",
+    "heading": "Confirm your email",
+    "intro": "We have sent a six-digit code. It is valid for 15 minutes.",
+    "email": "Email",
+    "code": "Code",
+    "submit": "Confirm",
+    "submitting": "Confirming",
+    "resend": "Send the code again",
+    "resending": "Sending code",
+    "resent": "A new code is on its way.",
+    "success": "The account is active. You can sign in the next time you come back.",
+    "errors": {
+      "invalidCode": "That code does not match.",
+      "expired": "That code has expired. Ask for a new one.",
+      "exhausted": "Too many tries. Ask for a new code.",
+      "rateLimited": "Wait a minute before asking for a new code.",
+      "invalid": "Check the fields and try again.",
+      "generic": "We could not confirm the code. Try again."
+    }
+  },
   "backoffice": {
     "title": "Backoffice",
     "dashboard": "Overview",
@@ -156,11 +196,86 @@
     "signOut": "Log out",
     "events": "Events",
     "eventsIntro": "Create and publish events that appear on the calendar page.",
+    "users": "Users",
     "create": "New event",
     "edit": "Edit",
     "draft": "Draft",
     "empty": "No events this month.",
     "home": "To the public site"
+  },
+  "usersPage": {
+    "intro": "Create accounts, change a role, and send the activation link again. A new account stays pending until the person chooses a password.",
+    "invite": "Invite someone",
+    "inviting": "Sending invitation",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "save": "Save",
+    "saving": "Saving",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "disable": "Deactivate",
+    "enable": "Activate",
+    "resend": "Send the link again",
+    "empty": "There are no accounts yet.",
+    "status": {
+      "active": "Active",
+      "pending": "Pending",
+      "inactive": "Inactive"
+    },
+    "errors": {
+      "emailTaken": "An account with that email already exists.",
+      "notFound": "That account was not found.",
+      "notPending": "The link can only be sent again to an account that is still pending.",
+      "invalid": "Check the fields and try again.",
+      "unauthorized": "You are not allowed to change users.",
+      "generic": "We could not save the change. Try again."
+    }
+  },
+  "rolesPage": {
+    "heading": "Roles",
+    "intro": "A role is a row in the database. System roles cannot be renamed or deleted. A role that still has accounts cannot be deleted.",
+    "create": "New role",
+    "edit": "Edit",
+    "delete": "Delete",
+    "name": "Name",
+    "description": "Description",
+    "defaultRole": "Default for new accounts",
+    "read": "Read",
+    "write": "Write",
+    "system": "System role",
+    "save": "Save",
+    "saving": "Saving",
+    "cancel": "Cancel",
+    "empty": "There are no roles yet.",
+    "userCount": "{count} accounts",
+    "errors": {
+      "system": "A system role cannot be changed or deleted.",
+      "inUse": "A role that still has accounts cannot be deleted.",
+      "nameTaken": "A role with that name already exists.",
+      "notFound": "That role was not found.",
+      "invalid": "Check the fields and try again.",
+      "unauthorized": "You are not allowed to change roles.",
+      "generic": "We could not save the role. Try again."
+    }
+  },
+  "activatePage": {
+    "title": "Activate account",
+    "description": "Choose a password to activate your account at Valby Skakklub.",
+    "heading": "Activate account",
+    "intro": "Choose a password. Then the account is active.",
+    "password": "Password",
+    "confirm": "Repeat password",
+    "passwordHint": "At least 8 characters",
+    "submit": "Activate account",
+    "submitting": "Activating",
+    "success": "The account is active. You can sign in the next time you come back.",
+    "invalid": "That link has expired or is not valid. Ask for a new one.",
+    "errors": {
+      "invalidToken": "That link has expired or is not valid. Ask for a new one.",
+      "invalid": "Check the fields and try again.",
+      "generic": "We could not activate the account. Try again."
+    }
   },
   "eventForm": {
     "createTitle": "New event",

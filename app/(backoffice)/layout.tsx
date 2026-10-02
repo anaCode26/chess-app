@@ -1,12 +1,13 @@
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { BrandMark } from "@components/common/brand-mark";
+import { LanguageSwitcher } from "@components/common/language-switcher";
 import { BackofficeSidebar } from "@components/features/backoffice/sidebar";
 import { Label } from "@components/ui/text";
 import { auth } from "@lib/auth/auth";
 import { LOGIN_PATH } from "@lib/auth/auth.config";
 import { hasPermission } from "@lib/auth/permissions";
-import { MODULES } from "@lib/constants/modules";
+import { MODULES, type ModuleKey } from "@lib/constants/modules";
 
 export default async function BackofficeLayout({
   children,
@@ -19,13 +20,17 @@ export default async function BackofficeLayout({
   if (!session) redirect(LOGIN_PATH);
 
   const t = await getTranslations("backoffice");
+  const moduleLabels = {
+    events: t("events"),
+    users: t("users"),
+  } satisfies Record<ModuleKey, string>;
   const items = [
     { href: "/backoffice", label: t("dashboard") },
     ...MODULES.filter((module) =>
       hasPermission(session.user.permissions, module.key, "read"),
     ).map((module) => ({
       href: `/backoffice/${module.route}`,
-      label: t(module.key as "events"),
+      label: moduleLabels[module.key],
     })),
   ];
 
@@ -34,9 +39,12 @@ export default async function BackofficeLayout({
       <header className="border-b border-hairline px-5 py-3.5 sm:px-8">
         <div className="flex items-center justify-between gap-4">
           <BrandMark />
-          <Label size="lg" color="chalk">
-            {t("title")}
-          </Label>
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+            <Label size="lg" color="chalk">
+              {t("title")}
+            </Label>
+          </div>
         </div>
       </header>
       <div className="flex flex-1 flex-col lg:flex-row">

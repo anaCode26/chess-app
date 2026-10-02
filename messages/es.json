@@ -149,6 +149,46 @@
     "submitting": "Entrando",
     "error": "Ese correo o contraseña no coinciden."
   },
+  "registerPage": {
+    "title": "Crear una cuenta",
+    "description": "Crea una cuenta en Valby Skakklub. Te enviamos un código para confirmar el correo.",
+    "heading": "Crear una cuenta",
+    "intro": "Escribe tu nombre, tu correo y una contraseña. Enviamos un código que debes introducir antes de que la cuenta esté activa.",
+    "name": "Nombre",
+    "email": "Correo",
+    "password": "Contraseña",
+    "passwordHint": "Al menos 8 caracteres",
+    "submit": "Crear cuenta",
+    "submitting": "Creando cuenta",
+    "errors": {
+      "emailTaken": "Ya existe una cuenta con ese correo.",
+      "unavailable": "El registro no está abierto ahora. Escribe al club.",
+      "invalid": "Revisa los campos e inténtalo de nuevo.",
+      "generic": "No pudimos crear la cuenta. Inténtalo de nuevo."
+    }
+  },
+  "verifyPage": {
+    "title": "Confirmar el correo",
+    "description": "Introduce el código que enviamos a tu correo.",
+    "heading": "Confirmar el correo",
+    "intro": "Hemos enviado un código de seis dígitos. Vale durante 15 minutos.",
+    "email": "Correo",
+    "code": "Código",
+    "submit": "Confirmar",
+    "submitting": "Confirmando",
+    "resend": "Enviar el código de nuevo",
+    "resending": "Enviando código",
+    "resent": "Un código nuevo está en camino.",
+    "success": "La cuenta está activa. La próxima vez puedes iniciar sesión.",
+    "errors": {
+      "invalidCode": "Ese código no coincide.",
+      "expired": "Ese código ha caducado. Pide uno nuevo.",
+      "exhausted": "Demasiados intentos. Pide un código nuevo.",
+      "rateLimited": "Espera un minuto antes de pedir un código nuevo.",
+      "invalid": "Revisa los campos e inténtalo de nuevo.",
+      "generic": "No pudimos confirmar el código. Inténtalo de nuevo."
+    }
+  },
   "backoffice": {
     "title": "Backoffice",
     "dashboard": "Resumen",
@@ -156,11 +196,86 @@
     "signOut": "Cerrar sesión",
     "events": "Eventos",
     "eventsIntro": "Crea y publica eventos que aparecen en la página del calendario.",
+    "users": "Usuarios",
     "create": "Nuevo evento",
     "edit": "Editar",
     "draft": "Borrador",
     "empty": "No hay eventos este mes.",
     "home": "Al sitio público"
+  },
+  "usersPage": {
+    "intro": "Crea cuentas, cambia el rol y vuelve a enviar el enlace de activación. Una cuenta nueva queda pendiente hasta que la persona elige una contraseña.",
+    "invite": "Invitar a alguien",
+    "inviting": "Enviando invitación",
+    "name": "Nombre",
+    "email": "Correo",
+    "role": "Rol",
+    "save": "Guardar",
+    "saving": "Guardando",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "disable": "Desactivar",
+    "enable": "Activar",
+    "resend": "Enviar el enlace de nuevo",
+    "empty": "Todavía no hay cuentas.",
+    "status": {
+      "active": "Activa",
+      "pending": "Pendiente",
+      "inactive": "Inactiva"
+    },
+    "errors": {
+      "emailTaken": "Ya existe una cuenta con ese correo.",
+      "notFound": "No se encontró esa cuenta.",
+      "notPending": "El enlace solo se puede reenviar a una cuenta que sigue pendiente.",
+      "invalid": "Revisa los campos e inténtalo de nuevo.",
+      "unauthorized": "No tienes permiso para cambiar usuarios.",
+      "generic": "No pudimos guardar el cambio. Inténtalo de nuevo."
+    }
+  },
+  "rolesPage": {
+    "heading": "Roles",
+    "intro": "Un rol es una fila en la base de datos. Los roles del sistema no se pueden renombrar ni eliminar. Un rol que todavía tiene cuentas no se puede eliminar.",
+    "create": "Nuevo rol",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "name": "Nombre",
+    "description": "Descripción",
+    "defaultRole": "Predeterminado para cuentas nuevas",
+    "read": "Leer",
+    "write": "Escribir",
+    "system": "Rol del sistema",
+    "save": "Guardar",
+    "saving": "Guardando",
+    "cancel": "Cancelar",
+    "empty": "Todavía no hay roles.",
+    "userCount": "{count} cuentas",
+    "errors": {
+      "system": "Un rol del sistema no se puede cambiar ni eliminar.",
+      "inUse": "Un rol que todavía tiene cuentas no se puede eliminar.",
+      "nameTaken": "Ya existe un rol con ese nombre.",
+      "notFound": "No se encontró ese rol.",
+      "invalid": "Revisa los campos e inténtalo de nuevo.",
+      "unauthorized": "No tienes permiso para cambiar roles.",
+      "generic": "No pudimos guardar el rol. Inténtalo de nuevo."
+    }
+  },
+  "activatePage": {
+    "title": "Activar la cuenta",
+    "description": "Elige una contraseña para activar tu cuenta en Valby Skakklub.",
+    "heading": "Activar la cuenta",
+    "intro": "Elige una contraseña. Después la cuenta queda activa.",
+    "password": "Contraseña",
+    "confirm": "Repetir contraseña",
+    "passwordHint": "Al menos 8 caracteres",
+    "submit": "Activar la cuenta",
+    "submitting": "Activando",
+    "success": "La cuenta está activa. La próxima vez puedes iniciar sesión.",
+    "invalid": "Ese enlace caducó o no es válido. Pide uno nuevo.",
+    "errors": {
+      "invalidToken": "Ese enlace caducó o no es válido. Pide uno nuevo.",
+      "invalid": "Revisa los campos e inténtalo de nuevo.",
+      "generic": "No pudimos activar la cuenta. Inténtalo de nuevo."
+    }
   },
   "eventForm": {
     "createTitle": "Nuevo evento",
